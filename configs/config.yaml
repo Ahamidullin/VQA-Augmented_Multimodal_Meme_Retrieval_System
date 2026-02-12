@@ -1,0 +1,105 @@
+# ============================================
+# Meme Retrieval System — Configuration
+# ============================================
+
+project:
+  name: "meme-retrieval"
+  version: "0.1.0"
+
+# --- Пути к данным ---
+paths:
+  data_dir: "data"
+  raw_memes: "data/raw"
+  processed_memes: "data/processed"
+  annotations: "data/annotations"
+  models_cache: "models_cache"        # кэш скачанных моделей
+  faiss_index: "data/faiss_index"     # сохранённый FAISS-индекс
+
+# --- Парсинг (Этап 1) ---
+parsing:
+  reddit:
+    subreddits:
+      - "memes"
+      - "dankmemes"
+      - "me_irl"
+      - "MemeEconomy"
+      - "AdviceAnimals"
+    limit_per_subreddit: 3000         # максимум постов с каждого сабреддита
+    min_score: 50                     # минимальный score поста
+    image_extensions:
+      - ".jpg"
+      - ".jpeg"
+      - ".png"
+      - ".webp"
+  imgflip:
+    top_n_templates: 200              # сколько шаблонов парсить
+    max_instances_per_template: 50    # примеров на каждый шаблон
+
+# --- OCR (Этап 2) ---
+ocr:
+  engine: "easyocr"                   # или "paddleocr"
+  languages:
+    - "en"
+  confidence_threshold: 0.3           # минимальная уверенность OCR
+
+# --- VQA-аннотации (Этап 2) ---
+vqa:
+  model: "blip2"                      # или "llava"
+  questions:
+    - "What is the main subject of this meme?"
+    - "What emotion or reaction does this meme express?"
+    - "Describe this image in detail."
+  max_new_tokens: 128
+  batch_size: 8
+
+# --- CLIP-эмбеддинги (Этап 3) ---
+clip:
+  model_name: "ViT-B/32"             # OpenAI CLIP
+  embedding_dim: 512
+  batch_size: 64
+  device: "cpu"                       # "cuda" на GPU-сервере
+
+# --- Поиск (Этап 3) ---
+search:
+  vector_db: "faiss"                  # или "qdrant"
+  top_k_retrieval: 50                 # кандидатов из Stage 1
+  bm25:
+    top_k: 50
+    fields:
+      - "ocr_text"
+      - "vqa_description"
+      - "tags"
+  fusion:
+    method: "rrf"                     # Reciprocal Rank Fusion
+    alpha: 0.6                        # вес вектора vs BM25
+
+# --- Reranking (Этап 3) ---
+reranker:
+  model: "cross-encoder/ms-marco-MiniLM-L-6-v2"
+  top_k_input: 50                     # сколько кандидатов ранжировать
+  top_k_output: 5                     # сколько отдаём пользователю
+
+# --- API (Этап 4) ---
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "*"
+
+# --- Telegram Bot (Этап 4) ---
+bot:
+  # Токен берётся из .env (BOT_TOKEN), не прописывать здесь!
+  max_results: 5
+  image_max_size_mb: 10
+
+# --- Валидация (Этап 5) ---
+evaluation:
+  validation_set_path: "eval/validation_set"
+  metrics:
+    - "hit@1"
+    - "hit@5"
+    - "hit@10"
+    - "recall@5"
+    - "recall@10"
+    - "mrr@10"
+  num_queries: 300
