@@ -29,6 +29,7 @@ ENV/
 # ============================================
 # Data — держим только .gitkeep
 # ============================================
+
 data/raw/*
 data/processed/*
 data/annotations/*
@@ -94,3 +95,12 @@ Thumbs.db
 .ruff_cache/
 htmlcov/
 .coverage
+
+
+.venv/
+__pycache__/
+.DS_Store
+.idea/
+data/
+!data/.gitkeep
+*.log
