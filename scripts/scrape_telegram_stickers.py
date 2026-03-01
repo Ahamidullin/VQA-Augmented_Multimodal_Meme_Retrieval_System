@@ -1,6 +1,5 @@
 """
-Telegram Sticker Pack Downloader (Structure by Folders)
-=======================================================
+Telegram Sticker Pack Downloader
 - Uses Telegram Bot API
 - Downloads static stickers from public sticker packs
 - Converts .webp → .png (RGBA)
@@ -22,9 +21,7 @@ import shutil
 from pathlib import Path
 from PIL import Image
 
-# ============================================================
-# CONFIG
-# ============================================================
+# Конфигурация
 BOT_TOKEN = "8539149130:AAFNOPLb1zED6lIhsNGq8gmmGdVfXl-XBXU"
 
 OUTPUT_DIR = Path("data/raw/telegram_stickers")
@@ -36,12 +33,10 @@ FILE_URL = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 # Delay between requests to avoid rate limiting
 REQUEST_DELAY = 0.2
 
-# ============================================================
-# STICKER PACKS
-# ============================================================
+# Список стикер-паков
 # Source list + User provided + Extra popular ones
 RAW_PACK_LIST = [
-    # === User Provided ===
+    # Основные
     "sahasraraopens_by_fStikBot",
     "fruits_eating_fruits",
     "LolAnimals4",
@@ -91,7 +86,7 @@ RAW_PACK_LIST = [
     "babypigschyz",
     "HFVNZZAJIF_by_stikeri_stikeri_bot",
 
-    # === Default/Popular ===
+    # Популярные
     "PepeRus", "PepeTheF", "peabornt", "PepesetNew", "Pepe_the_Frog_Pack", "FrogPepe1",
     "maboroshi", "MemeManpack", "Memespack1", "MemeCats", "memesrussia", "FunnyMemes2020",
     "dank_meme_stickers", "CatMemes", "SadCat", "PopCat", "CatVibing", "CATPACKS",
@@ -103,10 +98,10 @@ RAW_PACK_LIST = [
     "RickRollPack", "SigmaGrindset", "BasedStickers", "SussyBaka", "MemeDogs",
     "ShrekMemes", "MonkeyMemes", "SkeletonMemes",
     
-    # === Classics (VK style imports) ===
+    # VK-стиль
     "Senya_vk", "Diggy_vk", "Persik_vk", "Spotty_vk", "Nichosi_vk",
     
-    # === More Random ===
+    # Дополнительные
     "arcane_jinz_vi", "breaking_bad_stickers", "spongebob_memes", "shrek_is_love",
     "postirony_pack", "yoba_face", "k_on_stickers", "evangelion_memes",
     "jojo_memes", "berserk_memes", "gachimuchi_stickers"
@@ -115,9 +110,7 @@ RAW_PACK_LIST = [
 # Dedup list
 STICKER_PACKS = sorted(list(set(RAW_PACK_LIST)))
 
-# ============================================================
-# LOGGING
-# ============================================================
+# Логирование
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -129,9 +122,8 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-# ============================================================
-# TELEGRAM BOT API HELPERS
-# ============================================================
+
+
 def get_sticker_set(name: str) -> dict | None:
     """Fetch sticker set info via Bot API."""
     try:
@@ -180,9 +172,8 @@ def download_file(file_path: str, dest: Path) -> bool:
         return False
 
 
-# ============================================================
-# MAIN
-# ============================================================
+
+
 def main():
     if not OUTPUT_DIR.exists():
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -299,15 +290,10 @@ def main():
 
             log.info(f"  Total downloaded so far: {stats['stickers_downloaded']}")
 
-    log.info("=" * 60)
-    log.info("STICKER DOWNLOAD COMPLETE — STATS:")
-    log.info(f"  Packs processed:      {stats['packs_processed']}")
-    log.info(f"  Packs failed:         {stats['packs_failed']}")
-    log.info(f"  Stickers total:       {stats['stickers_total']}")
-    log.info(f"  Animated (skipped):   {stats['stickers_animated_skipped']}")
-    log.info(f"  DOWNLOADED:           {stats['stickers_downloaded']}")
-    log.info(f"  Output:               {OUTPUT_DIR.resolve()}")
-    log.info("=" * 60)
+    log.info("Завершено")
+    log.info(f"Паки: {stats['packs_processed']} ok, {stats['packs_failed']} ошибок")
+    log.info(f"Стикеры: {stats['stickers_downloaded']} скачано из {stats['stickers_total']}")
+    log.info(f"Результат: {OUTPUT_DIR.resolve()}")
 
 if __name__ == "__main__":
     main()

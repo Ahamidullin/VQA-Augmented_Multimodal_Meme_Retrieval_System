@@ -16,7 +16,7 @@ from datasets import load_dataset
 from PIL import Image
 from tqdm import tqdm
 
-# === Настройки ===
+# Настройки
 OUTPUT_DIR = Path('data/raw/hf_memes')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR = OUTPUT_DIR / 'images'
@@ -24,7 +24,7 @@ IMAGES_DIR.mkdir(exist_ok=True)
 
 MAX_TOTAL = 8000  # общий лимит
 
-# === Стоп-слова ===
+# Стоп-слова
 bad_words = []
 bad_words_path = Path('configs/bad_words.txt')
 if bad_words_path.exists():
@@ -79,7 +79,7 @@ def download_memes_dataset():
     not-lain/meme-dataset — коллекция мемов.
     SMALL DATASET (~300 images)
     """
-    print('\n=== not-lain/meme-dataset ===')
+    print('\nnot-lain/meme-dataset')
     results = []
 
     try:
@@ -122,7 +122,7 @@ def download_mimic_memes(limit=5000):
     Aakash941/MIMIC-Meme-Dataset — 5k+ мемов.
     Используем streaming=False для скорости (скачиваем пак сразу).
     """
-    print('\n=== Aakash941/MIMIC-Meme-Dataset ===')
+    print('\nAakash941/MIMIC-Meme-Dataset')
     results = []
 
     try:
@@ -171,7 +171,7 @@ def download_harpreetsahota_memes():
     """
     harpreetsahota/memes-dataset — ещё одна коллекция мемов.
     """
-    print('\n=== harpreetsahota/memes-dataset ===')
+    print('\nharpreetsahota/memes-dataset')
     results = []
 
     try:
@@ -217,9 +217,7 @@ def download_harpreetsahota_memes():
 
 
 def main():
-    print('=' * 60)
-    print('HuggingFace Meme Downloader (Batch Mode)')
-    print('=' * 60)
+    print('HuggingFace Meme Downloader')
 
     # Init CSV
     csv_path = OUTPUT_DIR / 'metadata.csv'
@@ -257,8 +255,7 @@ def main():
         save_results(res)
         all_results.extend(res)
 
-    print(f'\n{"=" * 60}')
-    print(f'=== Готово ===')
+    print(f'\nГотово')
     print(f'Всего сохранено: {len(all_results)}')
     print(f'Метаданные: {csv_path}')
     print(f'Картинки: {IMAGES_DIR}')

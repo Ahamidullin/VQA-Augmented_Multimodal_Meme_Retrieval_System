@@ -15,7 +15,7 @@ OUTPUT_FILE = Path("data/processed/final_dataset_text.csv")
 BAD_WORDS_FILE = Path("configs/bad_words.txt")
 
 # Filter settings
-MIN_CONFIDENCE = 0.6 # для пустых где нет текста или 60
+MIN_CONFIDENCE = 0.6 # or 0.0
 MIN_LENGTH = 3
 FUZZY_THRESHOLD = 85
 

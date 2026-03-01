@@ -9,7 +9,7 @@ import logging
 from pathlib import Path
 from thefuzz import fuzz
 
-# === CONFIG ===
+# Конфигурация
 INPUT_FILE = Path("data/processed/metadata_ocr.csv")
 OUTPUT_FILE = Path("data/processed/metadata_clean_step1.csv")
 BAD_WORDS_FILE = Path("configs/bad_words.txt")
@@ -136,14 +136,10 @@ def main():
             writer.writerow(row)
             stats["kept"] += 1
 
-    log.info("=" * 40)
-    log.info("CLEANING COMPLETE")
-    log.info(f"Total processed: {stats['total']}")
-    log.info(f"Kept:            {stats['kept']}")
-    log.info(f"Removed (Low Conf): {stats['removed_confidence']}")
-    log.info(f"Removed (Length):   {stats['removed_length']}")
-    log.info(f"Removed (Bad Word): {stats['removed_bad_word']}")
-    log.info(f"Output saved to: {OUTPUT_FILE}")
+    log.info("Очистка завершена")
+    log.info(f"Обработано: {stats['total']}, сохранено: {stats['kept']}")
+    log.info(f"Удалено: conf={stats['removed_confidence']}, length={stats['removed_length']}, bad_word={stats['removed_bad_word']}")
+    log.info(f"Результат: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()

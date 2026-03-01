@@ -1,6 +1,5 @@
 """
-Fast Bing Meme Scraper (Custom Implementation)
-==============================================
+Fast Bing Meme Scraper
 - Uses 'requests' with proper User-Agent to avoid 403 blocks (Reddit, etc.)
 - Parses Bing Images query results
 - Fast timeouts to skip locking urls
@@ -24,9 +23,7 @@ from PIL import Image
 from io import BytesIO
 from concurrent.futures import ThreadPoolExecutor
 
-# ============================================================
-# CONFIG
-# ============================================================
+# Конфигурация
 OUTPUT_DIR = Path("data/raw/bing_memes")
 IMAGES_DIR = OUTPUT_DIR / "images"
 METADATA_FILE = OUTPUT_DIR / "metadata.csv"
@@ -44,7 +41,7 @@ HEADERS = {
 }
 
 QUERIES = [
-    # === English ===
+    # English
     "drake meme template", "distracted boyfriend meme", "woman yelling at cat meme",
     "expanding brain meme", "change my mind meme", "this is fine meme",
     "surprised pikachu meme", "stonks meme", "uno reverse card meme",
@@ -62,15 +59,13 @@ QUERIES = [
     "star wars meme", "history meme", "food meme", "sleep meme",
     "introvert meme", "dating meme", "gen z meme", "best memes 2024",
     "viral meme",
-    # === Russian ===
+    # Russian
     "мем смешной", "русский мем", "мем шаблон", "мемы 2024",
     "мемы про школу", "мемы про программирование", "мемы про котов",
     "мемы жиза", "мемы про работу", "мем ну ты и", "мем типичный",
 ]
 
-# ============================================================
-# LOGGING
-# ============================================================
+# Логирование
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -81,9 +76,8 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-# ============================================================
-# CORE FUNCTIONS
-# ============================================================
+
+
 
 def get_bing_image_links(query, limit=100):
     """Parses Bing Image Search (async api) to get direct image links."""

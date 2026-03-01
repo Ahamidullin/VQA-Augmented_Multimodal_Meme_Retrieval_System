@@ -19,7 +19,7 @@ import requests
 from pathlib import Path
 from tqdm import tqdm
 
-# === Настройки ===
+# Настройки
 OUTPUT_DIR = Path('data/raw/vk_memes')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR = OUTPUT_DIR / 'images'
@@ -140,7 +140,7 @@ def main():
                         break
 
     if not token:
-        print('❌ Нужен VK сервисный ключ!')
+        print('Нужен VK сервисный ключ!')
         print('   python scripts/parse_vk_memes.py --token ВАШ_КЛЮЧ')
         print('   или добавь VK_SERVICE_TOKEN=... в .env')
         return
@@ -154,7 +154,7 @@ def main():
         if total_downloaded >= MAX_TOTAL:
             break
 
-        print(f'\n📥 Парсим паблик: {group}')
+        print(f'\nПарсим паблик: {group}')
         group_downloaded = 0
         offset = 0
 
@@ -210,7 +210,7 @@ def main():
             offset += COUNT_PER_REQUEST
             time.sleep(0.35)  # VK rate limit: 3 запроса/сек
 
-        print(f'  ✅ {group}: скачано {group_downloaded} мемов')
+        print(f'  {group}: скачано {group_downloaded} мемов')
 
     # Сохраняем metadata.csv
     csv_path = OUTPUT_DIR / 'metadata.csv'
@@ -219,7 +219,7 @@ def main():
         writer.writeheader()
         writer.writerows(metadata_rows)
 
-    print(f'\n=== Готово ===')
+    print(f'\nГотово')
     print(f'Скачано: {total_downloaded} мемов')
     print(f'Метаданные: {csv_path}')
     print(f'Картинки: {IMAGES_DIR}')

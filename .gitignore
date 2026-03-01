@@ -104,3 +104,5 @@ __pycache__/
 data/
 !data/.gitkeep
 *.log
+
+configs/bad_words.txt
