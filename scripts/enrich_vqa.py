@@ -1,15 +1,11 @@
 """
 enrich_vqa.py
 
-Дополняет существующие VQA-аннотации расширенными полями:
-- ocr_normalized: очищенный OCR текст
-- objects_detailed: расширенный список объектов (5-15)
-- relations: отношения [(subj, rel, obj), ...]
-- required_context: нужен ли внешний контекст
-- vqa: блок вопрос-ответ (6 пар)
+дополняет vqa-аннотации расширенными полями:
+ocr_normalized, objects_detailed, relations, required_context, vqa
 
-Читает vqa_annotations.jsonl, отправляет картинку + caption,
-сохраняет результат в vqa_annotations_v2.jsonl.
+читает vqa_annotations.jsonl, отправляет картинку + caption,
+сохраняет в vqa_annotations_v2.jsonl
 """
 
 import csv
@@ -33,7 +29,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-# Конфигурация
+# конфиг
 INPUT_JSONL = Path("data/processed/vqa_annotations.jsonl")
 OUTPUT_JSONL = Path("data/processed/vqa_annotations_v2.jsonl")
 
@@ -64,7 +60,7 @@ JSON only. No markdown."""
 
 
 def image_to_base64_resized(image_path, max_size=512):
-    """Resize и encode в base64."""
+    """resize и encode в base64"""
     try:
         from PIL import Image
         img = Image.open(image_path)
@@ -83,7 +79,7 @@ def image_to_base64_resized(image_path, max_size=512):
 
 
 def query_ollama(image_path, prompt_text, max_retries=2):
-    """Отправляет картинку + промпт в Ollama."""
+    """отправляет картинку + промпт в ollama"""
     img_b64 = image_to_base64_resized(image_path, MAX_IMAGE_SIZE)
 
     payload = {
@@ -120,7 +116,7 @@ def query_ollama(image_path, prompt_text, max_retries=2):
 
 
 def parse_json_response(raw_text):
-    """Парсит JSON из ответа модели."""
+    """парсит json из ответа модели"""
     if not raw_text:
         return None
     text = raw_text.strip()
@@ -149,7 +145,7 @@ def parse_json_response(raw_text):
 
 
 def load_existing_records(path):
-    """Загружает существующие аннотации."""
+    """загружает существующие аннотации"""
     records = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
@@ -163,7 +159,7 @@ def load_existing_records(path):
 
 
 def load_already_enriched(path):
-    """Загружает уже обработанные файлы для resume."""
+    """загружает уже обработанные файлы для resume"""
     done = set()
     if path.exists():
         with open(path, "r", encoding="utf-8") as f:
@@ -179,20 +175,20 @@ def load_already_enriched(path):
 
 
 def main():
-    log.info("Запуск обогащения VQA-аннотаций")
+    log.info("запуск обогащения vqa-аннотаций")
     log.info(f"Модель: {MODEL}")
 
     records = load_existing_records(INPUT_JSONL)
-    log.info(f"Загружено {len(records)} базовых аннотаций")
+    log.info(f"загружено {len(records)} базовых аннотаций")
 
     done = load_already_enriched(OUTPUT_JSONL)
-    log.info(f"Уже обработано: {len(done)}")
+    log.info(f"уже обработано: {len(done)}")
 
     remaining = [r for r in records if r.get("filename", "") not in done]
-    log.info(f"Нужно обработать: {len(remaining)}")
+    log.info(f"нужно обработать: {len(remaining)}")
 
     if not remaining:
-        log.info("Всё готово!")
+        log.info("всё готово")
         return
 
     random.seed(42)
@@ -210,13 +206,13 @@ def main():
             img_path = Path(source_path)
 
             if not img_path.exists():
-                # Сохраняем оригинал без обогащения
+                # сохраняем оригинал без обогащения
                 f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
                 f_out.flush()
                 stats["no_image"] += 1
                 continue
 
-            # Формируем промпт с контекстом
+            # формируем промпт
             prompt = ENRICH_PROMPT.format(
                 caption=record.get("caption", "no caption"),
                 ocr_text=record.get("ocr_text", "")[:200],
@@ -227,7 +223,7 @@ def main():
             enriched = parse_json_response(raw_response)
 
             if enriched:
-                # Мержим новые поля в существующую запись
+                # мержим новые поля
                 merged = {**record}
                 merged["ocr_normalized"] = enriched.get("ocr_normalized", "")
                 merged["objects_detailed"] = enriched.get("objects_detailed", record.get("objects", []))
@@ -239,7 +235,7 @@ def main():
                 f_out.flush()
                 stats["success"] += 1
             else:
-                # Сохраняем оригинал
+                # сохраняем оригинал
                 log.warning(f"Parse fail: {filename}")
                 f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
                 f_out.flush()
@@ -247,10 +243,10 @@ def main():
 
     elapsed = time.time() - start_time
     total = stats["success"] + stats["failed"] + stats["no_image"]
-    log.info(f"Завершено за {elapsed/3600:.1f} часов")
-    log.info(f"Успешно: {stats['success']}, ошибок: {stats['failed']}, без картинки: {stats['no_image']}")
+    log.info(f"завершено за {elapsed/3600:.1f} часов")
+    log.info(f"успешно: {stats['success']}, ошибок: {stats['failed']}, без картинки: {stats['no_image']}")
     if total > 0:
-        log.info(f"Среднее: {elapsed/total:.1f} с/мем")
+        log.info(f"среднее: {elapsed/total:.1f} с/мем")
 
 
 if __name__ == "__main__":

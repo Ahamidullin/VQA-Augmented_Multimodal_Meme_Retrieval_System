@@ -1,14 +1,6 @@
 """
-Telegram Sticker Pack Downloader
-- Uses Telegram Bot API
-- Downloads static stickers from public sticker packs
-- Converts .webp → .png (RGBA)
-- Saves to: data/raw/telegram_stickers/<PackName>/<uuid>.png
-- Saves metadata.csv (id, filename, pack_name, emoji, dimensions)
-
-Usage:
-    pip install requests Pillow
-    python scripts/scrape_telegram_stickers.py
+скач стикеров из telegram
+конвертит webp -> png, сохраняет в data/raw/telegram_stickers/
 """
 
 import os
@@ -21,7 +13,7 @@ import shutil
 from pathlib import Path
 from PIL import Image
 
-# Конфигурация
+# конфиг
 BOT_TOKEN = "8539149130:AAFNOPLb1zED6lIhsNGq8gmmGdVfXl-XBXU"
 
 OUTPUT_DIR = Path("data/raw/telegram_stickers")
@@ -30,13 +22,12 @@ METADATA_FILE = OUTPUT_DIR / "metadata.csv"
 BASE_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
 FILE_URL = f"https://api.telegram.org/file/bot{BOT_TOKEN}"
 
-# Delay between requests to avoid rate limiting
+# задержка между запросами, чтобы избежать блокировки по лимиту
 REQUEST_DELAY = 0.2
 
-# Список стикер-паков
-# Source list + User provided + Extra popular ones
+# список паков
+# список из разных источников + популярные
 RAW_PACK_LIST = [
-    # Основные
     "sahasraraopens_by_fStikBot",
     "fruits_eating_fruits",
     "LolAnimals4",
@@ -86,7 +77,6 @@ RAW_PACK_LIST = [
     "babypigschyz",
     "HFVNZZAJIF_by_stikeri_stikeri_bot",
 
-    # Популярные
     "PepeRus", "PepeTheF", "peabornt", "PepesetNew", "Pepe_the_Frog_Pack", "FrogPepe1",
     "maboroshi", "MemeManpack", "Memespack1", "MemeCats", "memesrussia", "FunnyMemes2020",
     "dank_meme_stickers", "CatMemes", "SadCat", "PopCat", "CatVibing", "CATPACKS",
@@ -98,19 +88,15 @@ RAW_PACK_LIST = [
     "RickRollPack", "SigmaGrindset", "BasedStickers", "SussyBaka", "MemeDogs",
     "ShrekMemes", "MonkeyMemes", "SkeletonMemes",
     
-    # VK-стиль
     "Senya_vk", "Diggy_vk", "Persik_vk", "Spotty_vk", "Nichosi_vk",
     
-    # Дополнительные
     "arcane_jinz_vi", "breaking_bad_stickers", "spongebob_memes", "shrek_is_love",
     "postirony_pack", "yoba_face", "k_on_stickers", "evangelion_memes",
     "jojo_memes", "berserk_memes", "gachimuchi_stickers"
 ]
 
-# Dedup list
 STICKER_PACKS = sorted(list(set(RAW_PACK_LIST)))
 
-# Логирование
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -125,7 +111,7 @@ log = logging.getLogger(__name__)
 
 
 def get_sticker_set(name: str) -> dict | None:
-    """Fetch sticker set info via Bot API."""
+    """получает инфу о стикер-паке через bot api"""
     try:
         resp = requests.get(
             f"{BASE_URL}/getStickerSet",
@@ -144,7 +130,7 @@ def get_sticker_set(name: str) -> dict | None:
 
 
 def get_file_path(file_id: str) -> str | None:
-    """Get file path on Telegram servers."""
+    """получает путь файла на серверах telegram"""
     try:
         resp = requests.get(
             f"{BASE_URL}/getFile",
@@ -160,7 +146,7 @@ def get_file_path(file_id: str) -> str | None:
 
 
 def download_file(file_path: str, dest: Path) -> bool:
-    """Download file from Telegram servers."""
+    """скачивает файл с telegram"""
     try:
         url = f"{FILE_URL}/{file_path}"
         resp = requests.get(url, timeout=20)
@@ -178,7 +164,7 @@ def main():
     if not OUTPUT_DIR.exists():
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
         
-    # Remove old flat 'images' folder if it exists, to avoid confusion
+    # удаляем старую плоскую папку images
     flat_images_dir = OUTPUT_DIR / "images"
     if flat_images_dir.exists():
         log.info(f"Removing old flat directory: {flat_images_dir}...")
@@ -196,8 +182,8 @@ def main():
         "stickers_downloaded": 0,
     }
 
-    # Open CSV in append mode if exists, else write header
-    # We overwrite metadata completely since we are restructuring folders
+    # открываем csv в режиме записи, если существует, иначе создаем с заголовком
+    # переписываем метаданные полностью
     with open(METADATA_FILE, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=[
             "id", "filename", "pack_name", "pack_short_name",
@@ -218,7 +204,7 @@ def main():
             stickers = sticker_set.get("stickers", [])
             sticker_type = sticker_set.get("sticker_type", "regular")
             
-            # Create folder for pack
+            # создаем папку для пака
             pack_folder_name = "".join(x for x in pack_name if x.isalnum() or x in "_-")
             pack_dir = OUTPUT_DIR / pack_folder_name
             pack_dir.mkdir(exist_ok=True)
@@ -228,7 +214,7 @@ def main():
             for sticker in stickers:
                 stats["stickers_total"] += 1
 
-                # Skip animated and video stickers
+                # пропускаем анимированные и видео стикеры
                 is_animated = sticker.get("is_animated", False)
                 is_video = sticker.get("is_video", False)
 
@@ -242,14 +228,14 @@ def main():
                 if not file_id:
                     continue
 
-                # Get file path
+                # получаем путь файла
                 tg_file_path = get_file_path(file_id)
                 if not tg_file_path:
                     stats["stickers_download_failed"] += 1
                     time.sleep(REQUEST_DELAY)
                     continue
 
-                # Download
+                # скачиваем
                 uid = uuid.uuid4().hex[:12]
                 temp_path = pack_dir / f"{uid}.webp"
 
@@ -257,21 +243,21 @@ def main():
                     stats["stickers_download_failed"] += 1
                     continue
 
-                # Convert webp → png
+                # конвертим webp -> png
                 png_path = pack_dir / f"{uid}.png"
                 try:
                     with Image.open(temp_path) as img:
                         img = img.convert("RGBA")
                         w, h = img.size
                         img.save(png_path, "PNG")
-                    # Clean up webp
+                    # удаляем webp
                     temp_path.unlink(missing_ok=True)
                 except Exception as e:
                     temp_path.unlink(missing_ok=True)
                     stats["stickers_download_failed"] += 1
                     continue
 
-                # Metadata - store relative path in filename
+                # метаданные
                 rel_path = f"{pack_folder_name}/{uid}.png"
                 
                 writer.writerow({
@@ -290,7 +276,7 @@ def main():
 
             log.info(f"  Total downloaded so far: {stats['stickers_downloaded']}")
 
-    log.info("Завершено")
+    log.info("завершено")
     log.info(f"Паки: {stats['packs_processed']} ok, {stats['packs_failed']} ошибок")
     log.info(f"Стикеры: {stats['stickers_downloaded']} скачано из {stats['stickers_total']}")
     log.info(f"Результат: {OUTPUT_DIR.resolve()}")

@@ -1,9 +1,9 @@
 """
 generate_vqa.py
 
-Генерация VQA-аннотаций мемов через Qwen VL (Ollama Chat API).
-Приоритет источников: Telegram > Bing.
-Поддерживает resume, retry, resize изображений.
+генерация vqa-аннотаций мемов через qwen vl (ollama chat api)
+приоритет: telegram > bing
+поддерживает resume, retry, resize
 """
 
 import csv
@@ -17,15 +17,15 @@ from io import BytesIO
 from pathlib import Path
 from tqdm import tqdm
 
-# Конфигурация
+# конфиг
 INPUT_CSV = Path("data/processed/final_dataset_text.csv")
 OUTPUT_JSONL = Path("data/processed/vqa_annotations.jsonl")
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL = "qwen2.5vl:3b"
 
-TARGET_COUNT = 10000  # Сколько обрабатываем
-MAX_IMAGE_SIZE = 512  # Resize до этого
+TARGET_COUNT = 10000
+MAX_IMAGE_SIZE = 512
 
 PROMPT = """Look at this meme image. Return ONLY a JSON object:
 {"caption": "1-2 sentence neutral description",
@@ -34,7 +34,7 @@ PROMPT = """Look at this meme image. Return ONLY a JSON object:
 "main_idea": "one sentence: the main message"}
 JSON only. No markdown. No explanation."""
 
-# Logger
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -63,30 +63,30 @@ def load_already_processed(output_path):
 
 
 def image_to_base64_resized(image_path, max_size=512):
-    """Resize image and encode to base64. Much faster inference."""
+    """resize и encode в base64"""
     try:
         from PIL import Image
         img = Image.open(image_path)
-        # Convert RGBA/P to RGB
+
         if img.mode in ('RGBA', 'P', 'LA'):
             img = img.convert('RGB')
-        # Resize if larger than max_size
+
         w, h = img.size
         if max(w, h) > max_size:
             ratio = max_size / max(w, h)
             img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)
-        # Save to buffer as JPEG (smaller than PNG)
+
         buf = BytesIO()
         img.save(buf, format='JPEG', quality=85)
         return base64.b64encode(buf.getvalue()).decode("utf-8")
     except Exception:
-        # Fallback: raw base64 without resize
+        # fallback без resize
         with open(image_path, "rb") as f:
             return base64.b64encode(f.read()).decode("utf-8")
 
 
 def query_ollama(image_path, ocr_text="", max_retries=2):
-    """Send image to Ollama Chat API with retry on empty response."""
+    """отправляет картинку в ollama с retry"""
     img_b64 = image_to_base64_resized(image_path, MAX_IMAGE_SIZE)
 
     full_prompt = PROMPT
@@ -117,7 +117,7 @@ def query_ollama(image_path, ocr_text="", max_retries=2):
             raw_response = data.get("message", {}).get("content", "")
             if raw_response and raw_response.strip():
                 return raw_response
-            # Empty — retry
+            # пустой ответ, повторяем
             if attempt < max_retries - 1:
                 time.sleep(1)
         except requests.exceptions.RequestException as e:
@@ -131,12 +131,12 @@ def parse_json_response(raw_text):
     if not raw_text:
         return None
     text = raw_text.strip()
-    # Remove markdown
+    # убираем markdown
     if "```json" in text:
         text = text.split("```json")[1]
     if "```" in text:
         text = text.split("```")[0]
-    # Remove <think> blocks
+    # убираем <think>
     if "<think>" in text:
         think_end = text.find("</think>")
         if think_end != -1:
@@ -148,7 +148,7 @@ def parse_json_response(raw_text):
         try:
             return json.loads(text[start:end])
         except json.JSONDecodeError:
-            # Try to fix truncated JSON — close it
+            # пробуем закрыть обрезанный json
             fragment = text[start:]
             for closer in ['"}', '"]', '"]}']:
                 try:
@@ -159,7 +159,7 @@ def parse_json_response(raw_text):
 
 
 def select_images(rows, target=10000):
-    """Select images: all Telegram first, then Bing. Skip HF (too small)."""
+    """выбираем: весь telegram, потом bing. hf пропускаем"""
     telegram = [r for r in rows if r.get("source_type") == "telegram"]
     bing = [r for r in rows if r.get("source_type") == "bing"]
 
@@ -171,14 +171,14 @@ def select_images(rows, target=10000):
     if remaining > 0:
         selected.extend(bing[:remaining])
 
-    random.shuffle(selected)  # Mix sources for variety
+
     log.info(f"Selected {len(selected)} images: "
              f"{len(telegram)} telegram + {min(remaining, len(bing))} bing")
     return selected
 
 
 def main():
-    log.info("Запуск генерации VQA-аннотаций")
+    log.info("запуск генерации vqa-аннотаций")
     log.info(f"Model: {MODEL}")
     log.info(f"Target: {TARGET_COUNT} images")
     log.info(f"Image resize: {MAX_IMAGE_SIZE}px")
@@ -187,7 +187,7 @@ def main():
         log.error(f"Input CSV not found: {INPUT_CSV}")
         return
 
-    # Load all rows
+    # загружаем все строки
     rows = []
     with open(INPUT_CSV, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -197,10 +197,10 @@ def main():
 
     log.info(f"Total images with existing files: {len(rows)}")
 
-    # Select subset
+    # выбираем подмножество
     selected = select_images(rows, TARGET_COUNT)
 
-    # Resume
+    # resume
     done = load_already_processed(OUTPUT_JSONL)
     log.info(f"Already processed: {len(done)}")
 

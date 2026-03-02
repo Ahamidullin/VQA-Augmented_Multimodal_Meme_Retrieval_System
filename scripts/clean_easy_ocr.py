@@ -1,7 +1,7 @@
 """
-Clean EasyOCR results.
-Filters metadata_ocr.csv based on bad words, text length, and confidence.
-Saves filtered list to data/processed/metadata_clean_step1.csv.
+очистка результатов easyocr
+фильтрация metadata_ocr.csv по стоп-словам, длине и confidence
+результат в data/processed/metadata_clean_step1.csv
 """
 
 import csv
@@ -9,7 +9,7 @@ import logging
 from pathlib import Path
 from thefuzz import fuzz
 
-# Конфигурация
+# конфиг
 INPUT_FILE = Path("data/processed/metadata_ocr.csv")
 OUTPUT_FILE = Path("data/processed/metadata_clean_step1.csv")
 BAD_WORDS_FILE = Path("configs/bad_words.txt")
@@ -17,9 +17,9 @@ BAD_WORDS_FILE = Path("configs/bad_words.txt")
 MIN_CONFIDENCE = 0.4
 MIN_LENGTH = 3
 MAX_LENGTH = 400
-FUZZY_THRESHOLD = 85  # Similarity score (0-100)
+FUZZY_THRESHOLD = 85
 
-# Логгер
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
@@ -33,13 +33,12 @@ def load_bad_words(path):
 def contains_bad_word(text, bad_words):
     text_lower = text.lower()
     
-    # 1. Exact match (fast)
+    # точное совпадение
     for word in bad_words:
         if word in text_lower:
             return True, word
 
-    # 2. Fuzzy match (slower but catches typos)
-    # We check each word against bad words list
+    # нечёткое совпадение для опечаток
     text_words = text_lower.split()
     for t_word in text_words:
         for b_word in bad_words:
@@ -84,21 +83,20 @@ def main():
             except ValueError:
                 conf = 0.0
 
-            # 1. Confidence filter
-            # Logic: If text is heavily confident but contains bad words -> remove.
-            # If confidence is low, we treat it as "no text" (safe to keep image, but ignore text).
+            # confidence фильтр
+            # если текст уверенный но с стоп-словами -> удаляем
+            # если confidence низкий, считаем что текста нет
             
-            # 2. Length filter & Empty text handling
+            # короткий текст
             if len(text) < MIN_LENGTH:
-                # Too short or empty -> Keep image (might be visual meme)
-                # But verify it's not a short bad word (e.g. "sex")
+                # слишком короткий, но проверяем на стоп-слова
                 if len(text) > 0:
                      is_bad, _ = contains_bad_word(text, bad_words)
                      if is_bad:
                          stats["removed_bad_word"] += 1
                          continue
                 
-                # If safe short text or empty -> KEEP
+                # чистый короткий текст или пустой -> оставляем
                 writer.writerow(row)
                 stats["kept"] += 1
                 continue
@@ -107,20 +105,19 @@ def main():
                 stats["removed_length"] += 1
                 continue
 
-            # 3. Bad words filter (fuzzy check) for valid text
+            # фильтр стоп-слов (нечёткий)
             text_lower = text.lower()
             is_bad = False
 
-            
-            # Simple direct check
+            # прямая проверка
             for bad in bad_words:
                 if bad in text_lower:
                     is_bad = True
                     break
             
-            # If still clean, try fuzzy
+            # нечёткая проверка
             if not is_bad:
-                # Tokenize text
+
                 tokens = text_lower.split()
                 for token in tokens:
                    for bad in bad_words:
@@ -136,10 +133,10 @@ def main():
             writer.writerow(row)
             stats["kept"] += 1
 
-    log.info("Очистка завершена")
-    log.info(f"Обработано: {stats['total']}, сохранено: {stats['kept']}")
-    log.info(f"Удалено: conf={stats['removed_confidence']}, length={stats['removed_length']}, bad_word={stats['removed_bad_word']}")
-    log.info(f"Результат: {OUTPUT_FILE}")
+    log.info("очистка завершена")
+    log.info(f"обработано: {stats['total']}, сохранено: {stats['kept']}")
+    log.info(f"удалено: conf={stats['removed_confidence']}, length={stats['removed_length']}, bad_word={stats['removed_bad_word']}")
+    log.info(f"результат: {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     main()

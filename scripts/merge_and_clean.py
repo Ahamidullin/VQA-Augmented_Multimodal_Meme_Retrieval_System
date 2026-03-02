@@ -1,6 +1,6 @@
 """
-Merge PaddleOCR results and filter bad content.
-This script consolidates scattered 'ocr_paddle.csv' files into a single clean dataset.
+мерж результатов paddleocr и фильтрация
+собирает ocr_paddle.csv в один чистый датасет
 """
 
 import csv
@@ -10,16 +10,14 @@ from tqdm import tqdm
 from thefuzz import fuzz
 
 
-ROOT_DIR = Path("data") # Where to search for ocr_paddle.csv
+ROOT_DIR = Path("data") 
 OUTPUT_FILE = Path("data/processed/final_dataset_text.csv")
 BAD_WORDS_FILE = Path("configs/bad_words.txt")
 
-# Filter settings
 MIN_CONFIDENCE = 0.6 # or 0.0
 MIN_LENGTH = 3
 FUZZY_THRESHOLD = 85
 
-# Logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
@@ -40,13 +38,12 @@ def collect_all_paddle_files(root_dir):
 
 def is_bad_text(text, bad_words):
     """
-    TODO: Проверь текст на наличие плохих слов.
-    1. Если текст пустой -> False (не плохой, просто пустой).
-    2. Если точное совпадение слова из bad_words в тексте -> True.
-    3. Если fuzz.ratio(слово, bad_word) > FUZZY_THRESHOLD -> True.
+    если текст пустой -> False (не плохой, просто пустой)
+    если точное совпадение слова из bad_words в тексте -> true
+    ксли fuzz.ratio(слово, bad_word) > FUZZY_THRESHOLD -> true
     
-    Верни (is_bad: bool, reason: str).
-    Reason - это найденное плохое слово (для логов).
+    вохврат (is_bad: bool, reason: str)
+    reason - это найденное плохое слово для логов
     """
     if not text:
         return False, None
@@ -69,8 +66,6 @@ def main():
 
     paddle_files = collect_all_paddle_files(ROOT_DIR)
     log.info(f"Found {len(paddle_files)} files to merge.")
-
-    # Prepare output
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     
     stats = {"total": 0, "kept": 0, "removed": 0}
@@ -81,13 +76,13 @@ def main():
         writer.writeheader()
 
         for csv_file in tqdm(paddle_files, desc="Merging files"):
-            # Determine source type based on path (e.g. 'bing', 'telegram', 'hf')
+            # determine source type based on path 
             source_type = "unknown"
             if "bing" in str(csv_file): source_type = "bing"
             elif "telegram" in str(csv_file): source_type = "telegram"
             elif "hf" in str(csv_file): source_type = "huggingface"
 
-            # Clean processing logic
+            # clean processing logic
             try:
                 with open(csv_file, "r", encoding="utf-8") as f:
                     reader = csv.DictReader(f)
@@ -103,14 +98,14 @@ def main():
                         except (ValueError, TypeError):
                             conf = 0.0
 
-                        # Filter 1: Confidence logic
-                        # If text exists (len > 2) but confidence low -> remove
-                        # If confidence is high or confidence is 0 (no text) -> keep
+                        # Filter: confidence logic
+                        # if text exists len > 2 but confidence low -> remove
+                        # if confidence is high or confidence is 0 no text -> keep
                         if len(text) > 2 and 0 < conf < MIN_CONFIDENCE:
                             stats['removed'] += 1
                             continue
                             
-                        # Filter 2: Bad words
+                        # filter:bad words
                         if text:
                             is_bad, bad_word = is_bad_text(text, bad_words)
                             if is_bad:
@@ -118,10 +113,10 @@ def main():
                                 stats['removed'] += 1
                                 continue
                         
-                        # Keep it!
+                        # keep it
                         stats["kept"] += 1
                         
-                        # Prepare row for final csv
+                        # prepare row for final csv
                         row_out = {
                             "filename": row.get("filename"),
                             "source_path": str(csv_file.parent / row.get("filename", "")),

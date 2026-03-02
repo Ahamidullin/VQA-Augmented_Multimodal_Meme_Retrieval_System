@@ -1,13 +1,5 @@
-"""
-Fast Bing Meme Scraper
-- Uses 'requests' with proper User-Agent to avoid 403 blocks (Reddit, etc.)
-- Parses Bing Images query results
-- Fast timeouts to skip locking urls
-- Dedup & Size filter included
-
-Usage:
-    pip install requests pillow imagehash
-    python scripts/scrape_bing_fast.py
+"""скрапер мемов с bing images
+парсит выдачу, скачивает картинки с дедупом и фильтром по размеру
 """
 
 import os
@@ -23,7 +15,7 @@ from PIL import Image
 from io import BytesIO
 from concurrent.futures import ThreadPoolExecutor
 
-# Конфигурация
+# конфиг
 OUTPUT_DIR = Path("data/raw/bing_memes")
 IMAGES_DIR = OUTPUT_DIR / "images"
 METADATA_FILE = OUTPUT_DIR / "metadata.csv"
@@ -41,7 +33,7 @@ HEADERS = {
 }
 
 QUERIES = [
-    # English
+    # en
     "drake meme template", "distracted boyfriend meme", "woman yelling at cat meme",
     "expanding brain meme", "change my mind meme", "this is fine meme",
     "surprised pikachu meme", "stonks meme", "uno reverse card meme",
@@ -59,13 +51,13 @@ QUERIES = [
     "star wars meme", "history meme", "food meme", "sleep meme",
     "introvert meme", "dating meme", "gen z meme", "best memes 2024",
     "viral meme",
-    # Russian
+    # ru
     "мем смешной", "русский мем", "мем шаблон", "мемы 2024",
     "мемы про школу", "мемы про программирование", "мемы про котов",
     "мемы жиза", "мемы про работу", "мем ну ты и", "мем типичный",
 ]
 
-# Логирование
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -80,7 +72,7 @@ log = logging.getLogger(__name__)
 
 
 def get_bing_image_links(query, limit=100):
-    """Parses Bing Image Search (async api) to get direct image links."""
+    """парсит bing images, возвращает ссылки на картинки"""
     links = set()
     page_counter = 0
     while len(links) < limit:
@@ -89,8 +81,7 @@ def get_bing_image_links(query, limit=100):
             resp = requests.get(url, headers=HEADERS, timeout=10)
             resp.raise_for_status()
             
-            # Regex to extract 'murl' (media url)
-            # murl matches: murl&quot;:&quot;(.*?)&quot;
+            # regex для вытаскивания media url
             new_links = re.findall(r'murl&quot;:&quot;(.*?)&quot;', resp.text)
             
             if not new_links:
@@ -112,43 +103,38 @@ def get_bing_image_links(query, limit=100):
 
 
 def download_image(url, query_tag, seen_hashes):
-    """Downloads, verifies, and saves a single image."""
+    """скачивает одну картинку, проверяет и сохраняет"""
     try:
-        # Download with timeout and headers to pass blocks
+        # скачиваем с таймаутом
         resp = requests.get(url, headers=HEADERS, timeout=4)
         if resp.status_code != 200:
             return None
 
-        # Helper to read content
         content = resp.content
-        if len(content) < 1000:  # Skip tiny files/errors
+        if len(content) < 1000:  # слишком мелкое
             return None
 
-        # Verify image
+        # проверяем что это картинка
         try:
             img = Image.open(BytesIO(content))
             img.verify()
-            # Re-open for processing since verify closes it
             img = Image.open(BytesIO(content))
         except Exception:
             return None
 
-        # Check dimensions
+        # проверка размеров
         w, h = img.size
         min_side = min(w, h)
         if not (MIN_SIDE_PX <= min_side <= MAX_SIDE_PX):
             return None
             
-        # Deduplicate
+        # дедуп по phash
         try:
              phash_val = imagehash.phash(img.convert("RGB"))
         except Exception:
             return None # hashing failed
 
-        # Thread-safe check? (We run queries sequentially, but downloads in parallel)
-        # For simplicity, we'll allow slight race conditions in hashes or lock.
-        # Since we append to list, it's atomic in CPython, but 'in' check isn't.
-        # Let's just check. Minimal duplicates are fine.
+        # проверка на дубли (race condition возможен но не критично)
         is_dup = False
         for h_exist in seen_hashes:
             if abs(phash_val - h_exist) <= PHASH_THRESHOLD:
@@ -158,25 +144,25 @@ def download_image(url, query_tag, seen_hashes):
         if is_dup:
             return None
             
-        # Add to seen (approximate due to threads)
+
         seen_hashes.append(phash_val)
 
-        # Save
+        # сохраняем
         file_id = uuid.uuid4().hex[:12]
-        # Guess extension from header or PIL
+
         ext = img.format.lower() if img.format else "jpg"
         if ext == "jpeg": ext = "jpg"
         new_name = f"{file_id}.{ext}"
         dest_path = IMAGES_DIR / new_name
         
-        # Save real bytes
+
         with open(dest_path, "wb") as f:
             f.write(content)
             
         return {
             "id": file_id,
             "filename": new_name,
-            "original_name": url.split("/")[-1][:50], # truncated original name
+            "original_name": url.split("/")[-1][:50],
             "query_tag": query_tag,
             "width": w,
             "height": h,
@@ -194,17 +180,17 @@ def main():
     if not IMAGES_DIR.exists():
         IMAGES_DIR.mkdir(parents=True, exist_ok=True)
         
-    # metadata CSV init
+    # csv для метаданных
     if not METADATA_FILE.exists():
         with open(METADATA_FILE, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=["id", "filename", "original_name", "query_tag", "width", "height", "phash"])
             writer.writeheader()
 
-    seen_hashes = [] # In-memory dedup across queries
+    seen_hashes = []
     
     total_saved = 0
 
-    # Sequential queries, threaded downloads
+    # по каждому запросу качаем в тредах
     for i, query in enumerate(QUERIES, 1):
         log.info(f"[{i}/{len(QUERIES)}] Querying: '{query}'")
         links = get_bing_image_links(query, limit=LIMIT_PER_QUERY)
@@ -214,7 +200,7 @@ def main():
             
         success_count = 0
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            # Submit all downloads
+
             futures = [executor.submit(download_image, url, query, seen_hashes) for url in links]
             
             for future in futures:
@@ -222,7 +208,7 @@ def main():
                 if res:
                     success_count += 1
                     total_saved += 1
-                    # Append metadata immediately
+
                     with open(METADATA_FILE, "a", newline="", encoding="utf-8") as f:
                         writer = csv.DictWriter(f, fieldnames=["id", "filename", "original_name", "query_tag", "width", "height", "phash"])
                         writer.writerow(res)

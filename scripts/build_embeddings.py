@@ -1,8 +1,8 @@
 """
 build_embeddings.py
 
-Объединяет OCR + VQA аннотации, генерирует текстовые и картиночные
-эмбеддинги, строит FAISS индексы для мультимодального поиска мемов.
+объединяет ocr + vqa аннотации, генерит эмбеддинги,
+строит faiss индексы
 """
 
 import json
@@ -14,18 +14,18 @@ from tqdm import tqdm
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
-# Конфигурация
+# конфиг
 VQA_FILE = Path("data/processed/vqa_annotations.jsonl")
 OUTPUT_DIR = Path("data/processed")
 
 TEXT_MODEL_NAME = "all-MiniLM-L6-v2"
 CLIP_MODEL_NAME = "openai/clip-vit-base-patch32"
 
-MAX_IMAGE_SIZE = 224  # CLIP input size
+MAX_IMAGE_SIZE = 224
 
 
 def load_vqa_data(path):
-    """Загружает VQA аннотации."""
+    """загружает vqa аннотации"""
     records = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
@@ -35,12 +35,12 @@ def load_vqa_data(path):
                     records.append(json.loads(line))
                 except json.JSONDecodeError:
                     continue
-    log.info(f"Загружено {len(records)} записей из {path}")
+    log.info(f"загружено {len(records)} записей из {path}")
     return records
 
 
 def build_combined_text(record):
-    """Объединяет VQA + OCR в единый текст для эмбеддинга."""
+    """объединяет vqa + ocr в текст для эмбеддинга"""
     parts = []
 
     caption = record.get("caption", "")
@@ -57,7 +57,7 @@ def build_combined_text(record):
     if isinstance(objects, list) and objects:
         meta_parts.append(f"Objects: {', '.join(str(o) for o in objects[:8])}")
     if tone:
-        # Берём только первый тон, если модель вернула несколько через /
+        # берём только первый тон
         tone_clean = tone.split("/")[0].strip() if "/" in tone and len(tone) > 20 else tone
         meta_parts.append(f"Tone: {tone_clean}")
     if meta_parts:
@@ -69,20 +69,20 @@ def build_combined_text(record):
 
     combined = "\n".join(parts)
     if not combined.strip():
-        # Fallback: raw response или filename
+        # fallback
         combined = record.get("raw_response", record.get("filename", "meme"))[:200]
 
     return combined
 
 
 def generate_text_embeddings(texts):
-    """Генерирует текстовые эмбеддинги через sentence-transformers."""
+    """текстовые эмбеддинги через sentence-transformers"""
     from sentence_transformers import SentenceTransformer
 
-    log.info(f"Загрузка модели {TEXT_MODEL_NAME}...")
+    log.info(f"загрузка модели {TEXT_MODEL_NAME}...")
     model = SentenceTransformer(TEXT_MODEL_NAME)
 
-    log.info(f"Генерация текстовых эмбеддингов для {len(texts)} записей...")
+    log.info(f"генерация текстовых эмбеддингов для {len(texts)} записей...")
     embeddings = model.encode(
         texts,
         show_progress_bar=True,
@@ -90,17 +90,17 @@ def generate_text_embeddings(texts):
         normalize_embeddings=True,
     )
 
-    log.info(f"Текстовые эмбеддинги: {embeddings.shape}")
+    log.info(f"текстовые эмбеддинги: {embeddings.shape}")
     return embeddings.astype(np.float32)
 
 
 def generate_image_embeddings(records):
-    """Генерирует картиночные эмбеддинги через CLIP."""
+    """картиночные эмбеддинги через clip"""
     import torch
     from PIL import Image
     from transformers import CLIPProcessor, CLIPModel
 
-    log.info(f"Загрузка модели {CLIP_MODEL_NAME}...")
+    log.info(f"загрузка модели {CLIP_MODEL_NAME}...")
     model = CLIPModel.from_pretrained(CLIP_MODEL_NAME)
     processor = CLIPProcessor.from_pretrained(CLIP_MODEL_NAME)
     model.eval()
@@ -134,12 +134,12 @@ def generate_image_embeddings(records):
                 log.warning(f"CLIP error [{img_path.name}]: {e}")
 
     result = np.stack(embeddings)
-    log.info(f"Картиночные эмбеддинги: {result.shape}, валидных: {valid_count}, ошибок: {errors}")
+    log.info(f"картиночные эмбеддинги: {result.shape}, валидных: {valid_count}, ошибок: {errors}")
     return result
 
 
 def build_faiss_index(embeddings, index_path):
-    """Строит FAISS индекс (Inner Product для нормализованных векторов)."""
+    """строит faiss индекс (inner product для нормализованных векторов)"""
     import faiss
 
     dim = embeddings.shape[1]
@@ -152,7 +152,7 @@ def build_faiss_index(embeddings, index_path):
 
 
 def save_metadata(records, path):
-    """Сохраняет метаданные индекса (маппинг idx -> filename, caption)."""
+    """метаданные индекса, маппинг idx -> filename"""
     with open(path, "w", encoding="utf-8") as f:
         for r in records:
             meta = {
@@ -164,41 +164,41 @@ def save_metadata(records, path):
                 "source_type": r.get("source_type", ""),
             }
             f.write(json.dumps(meta, ensure_ascii=False) + "\n")
-    log.info(f"Метаданные: {path} ({len(records)} записей)")
+    log.info(f"метаданные: {path} ({len(records)} записей)")
 
 
 def main():
-    log.info("Запуск построения эмбеддингов")
+    log.info("запуск построения эмбеддингов")
 
-    # 1. Загрузка
+    # загрузка
     records = load_vqa_data(VQA_FILE)
 
-    # 2. Объединение OCR + VQA в текст
-    log.info("Формирование объединённых текстов...")
+    # объединение ocr + vqa
+    log.info("формирование текстов...")
     texts = [build_combined_text(r) for r in records]
 
-    # Показать примеры
+    # примеры
     for i in range(min(3, len(texts))):
-        log.info(f"Пример {i+1}: {texts[i][:120]}...")
+        log.info(f"пример {i+1}: {texts[i][:120]}...")
 
-    # 3. Текстовые эмбеддинги
+    # текстовые эмбеддинги
     text_emb = generate_text_embeddings(texts)
     np.save(OUTPUT_DIR / "text_embeddings.npy", text_emb)
-    log.info(f"Сохранено: text_embeddings.npy")
+    log.info(f"сохранено: text_embeddings.npy")
 
-    # 4. Картиночные эмбеддинги (CLIP)
+    # картиночные эмбеддинги (clip)
     image_emb = generate_image_embeddings(records)
     np.save(OUTPUT_DIR / "image_embeddings.npy", image_emb)
-    log.info(f"Сохранено: image_embeddings.npy")
+    log.info(f"сохранено: image_embeddings.npy")
 
-    # 5. FAISS индексы
+    # faiss индексы
     build_faiss_index(text_emb, OUTPUT_DIR / "faiss_text.index")
     build_faiss_index(image_emb, OUTPUT_DIR / "faiss_image.index")
 
-    # 6. Метаданные
+    # метаданные
     save_metadata(records, OUTPUT_DIR / "index_metadata.jsonl")
 
-    log.info("Готово!")
+    log.info("готово")
 
 
 if __name__ == "__main__":

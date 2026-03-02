@@ -5,22 +5,20 @@ import logging
 from pathlib import Path
 from tqdm import tqdm
 
-# Список папок, где искать картинки
+
 SOURCE_DIRS = [
     Path("data/raw/bing_memes/images"),
     Path("data/raw/telegram_stickers"),
     Path("data/raw/hf_memes/images"),
 ]
-# Куда сохранять результат
-OUTPUT_FILE = Path("data/processed/metadata_ocr.csv")
 
-# Логгер 
+OUTPUT_FILE = Path("data/processed/metadata_ocr.csv")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger(__name__)
 
 def get_all_image_paths(source_dirs):
     """
-    Функция должна вернуть список (list) путей (Path) ко всем картинкам.
+    Функция должна вернуть список  путей ко всем картинкам.
     """
     extensions = {".jpg", ".jpeg", ".png", ".webp"}
     images = []
@@ -37,31 +35,30 @@ def get_all_image_paths(source_dirs):
     return images
 
 def run_ocr():
-    # 1. Инициализация модели
     log.info("Loading EasyOCR model")
 
     reader = easyocr.Reader(['ru', 'en'], gpu=False)
 
-    # 2. Поиск картинок
+    #  поиск картинок
     log.info("Scanning directories")
     all_images = get_all_image_paths(SOURCE_DIRS)
     log.info(f"Found {len(all_images)} images total.")
 
-    # Создаем папку для output файла
+   
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     
-    # 3  CSV на запись
+    # csv на запись
     with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as f:
-        # Заголовки таблицы
+        # заголовки таблицы
         fieldnames = ["filename", "source_path", "ocr_text", "confidence"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
-        # 4. Проходимся по всем картинкам
+        # проход по всем картинкам
         for img_path in tqdm(all_images, desc="Running OCR"):
             try:
-                # - detail=1 (чтобы получить уверенность)
-                # - paragraph=True (чтобы объединить слова в предложения)
+                # detail=1 чтобы получить уверенность
+                # paragraph=true чтобы объединить слова в предложения
                 
                 result =  reader.readtext(str(img_path), detail = 1, paragraph=False) 
                 

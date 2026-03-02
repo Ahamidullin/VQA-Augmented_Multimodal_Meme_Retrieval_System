@@ -1,12 +1,9 @@
-"""
-Скачивание мемов с HuggingFace Datasets.
-Скачивает картинки, фильтрует по стоп-словам, сохраняет metadata.csv.
+"""скачивание мемов с huggingface datasets.
+скачивает картинки, фильтрует по стоп-словам, сохраняет metadata.csv.
 
-Перед запуском:
-    pip install datasets pillow
+перед запуском: pip install datasets pillow
 
-Запуск:
-    python scripts/download_hf_memes.py
+запуск:python scripts/download_hf_memes.py
 """
 
 import csv
@@ -16,15 +13,15 @@ from datasets import load_dataset
 from PIL import Image
 from tqdm import tqdm
 
-# Настройки
+
 OUTPUT_DIR = Path('data/raw/hf_memes')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR = OUTPUT_DIR / 'images'
 IMAGES_DIR.mkdir(exist_ok=True)
 
-MAX_TOTAL = 8000  # общий лимит
+MAX_TOTAL = 8000
 
-# Стоп-слова
+# стоп слова
 bad_words = []
 bad_words_path = Path('configs/bad_words.txt')
 if bad_words_path.exists():
@@ -37,7 +34,7 @@ print(f'Загружено {len(bad_words)} стоп-слов')
 
 
 def is_clean(text: str) -> bool:
-    """Проверяет что текст не содержит стоп-слов."""
+    """проверка что текст без стоп-слов"""
     text_lower = text.lower()
     for word in bad_words:
         if word in text_lower:
@@ -46,19 +43,19 @@ def is_clean(text: str) -> bool:
 
 
 def save_image(img, save_path: Path) -> bool:
-    """Сохраняет PIL Image."""
+    """сохранение pil image в jpeg"""
     try:
         if img.mode in ('RGBA', 'P'):
             img = img.convert('RGB')
         img.save(save_path, 'JPEG', quality=90)
         return True
     except Exception as e:
-        # print(f'  Ошибка сохранения: {e}')
+
         return False
 
 
 def safe_iter(ds):
-    """Безопасная итерация по датасету с пропуском битых элементов."""
+    """итерация по датасету с пропуском битых элементов"""
     if hasattr(ds, '__iter__'):
         iterator = iter(ds)
         while True:
@@ -69,21 +66,18 @@ def safe_iter(ds):
             except Exception as e:
                 continue
     else:
-        # Если это map-style dataset (не streaming), просто итерируемся
+
         for item in ds:
             yield item
 
 
 def download_memes_dataset():
-    """
-    not-lain/meme-dataset — коллекция мемов.
-    SMALL DATASET (~300 images)
-    """
+    """not-lain/meme-dataset, маленький датасет ~300 картинок"""
     print('\nnot-lain/meme-dataset')
     results = []
 
     try:
-        # Загружаем целиком (streaming=False по умолчанию для маленьких)
+
         ds = load_dataset('not-lain/meme-dataset', split='train')
     except Exception as e:
         print(f'  Не удалось загрузить: {e}')
@@ -118,15 +112,12 @@ def download_memes_dataset():
 
 
 def download_mimic_memes(limit=5000):
-    """
-    Aakash941/MIMIC-Meme-Dataset — 5k+ мемов.
-    Используем streaming=False для скорости (скачиваем пак сразу).
-    """
+    """Aakash941/MIMIC-Meme-Dataset, 5k+ мемов"""
     print('\nAakash941/MIMIC-Meme-Dataset')
     results = []
 
     try:
-        # Пробуем загрузить целиком
+
         ds = load_dataset('Aakash941/MIMIC-Meme-Dataset', split='train')
     except Exception as e:
         print(f'  Не удалось загрузить (попробуем stream): {e}')
@@ -168,18 +159,16 @@ def download_mimic_memes(limit=5000):
 
 
 def download_harpreetsahota_memes():
-    """
-    harpreetsahota/memes-dataset — ещё одна коллекция мемов.
-    """
+    """harpreetsahota/memes-dataset"""
     print('\nharpreetsahota/memes-dataset')
     results = []
 
     try:
-        # Пробуем загрузить целиком. Если большой - скачает arrow файлы.
+
         ds = load_dataset('harpreetsahota/memes-dataset', split='train')
     except Exception as e:
         print(f'  Не удалось загрузить: {e}')
-        # Fallback to streaming if download fails
+
         try:
             ds = load_dataset('harpreetsahota/memes-dataset', split='train', streaming=True)
         except:
@@ -209,7 +198,7 @@ def download_harpreetsahota_memes():
                 'source': 'harpreetsahota/memes-dataset',
             })
             
-        if len(results) >= 2000: # Limit for this source
+        if len(results) >= 2000:
             break
 
     print(f'  Сохранено: {len(results)}')
@@ -219,7 +208,7 @@ def download_harpreetsahota_memes():
 def main():
     print('HuggingFace Meme Downloader')
 
-    # Init CSV
+
     csv_path = OUTPUT_DIR / 'metadata.csv'
     fieldnames = ['image_name', 'title', 'text_on_image', 'tags', 'source']
     if not csv_path.exists():
@@ -237,32 +226,32 @@ def main():
 
     all_results = []
 
-    # 1. not-lain (small)
+    # not-lain
     res = download_memes_dataset()
     save_results(res)
     all_results.extend(res)
     
-    # 2. MIMIC (5k)
+    # mimic
     if len(all_results) < MAX_TOTAL:
         needed = MAX_TOTAL - len(all_results)
         res = download_mimic_memes(limit=needed)
         save_results(res)
         all_results.extend(res)
 
-    # 3. Harpreet (backup)
+    # harpreet
     if len(all_results) < MAX_TOTAL:
         res = download_harpreetsahota_memes()
         save_results(res)
         all_results.extend(res)
 
-    print(f'\nГотово')
+    print(f'\nготово')
     print(f'Всего сохранено: {len(all_results)}')
     print(f'Метаданные: {csv_path}')
     print(f'Картинки: {IMAGES_DIR}')
 
     from collections import Counter
     src_counts = Counter(r['source'] for r in all_results)
-    print(f'\nПо источникам:')
+    print(f'\nпо источникам:')
     for src, count in src_counts.most_common():
         print(f'  {src}: {count}')
 
