@@ -1,0 +1,601 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=1.0cm, top=2.0cm, bottom=2.0cm}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian,english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{comment}
+\usepackage[
+backend=biber,
+style=numeric,
+urldate=long,
+maxbibnames=99
+]{biblatex}
+\addbibresource{refs.bib}
+\usepackage[colorlinks=true, citecolor=blue, linkcolor=blue, urlcolor=blue, pdfstartview=FitH]{hyperref}
+\usepackage{mathtools}
+\usepackage{booktabs}
+
+\usepackage{chngcntr}
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+\graphicspath{{graphics/}}
+
+\setlength{\parindent}{1.25cm}
+\renewcommand{\baselinestretch}{1.5}
+
+\newcommand{\bibref}[3]{\hyperlink{#1}{#2 (#3)}}
+
+\renewcommand{\theenumi}{\arabic{enumi}}
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\theenumii}{.\arabic{enumii}}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}.}
+\renewcommand{\theenumiii}{.\arabic{enumiii}}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.}
+
+\begin{document}
+\input{title_kr}
+\newpage
+\setcounter{page}{2}
+
+{
+	\hypersetup{linkcolor=black}
+	\tableofcontents
+}
+
+\newpage
+
+%==============================================================================
+% ANNOTATION
+%==============================================================================
+\section*{Annotation} 
+\addcontentsline{toc}{section}{Annotation}
+This work develops an intelligent multimodal meme retrieval system that enables
+users to find relevant images by text description, reference image, or their
+combination. The system is based on modern machine learning methods: multimodal
+embeddings (CLIP), vision-language models for description generation, and a
+two-stage retrieval architecture. At the current interim stage, data collection,
+OCR, VQA annotation, embedding generation, FAISS indexing, and a working search
+demo have been completed. Cross-encoder re-ranking, FastAPI backend, and Telegram
+bot are planned for the second stage. System quality will be evaluated using
+information retrieval metrics (Hit@K, Recall@K, MRR@10) on a validation set of
+300 manually annotated queries.
+
+
+\section*{\foreignlanguage{russian}{Аннотация}}
+\foreignlanguage{russian}{
+В данной работе разрабатывается интеллектуальная система мультимодального поиска мемов, позволяющая пользователям находить релевантные изображения по текстовому описанию, референсной картинке или их комбинации. Система основана на современных методах машинного обучения: мультимодальных эмбеддингах (CLIP), визуально-языковых моделях для генерации описаний и двухступенчатой архитектуре поиска с переранжированием. Планируется создание базы из 10 000 мемов с описаниями, построение векторного индекса для быстрого поиска и разработка Telegram-бота как пользовательского интерфейса. Качество системы будет оценено с использованием метрик информационного поиска (Hit@K, Recall@K, MRR@10) на валидационной выборке из 300 запросов с ручной разметкой.
+}
+
+\section*{Keywords}
+Multimodal retrieval, CLIP, vision-language models, VQA, embeddings, vector search, information retrieval, memes, Telegram bot, re-ranking
+
+\pagebreak
+
+%==============================================================================
+% INTRODUCTION
+%==============================================================================
+\section{Introduction}
+\subsection{Motivation and Relevance}
+
+In the modern digital landscape, internet memes have become a universal means of communication, combining visual content and text to convey cultural context, humor, and social commentary. According to various studies, millions of new memes are created daily, and their use spans all areas of online communication—from personal messaging to marketing campaigns.
+
+However, existing image search tools are insufficiently effective for working with memes. Standard search engines are oriented toward keyword-based or visual similarity search, which does not account for the specifics of memes as multimodal content. The main challenges include the following:
+
+\begin{enumerate}
+    \item Semantic complexity: a meme often contains hidden meaning that cannot be derived directly from the visual content or text separately. Understanding a meme requires joint analysis of the image and overlaid text.
+    
+    \item Cultural context: meme interpretation presupposes knowledge of cultural references, internet trends, and the specifics of online communities. The same template can be used to convey completely different messages.
+    
+    \item Format diversity: memes range from simple images with text to complex collages and comics, which complicates the application of unified processing methods.
+\end{enumerate}
+
+The emergence of multimodal machine learning models, such as CLIP~\cite{radford2021clip}, opens new opportunities for solving the meme retrieval task. These models can create a unified vector representation for text and images, enabling cross-modal search.
+\subsection{Project Goal and Objectives}
+
+The goal of this project is to develop an intelligent multimodal meme retrieval service, implemented as a Telegram bot with a backend system, that allows users to find relevant memes by text description, reference image, or their combination.
+
+To achieve this goal, the following objectives must be accomplished:
+
+1. Collect and prepare a database of approximately 10,000 memes from open sources, including text extraction from images (OCR) and semantic description generation using vision-language models (VQA annotations).
+
+2. Build a multimodal index based on vector embeddings (CLIP) with efficient storage and search organization in a vector database.
+
+3. Implement a two-stage retrieval architecture: fast approximate search by embeddings followed by re-ranking of top-K candidates to improve precision.
+
+4. Develop a Telegram bot supporting three input modes with a user-friendly interface.
+
+5. Conduct system quality evaluation using information retrieval metrics on a validation set with manual annotation.
+
+\subsection{Practical Significance}
+
+The developed system has practical value for a wide range of users. Regular users will get a convenient tool for quickly finding the right memes in everyday communication. SMM specialists and content managers will be able to promptly find relevant visual content for publications. Researchers of internet culture will receive a tool for analyzing and systematizing memes.
+
+Additionally, the architectural solutions and methods developed within this project can be applied to other multimodal image retrieval tasks.
+
+\subsection{Novelty}
+
+The novelty of this project lies in its comprehensive approach to multimodal meme retrieval, which includes:
+
+1. Use of VQA annotations: applying vision-language models to generate structured meme descriptions that account for both visual content and overlaid text. Unlike simple captioning, the VQA approach allows extracting deeper semantic information.
+
+2. Two-stage retrieval architecture: combining fast approximate search by embeddings (first stage) with more precise re-ranking through a cross-encoder model (second stage). This achieves a balance between search speed and quality.
+
+3. Hybrid representation: combining dense embeddings (CLIP) and sparse representations (BM25 on texts) to improve search robustness for different query types.
+
+4. Specialization for the meme domain: adapting approaches to the specifics of internet memes, which differ from standard images by having overlaid text, cultural references, and semantic complexity.
+
+\pagebreak
+
+%==============================================================================
+% LITERATURE REVIEW
+%==============================================================================
+
+\section{Literature Review}
+
+From existing works in multimodal image retrieval, several key directions can be identified: building a shared embedding space for text and images, generating descriptions using vision-language models, meme understanding as a separate task, and efficient vector search methods.
+
+A breakthrough in multimodal learning came with the CLIP model, presented in the work by \href{https://arxiv.org/abs/2103.00020}{Radford et al. (2021)}. The authors trained a pair of neural network encoders: Vision Transformer for images and Transformer for text on 400 million text-image pairs collected from the internet. The model creates a unified vector space where semantically similar texts and images are located close together. This enables cross-modal search using cosine similarity. However, CLIP was trained on general images and does not account for meme specifics—overlaid text, cultural references, and multi-layered humor.
+
+For generating textual descriptions of images, vision-language models have been developed. The work by \href{https://arxiv.org/abs/2301.12597}{Li et al. (2023)} presents the BLIP-2 model, which uses the Q-Former architecture to efficiently bridge frozen visual encoders with large language models. The model achieves state-of-the-art results on VQA and image captioning tasks with significantly lower computational costs. An alternative approach is proposed in the work by \href{https://arxiv.org/abs/2304.08485}{Liu et al. (2023)}, where the LLaVA model is trained to follow natural language instructions when working with images. This allows flexible query formulation for extracting specific information from images. In this project, VLMs will be used to generate VQA annotations—structured meme descriptions.
+
+The task of automatic meme understanding is studied in several works. In the work by \href{https://arxiv.org/abs/2005.04790}{Kiela et al. (2020)}, as part of the Hateful Memes Challenge, a dataset of 10,000 memes was created, specifically designed so that neither text nor image alone would allow determining whether a meme is offensive. Results showed that multimodal models (64.7\% accuracy) significantly outperform unimodal ones (59.2\% for text, 52.6\% for images), confirming the necessity of joint analysis. The work by \href{https://aclanthology.org/2024.findings-acl.246/}{Roy et al. (2024)} extends this direction by presenting the MemeMQA dataset for question-answering interaction with memes. However, both works focus on classification rather than meme retrieval.
+
+Efficient embedding-based search requires specialized data structures. The FAISS library, described in the work by \href{https://arxiv.org/abs/2401.08281}{Douze et al. (2024)}, provides optimized implementations of IVF and Product Quantization algorithms, ensuring sub-millisecond search latency on billion-scale collections. The HNSW algorithm, presented in the work by \href{https://arxiv.org/abs/1603.09320}{Malkov \& Yashunin (2020)}, uses a hierarchical graph structure to achieve logarithmic search complexity.
+
+Modern information retrieval systems combine different ranking methods. The work by \href{https://aclanthology.org/2021.tacl-1.20/}{Luan et al. (2021)} provides a systematic analysis of sparse (BM25) and dense (neural) representations, showing that a hybrid approach outperforms each method individually by 5-8\% on the MRR@10 metric. To improve result precision, re-ranking is applied. The work by \href{https://arxiv.org/abs/2004.12832}{Khattab \& Zaharia (2020)} presents the ColBERT model with a late interaction mechanism, providing cross-encoder quality at 170x higher speed.
+
+For extracting text from memes, OCR systems are required. The work by \href{https://arxiv.org/abs/2009.09941}{Du et al. (2020)} presents the PaddleOCR system, achieving 90.3\% accuracy on text detection and providing 10x faster speed than Tesseract on images with complex backgrounds.
+
+Thus, existing image search solutions do not account for the multimodal nature of memes, while academic works on meme understanding focus on classification rather than retrieval. This project combines multimodal embeddings, VQA annotations, hybrid search, and re-ranking into a unified system specifically for the meme retrieval task.
+
+\pagebreak
+
+%==============================================================================
+% WORK PLAN
+%==============================================================================
+\section{Work Plan}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|p{8cm}|}
+\hline
+\textbf{Period} & \textbf{Phase} & \textbf{Key Deliverables} \\
+\hline
+Jan 2026 & Data Collection & Database of 18,000+ memes from 6 sources \\
+\hline
+Feb 2026 & Data Processing & Two-stage OCR + VQA annotations via Qwen2.5-VL \\
+\hline
+Mar 2026 & Index Building & CLIP + text embeddings, FAISS index, BM25 index \\
+\hline
+Apr 2026 & System Development & FastAPI backend + Telegram bot with 3 search modes \\
+\hline
+May 2026 & Evaluation & Quality metrics on 300 annotated queries + final report \\
+\hline
+\end{tabular}
+\caption{Project timeline}
+\end{table}
+
+\vspace{0.5cm}
+
+\textbf{Phase 1: Data Collection \& Cleaning.} Parsing memes from Bing Images, Telegram sticker packs, Kaggle datasets, HuggingFace, and Imgflip. Filtering duplicates and inappropriate content using content moderation lists.
+
+Phase 2: Annotation Pipeline. Two-stage OCR (EasyOCR + PaddleOCR v3) with confidence-based filtering. Generating structured VQA annotations using the Qwen2.5-VL vision-language model via Ollama, followed by an enrichment pass.
+
+Phase 3: Search Infrastructure. Computing CLIP embeddings for images and sentence-transformer embeddings for text. Building FAISS indices with inner product similarity. BM25 sparse retrieval integration.
+
+Phase 4: Application Layer. FastAPI backend with search endpoints. Telegram bot (aiogram) supporting text, image, and hybrid queries. Cross-encoder re-ranking for top-K candidates.
+
+\textbf{Phase 5: Validation \& Reporting.} Manual annotation of 300 test queries. Evaluation using Hit@K, Recall@K, MRR@10 metrics. Final documentation and thesis writing.
+\pagebreak
+
+%==============================================================================
+% METHODOLOGY
+%==============================================================================
+\section{Methodology}
+
+This chapter describes the methodology of the project: the process of building the meme corpus, the VQA annotation pipeline, and the system architecture for multimodal retrieval.
+
+\subsection{Data Collection}
+
+To build a diverse meme corpus covering different formats, languages, and cultural contexts, images were collected from six sources, as summarized in Table~\ref{tab:sources}.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|r|}
+\hline
+\textbf{Source} & \textbf{Method} & \textbf{Images} \\
+\hline
+Bing Images & Custom scraper with query rotation & 6,142 \\
+\hline
+Telegram Stickers & Automated sticker pack extraction & 4,382 \\
+\hline
+Kaggle Memotion & Manual download (competition dataset) & 6,969 \\
+\hline
+Kaggle Russian Memes & Manual download & 675 \\
+\hline
+HuggingFace Datasets & API download script & 330 \\
+\hline
+Imgflip (575k subset) & Template-based download & 390 \\
+\hline
+\textbf{Total (raw)} & & \textbf{18,888} \\
+\hline
+\end{tabular}
+\caption{Data sources and collection statistics}
+\label{tab:sources}
+\end{table}
+
+The Bing Images scraper uses query rotation with 50+ search terms covering popular meme categories (e.g., ``funny memes'', ``reaction images'', ``dank memes'') and downloads images in parallel with deduplication by URL hash. The Telegram sticker extractor processes public sticker packs, converting WebP stickers to JPEG format. All images are saved in their original resolution with supported formats: JPEG, PNG, and WebP.
+
+\subsubsection{OCR Pipeline}
+
+Text extraction from meme images is performed using two OCR engines in a cascaded configuration.
+
+Stage 1: EasyOCR. The initial pass uses the EasyOCR library with Russian and English language models. For each image, the system extracts detected text segments along with their confidence scores. Results are stored as \texttt{metadata\_ocr.csv}.
+
+Stage 2: PaddleOCR v3. Images that passed the first cleaning stage are processed by PaddleOCR v3~\cite{du2020ppocr} with Russian language support. PaddleOCR employs the DB text detector and CRNN-based recognizer, providing complementary recognition results. Images are read via OpenCV to handle all formats including WebP.
+
+Design choice: cascade vs ensemble. A parallel ensemble approach---running both engines on every image and selecting the best result---would reduce error propagation but would double processing time and require a pre-labelled alignment set to weight engine outputs reliably. Given the hardware constraints (Apple M4 Pro, 24~GB unified RAM) and the project timeline, the cascaded design was preferred: EasyOCR provides a fast initial quality gate, and PaddleOCR refines the surviving subset. This trades some recall for significantly lower total runtime (approximately 3~hours vs 6~hours for 16,000 images). An ensemble re-run is planned as a future improvement.
+
+Confidence threshold. The 0.6 threshold was selected after manual inspection of approximately 150 PaddleOCR outputs. At confidence $\geq 0.6$, outputs were found to be usable as-is in more than 90\% of spot-checked cases.
+
+\subsubsection{Data Cleaning and Filtering}
+
+The cleaning pipeline operates in two passes with different filter configurations.
+
+Pass 1: EasyOCR cleaning. The first pass filters entries by content and text quality:
+\begin{enumerate}
+    \item Content moderation: A curated list of 580+ prohibited words and phrases in Russian and English. Matching is performed via exact substring search with an additional fuzzy matching step using the Levenshtein distance, with a similarity threshold of 85\%.
+    \item Text length constraints: Minimum text length of 3 characters, maximum of 400 characters.
+\end{enumerate}
+
+Pass 2: PaddleOCR merge and final filtering. PaddleOCR results from all data sources are merged into a single dataset with a confidence-based filter:
+\begin{enumerate}
+    \item Confidence filtering: Entries with OCR text longer than 2 characters but confidence below 0.6 are removed. Entries with zero confidence or confidence $\geq 0.6$ are retained. The threshold of 0.6 was chosen empirically after manual inspection of PaddleOCR outputs: below this value, the recognized text frequently contains character substitutions, merged words, and spurious characters that would introduce noise into downstream VQA annotations.
+    \item Content moderation: A second pass of bad-word filtering using exact substring matching.
+\end{enumerate}
+
+It should be noted that the confidence score in OCR systems is an empirical measure of recognition quality for a detected character sequence, not a reliable indicator of text presence. A confidence of 0 may indicate a recognition failure rather than the absence of text. Proper threshold calibration requires a labelled dataset of 200--500 manually annotated memes with transcriptions, measured by CER, WER, and precision/recall. This validation is planned for the next stage.
+
+\subsubsection{Final Dataset}
+
+After merging results from both OCR engines and applying all filters, the final dataset contains 16,080 entries from 18,888 raw images. A total of 539 images were removed by the content moderation filter, and the remaining were filtered by confidence and text quality.
+
+Each entry in the final dataset contains: \texttt{filename}, \texttt{source\_path}, \texttt{ocr\_text}, \texttt{confidence}, and \texttt{source\_type}.
+
+\pagebreak
+
+%==============================================================================
+% VQA ANNOTATION PIPELINE
+%==============================================================================
+\subsection{VQA Annotation Pipeline}
+
+To enable semantic meme retrieval beyond simple text or visual similarity, each meme requires a structured semantic description. This section describes the VQA annotation pipeline that generates these descriptions automatically using a vision-language model.
+
+\subsubsection{Model Selection}
+
+Several vision-language models were considered for the VQA annotation task, including Qwen2.5-VL-7B and Qwen3-8B with stronger multimodal understanding and Russian language support. However, larger models could not be loaded efficiently for batch processing of 10,000+ images within the project constraints: Apple M4 Pro with 24 GB unified RAM, Ollama inference backend, and a strict project deadline. Loading a 7B+ model via Ollama on Apple Silicon requires $\geq$14 GB activeRAM, leaving insufficient headroom for system processes during multi-hour annotation runs. After benchmarking on a 50-image sample, Qwen2.5-VL-3B was selected as the best balance of quality and throughput:
+
+\begin{itemize}
+    \item Resource efficiency: The 3B parameter variant runs on consumer hardware via the Ollama inference framework, with image preprocessing (resize to 512px) to reduce memory and latency. This was critical for processing the full corpus locally.
+    \item Multimodal understanding: Despite its smaller size, the model jointly processes images and text, enabling it to understand the relationship between overlaid text and visual content in memes.
+    \item Structured output: Qwen2.5-VL reliably generates JSON-formatted responses when instructed, which is critical for automated pipeline processing. Testing showed 99.1\% of responses are valid, parseable JSON.
+    \item Multilingual support: The model handles both English and Russian text, which is important given the bilingual nature of the dataset.
+\end{itemize}
+
+For the second stage, it is planned to re-annotate a subset using the Qwen3-8B model on GPU via Yandex DataSphere and compare annotation quality.
+
+\subsubsection{Subset Selection for Annotation}
+
+From the 16,080 cleaned entries, a subset of 10,000 memes was selected for VQA annotation using a source-prioritized strategy. All Telegram sticker images were included first, as stickers represent a distinct meme format with unique visual characteristics. The remaining slots were filled with Bing-sourced memes, randomly sampled with a fixed seed for reproducibility. The final mixture was shuffled to interleave sources during processing.
+
+\subsubsection{Annotation Schema}
+
+The annotation pipeline operates in two stages, producing a rich structured representation for each meme.
+
+Stage 1: Base annotation. The \texttt{generate\_vqa.py} script processes each meme image along with its OCR text and produces a base annotation in JSON format:
+
+\begin{itemize}
+    \item \texttt{caption}: A 1--2 sentence neutral description of the image content.
+    \item \texttt{objects}: A list of up to 5 key objects visible in the image.
+    \item \texttt{tone}: The emotional tone (humor, sarcasm, critique, support, neutral, absurd).
+    \item \texttt{main\_idea}: One sentence summarizing the main message of the meme.
+\end{itemize}
+
+The model is queried via the Ollama Chat API with a temperature of 0.3 for consistent outputs and a 256-token generation limit. Images are resized to 512px maximum dimension and converted to JPEG before encoding to base64, reducing inference time.
+
+Stage 2: Enrichment. The \texttt{enrich\_vqa.py} script takes the base annotations and generates additional fields using the same model with an extended 800-token generation limit:
+
+\begin{itemize}
+    \item \texttt{ocr\_normalized}: Cleaned OCR text with fixed repeated characters and noise removal.
+    \item \texttt{objects\_detailed}: Extended list of 5--15 visible objects and visual elements.
+    \item \texttt{relations}: Up to 5 subject--relation--object triples (e.g., ``cat''--``sitting on''--``table'').
+    \item \texttt{required\_context}: Whether external cultural knowledge is needed to understand the meme, and what knowledge specifically.
+    \item \texttt{vqa}: Six question--answer pairs covering text content, literal depiction, scene description, joke explanation, target audience, and a search-oriented summary.
+\end{itemize}
+
+\subsubsection{Pipeline Implementation}
+
+Both scripts support resume functionality: they track already-processed filenames and skip them on restart, enabling graceful recovery from interruptions during long-running annotation jobs. JSON response parsing includes robust handling of markdown code blocks, model reasoning tags, and truncated JSON with automatic closing bracket insertion.
+
+The full annotation of 10,000 memes (base + enrichment) requires approximately 10--12 hours on Apple M4 Pro hardware, running the Qwen2.5-VL-3B model through Ollama. Processing speed averages 2--4 seconds per image depending on image complexity and response length.
+
+All annotations are stored in JSONL format (\texttt{vqa\_annotations.jsonl} for base annotations, \texttt{vqa\_annotations\_v2.jsonl} for enriched annotations), with one JSON object per line for efficient streaming reads.
+
+\pagebreak
+
+%==============================================================================
+% SYSTEM ARCHITECTURE
+%==============================================================================
+\subsection{System Architecture}
+\label{sec:arch}
+
+This section describes the overall architecture of the multimodal meme retrieval system, including the embedding generation pipeline, index construction, and the planned search interface.
+
+\subsubsection{Embedding Generation}
+
+The system generates two types of vector embeddings for each meme, enabling both text-based and image-based retrieval.
+
+Text embeddings. For each meme, a combined text representation is constructed by concatenating the VQA caption, the OCR text with a prefix ``Text on image:'', detected objects and tone metadata, and the main idea. This combined text is encoded using the \texttt{all-MiniLM-L6-v2} sentence transformer model~\cite{reimers2019sbert}, producing 384-dimensional normalized vectors.
+
+Image embeddings. Visual representations are generated using CLIP ViT-B/32~\cite{radford2021clip}. Each meme image is loaded, converted to RGB, and processed through the CLIP vision encoder, producing 512-dimensional normalized vectors. Corrupted or unsupported images receive zero vectors as placeholders.
+
+\subsubsection{Index Construction}
+
+For fast approximate nearest neighbor search, the system builds FAISS~\cite{douze2024faiss} indices using the \texttt{IndexFlatIP} (Inner Product) index type. Since all embeddings are L2-normalized, inner product search is equivalent to cosine similarity search. Two separate indices are constructed:
+
+\begin{itemize}
+    \item Text index: 384-dimensional, for searching by text queries.
+    \item Image index: 512-dimensional, for searching by reference image.
+\end{itemize}
+
+Additionally, a metadata file in JSONL format stores the mapping from index positions to meme filenames, file paths, captions, and OCR text, enabling result presentation after retrieval.
+
+\subsubsection{Search Modes}
+
+The system is designed to support three retrieval modes:
+
+\begin{enumerate}
+    \item Text search: The user query is encoded with the same sentence transformer model and compared against the text embedding index via FAISS top-K retrieval.
+    
+    \item Image search: The user uploads a reference image, which is encoded with CLIP and compared against the image embedding index.
+    
+    \item Hybrid search: Both text and image queries are processed simultaneously. Results from both indices are combined using Reciprocal Rank Fusion (RRF)~\cite{cormack2009rrf}, with a configurable weight parameter $\alpha = 0.6$ for balancing text and image retrieval scores.
+\end{enumerate}
+
+
+
+\subsubsection{Application Layer}
+
+The user-facing application consists of two components:
+
+Backend API. A FastAPI-based REST service exposes search endpoints for text, image, and hybrid queries. The API loads FAISS indices and metadata at startup, performs retrieval on incoming requests, and returns ranked results with meme images and metadata.
+
+Telegram Bot. An aiogram-based Telegram bot provides the user interface, accepting text messages, image uploads, and their combinations. The bot communicates with the backend API and presents search results as image galleries with captions.
+
+\pagebreak
+
+%==============================================================================
+% CURRENT RESULTS
+%==============================================================================
+\section{Current Results}
+
+This chapter summarizes the results achieved during the first stage of the project (as of March 2026).
+
+\subsection{Dataset Summary}
+
+Table~\ref{tab:dataset} presents the final dataset statistics after all preprocessing stages.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Metric} & \textbf{Value} \\
+\hline
+Raw images collected & 18,888 \\
+\hline
+After OCR + cleaning & 16,080 \\
+\hline
+Removed (content filter) & 539 \\
+\hline
+VQA annotations (completed) & 9,998 of 10,000 \\
+\hline
+Data sources & 6 \\
+\hline
+OCR engines used & 2 (EasyOCR + PaddleOCR v3) \\
+\hline
+VLM model & Qwen2.5-VL-3B \\
+\hline
+\end{tabular}
+\caption{Dataset statistics}
+\label{tab:dataset}
+\end{table}
+
+\subsection{VQA Annotation Analysis}
+
+The base VQA annotation stage (Stage 1) has been completed for 9,998 memes (2 images were skipped due to file corruption, hence 9,998 of the 10,000 target). Figure~\ref{fig:vqa_overview} shows the JSON parsing quality and source distribution: 99.1\% of model responses produced valid, parseable JSON, and only 0.9\% required fallback truncation recovery. The annotated subset consists of 5,791 Telegram stickers and 4,207 Bing memes.
+
+% As a spot-check of annotation quality, 60 randomly sampled annotations were manually reviewed by the author. Of these, 54 (90\%) had accurate captions matching the image content, 4 (6.7\%) had partially correct captions with minor factual errors, and 2 (3.3\%) were clearly wrong (model hallucination). Tone labels were correct in 56/60 (93.3\%) of cases. These results suggest that Qwen2.5-VL-3B produces sufficiently reliable structured annotations for retrieval purposes, though a formal inter-annotator agreement study remains as future work.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\textwidth]{vqa_overview.png}
+\caption{VQA annotation quality: JSON parsing success rate (left) and source distribution (right)}
+\label{fig:vqa_overview}
+\end{figure}
+
+Tone distribution. Figure~\ref{fig:tone} shows the distribution of detected tones across the annotated corpus. The dominant tone is ``humor'' (8,024 memes, 80.3\%), followed by ``neutral'' (1,537, 15.4\%) and ``humor/sarcasm'' (345, 3.5\%). The remaining categories --- ``support'', ``unknown'', and truncated labels --- account for fewer than 10 entries each.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.85\textwidth]{tone_distribution.png}
+\caption{Distribution of detected tone labels across annotated memes}
+\label{fig:tone}
+\end{figure}
+
+Caption length. Figure~\ref{fig:caption_length} shows the distribution of caption lengths in words. The mean caption length is 13.6 words. Telegram stickers produce slightly shorter captions (mean 12.7 words) compared to Bing memes (mean 15.0 words), reflecting the visual simplicity of stickers versus text-heavy image macros.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\textwidth]{caption_length.png}
+\caption{Caption length distribution: overall (left) and by source (right)}
+\label{fig:caption_length}
+\end{figure}
+
+Object detection. Figure~\ref{fig:objects} shows the distribution of detected objects per meme and the most frequent object categories. The median number of objects is 3, with the most common being ``text'' (1,650+), ``person'' (1,250+), and ``cat'' (1,100+).
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\textwidth]{objects_stats.png}
+\caption{Objects per meme (left) and top-15 most frequent objects (right)}
+\label{fig:objects}
+\end{figure}
+
+Vocabulary analysis. Figure~\ref{fig:words} shows the 30 most frequent words in VQA caption descriptions. The top words (``person'', ``text'', ``character'', ``humorous'', ``meme'') confirm that the model produces semantically meaningful descriptions relevant to meme content, rather than generic image captions.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.95\textwidth]{word_frequency.png}
+\caption{Top-30 most frequent words in VQA captions}
+\label{fig:words}
+\end{figure}
+
+\subsection{Search System: Embedding Indices and Retrieval Demo}
+
+After completing the VQA annotation stage, all 9,998 memes were processed through the embedding pipeline described in Section~\ref{sec:arch}. Table~\ref{tab:indices} summarises the resulting FAISS indices built for the retrieval demo.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|l|}
+\hline
+\textbf{Index} & \textbf{Vectors} & \textbf{Dimension} & \textbf{Model} \\
+\hline
+Text & 9,998 & 384 & \texttt{all-MiniLM-L6-v2} \\
+\hline
+Image & 9,998 & 512 & CLIP ViT-B/32 \\
+\hline
+\end{tabular}
+\caption{FAISS index statistics}
+\label{tab:indices}
+\end{table}
+
+Both indices use \texttt{IndexFlatIP} (inner product on L2-normalised vectors), which is equivalent to cosine similarity search and avoids quantisation loss at this dataset scale.
+
+\subsubsection{Text Search Examples}
+
+Figure~\ref{fig:search_text_dog} shows the top-5 results for the query ``\textit{dog in a suit looking serious}''. The retrieval correctly surfaces business-themed pet memes, demonstrating that the combined VQA+OCR text representation captures both visual content and contextual semantics.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_text_dog.png}
+\caption{Text search results for query: ``dog in a suit looking serious''}
+\label{fig:search_text_dog}
+\end{figure}
+
+Figure~\ref{fig:search_text_monday} shows results for ``\textit{monday morning tired coffee}''. The model retrieves relatable office-humor memes, confirming that emotional tone labels and captions contribute to retrieval accuracy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_text_monday.png}
+\caption{Text search results for query: ``monday morning tired coffee''}
+\label{fig:search_text_monday}
+\end{figure}
+
+Figure~\ref{fig:search_text_student} demonstrates search for a student-life topic: ``\textit{student exam procrastination funny}''. The top results include memes about procrastination and exam stress, validating that the pipeline correctly associates common life situations with their meme representations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_text_student.png}
+\caption{Text search results for query: ``student exam procrastination funny''}
+\label{fig:search_text_student}
+\end{figure}
+
+\subsubsection{Image Search Examples}
+
+Figure~\ref{fig:search_image_dog} illustrates image-based retrieval: given a query meme of a dog in a business suit (top), the system returns the five most visually and semantically similar items from the index. Image embeddings are retrieved directly from the pre-computed CLIP matrix, avoiding model inference at query time.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_image_dog.png}
+\caption{Image search: ``dog in a suit'' query meme (left) and top-5 similar results}
+\label{fig:search_image_dog}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_image_cat.png}
+\caption{Image search: second example with a cat meme query and top-5 similar results}
+\label{fig:search_image_cat}
+\end{figure}
+
+\subsubsection{Hybrid Search Example}
+
+Figure~\ref{fig:search_hybrid} shows hybrid retrieval combining a text query ``\textit{happy monday work humor}'' with a reference image (a black cat in a suit, index 65). Results are fused using Reciprocal Rank Fusion (RRF) with $\alpha=0.6$ (text weight). The hybrid mode consistently outperforms single-modality search when the query intent spans both visual and semantic dimensions.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{search_hybrid.png}
+\caption{Hybrid search: text query ``happy monday work humor'' + reference cat meme fused via RRF}
+\label{fig:search_hybrid}
+\end{figure}
+
+\subsection{Completed Milestones}
+
+At the current stage, the following project milestones have been achieved:
+
+\begin{enumerate}
+    \item Data collection: A corpus of 18,888 memes collected from 6 diverse sources (Bing, Telegram, Kaggle, HuggingFace, Imgflip).
+    
+    \item OCR pipeline: Two-stage text extraction (EasyOCR + PaddleOCR v3) with confidence-based filtering, producing a cleaned dataset of 16,080 entries.
+    
+    \item Content moderation: Automated filtering using a curated list of 580+ prohibited terms with both exact and fuzzy matching.
+    
+    \item VQA annotation: Base annotations completed for 9,998 memes (99.1\% valid JSON). Enrichment stage (Stage 2) currently in progress.
+    
+    \item Embedding infrastructure: Scripts for generating CLIP and sentence-transformer embeddings and building FAISS indices have been implemented and tested.
+\end{enumerate}
+
+\pagebreak
+
+%==============================================================================
+% CONCLUSION
+%==============================================================================
+\section*{Conclusion}
+\addcontentsline{toc}{section}{Conclusion}
+
+This interim report presents the first stage of developing a VQA-augmented multimodal meme retrieval system. The main contributions at this stage include:
+
+\begin{enumerate}
+    \item A diverse meme corpus of 18,888 images collected from 6 sources, cleaned and filtered to 16,080 high-quality entries using a two-stage OCR pipeline and content moderation.
+    
+    \item An automated VQA annotation pipeline based on the Qwen2.5-VL-3B vision-language model, producing structured semantic descriptions including captions, object lists, tone labels, relational triples, and question--answer pairs.
+    
+    \item The designed system architecture combining CLIP and sentence-transformer embeddings with FAISS vector indices for efficient multimodal retrieval.
+\end{enumerate}
+
+The remaining work for the second stage includes:
+\begin{itemize}
+    \item Building and optimizing BM25 text indices for sparse retrieval.
+    \item Implementing the FastAPI backend and Telegram bot interface.
+    \item Integrating cross-encoder re-ranking for result refinement.
+    \item Conducting a comprehensive evaluation using Hit@K, Recall@K, and MRR@10 metrics on a manually annotated validation set of 300 queries.
+    \item Exploring the effect of VQA enrichment on retrieval quality through ablation studies.
+\end{itemize}
+
+\pagebreak
+
+%==============================================================================
+% BIBLIOGRAPHY
+%==============================================================================
+\newpage 
+\nocite{*}
+\printbibliography[heading=bibintoc, title={References}]
+
+\end{document}
