@@ -1,0 +1,12 @@
+{
+  "model": "all-MiniLM-L6-v2",
+  "EN_hit1": 0.17,
+  "EN_hit5": 0.32,
+  "EN_hit10": 0.37,
+  "EN_mrr10": 0.2361,
+  "RU_hit1": 0.01,
+  "RU_hit5": 0.02,
+  "RU_hit10": 0.02,
+  "RU_mrr10": 0.015,
+  "note": "single caption index, baseline"
+}

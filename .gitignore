@@ -106,3 +106,7 @@ data/
 *.log
 
 configs/bad_words.txt
+# Heavy data files
+*.npy
+data/processed/backup_minilm/
+

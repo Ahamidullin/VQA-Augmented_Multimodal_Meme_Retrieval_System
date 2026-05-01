@@ -177,7 +177,7 @@ Mar 2026 & Index Building & CLIP + text embeddings, FAISS index, BM25 index \\
 \hline
 Apr 2026 & System Development & FastAPI backend + Telegram bot with 3 search modes \\
 \hline
-May 2026 & Evaluation & Quality metrics on 300 annotated queries + final report \\
+May 2026 & Finalization & Load/latency stress tests, monitoring + final report \\
 \hline
 \end{tabular}
 \caption{Project timeline}
@@ -193,7 +193,7 @@ Phase 3: Search Infrastructure. Computing CLIP embeddings for images and sentenc
 
 Phase 4: Application Layer. FastAPI backend with search endpoints. Telegram bot (aiogram) supporting text, image, and hybrid queries. Cross-encoder re-ranking for top-K candidates.
 
-\textbf{Phase 5: Validation \& Reporting.} Manual annotation of 300 test queries. Evaluation using Hit@K, Recall@K, MRR@10 metrics. Final documentation and thesis writing.
+\textbf{Phase 5: Finalization.} Load and latency stress testing, monitoring setup, final report preparation. Note: quality evaluation (Hit@K, Recall@K, MRR@10) is performed continuously throughout all preceding phases to guide method selection and parameter tuning.
 \pagebreak
 
 %==============================================================================
@@ -582,10 +582,12 @@ This interim report presents the first stage of developing a VQA-augmented multi
 
 The remaining work for the second stage includes:
 \begin{itemize}
+    \item Formal validation of VQA annotation quality: manual review of a representative sample with inter-annotator agreement metrics, comparison against ground-truth captions (CER/WER for OCR, accuracy for tone/objects).
     \item Building and optimizing BM25 text indices for sparse retrieval.
     \item Implementing the FastAPI backend and Telegram bot interface.
     \item Integrating cross-encoder re-ranking for result refinement.
     \item Conducting a comprehensive evaluation using Hit@K, Recall@K, and MRR@10 metrics on a manually annotated validation set of 300 queries.
+    \item Load/latency stress testing and monitoring setup.
     \item Exploring the effect of VQA enrichment on retrieval quality through ablation studies.
 \end{itemize}
 
