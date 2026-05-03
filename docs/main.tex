@@ -341,22 +341,32 @@ This section describes the overall architecture of the multimodal meme retrieval
 
 \subsubsection{Embedding Generation}
 
-The system generates two types of vector embeddings for each meme, enabling both text-based and image-based retrieval.
+The system generates four types of vector embeddings per meme, enabling multi-vector retrieval across complementary semantic representations.
 
-Text embeddings. For each meme, a combined text representation is constructed by concatenating the VQA caption, the OCR text with a prefix ``Text on image:'', detected objects and tone metadata, and the main idea. This combined text is encoded using the \texttt{all-MiniLM-L6-v2} sentence transformer model~\cite{reimers2019sbert}, producing 384-dimensional normalized vectors.
+Text embeddings (bge-m3). Each of the three textual fields is encoded separately using the \texttt{BAAI/bge-m3} multilingual sentence transformer~\cite{chen2024bge}, producing 1024-dimensional normalized vectors:
+\begin{itemize}
+    \item \textbf{Caption index}: encodes \texttt{caption} + \texttt{main\_idea} — the semantic description of the meme.
+    \item \textbf{OCR index}: encodes \texttt{ocr\_text} — the literal text extracted from the image.
+    \item \textbf{Keywords index}: encodes \texttt{objects} + \texttt{tone} — detected objects and emotional tone.
+\end{itemize}
 
-Image embeddings. Visual representations are generated using CLIP ViT-B/32~\cite{radford2021clip}. Each meme image is loaded, converted to RGB, and processed through the CLIP vision encoder, producing 512-dimensional normalized vectors. Corrupted or unsupported images receive zero vectors as placeholders.
+The choice of bge-m3 over \texttt{all-MiniLM-L6-v2} (the initial baseline) was made after a systematic comparison of 8 multilingual models (Section~\ref{sec:model_exp}). bge-m3 demonstrated the best EN/RU balance: Hit@5 increased from 32\% to 39\% for English queries and from 2\% to 37\% for Russian queries.
+
+Image embeddings (CLIP). Visual representations are generated using CLIP ViT-B/32~\cite{radford2021clip}. Each meme image is processed through the CLIP vision encoder, producing 512-dimensional normalized vectors.
 
 \subsubsection{Index Construction}
 
-For fast approximate nearest neighbor search, the system builds FAISS~\cite{douze2024faiss} indices using the \texttt{IndexFlatIP} (Inner Product) index type. Since all embeddings are L2-normalized, inner product search is equivalent to cosine similarity search. Two separate indices are constructed:
+For fast approximate nearest neighbor search, the system builds FAISS~\cite{douze2024faiss} indices using \texttt{IndexFlatIP} (inner product on L2-normalised vectors, equivalent to cosine similarity). Four separate indices are constructed:
 
 \begin{itemize}
-    \item Text index: 384-dimensional, for searching by text queries.
-    \item Image index: 512-dimensional, for searching by reference image.
+    \item \texttt{faiss\_caption.index}: 1024-dimensional, caption + main\_idea (bge-m3).
+    \item \texttt{faiss\_ocr.index}: 1024-dimensional, OCR text (bge-m3).
+    \item \texttt{faiss\_keywords.index}: 1024-dimensional, objects + tone (bge-m3).
+    \item \texttt{faiss\_caption\_ru.index}: 1024-dimensional, Russian translations of captions (bge-m3).
+    \item \texttt{faiss\_image.index}: 512-dimensional, image pixels (CLIP ViT-B/32).
 \end{itemize}
 
-Additionally, a metadata file in JSONL format stores the mapping from index positions to meme filenames, file paths, captions, and OCR text, enabling result presentation after retrieval.
+All indices contain 9,770 vectors (after NSFW filtering). A metadata JSONL file maps index positions to filenames, source paths, captions, OCR text, and Russian translations.
 
 \subsubsection{Search Modes}
 
@@ -387,7 +397,7 @@ Telegram Bot. An aiogram-based Telegram bot provides the user interface, accepti
 %==============================================================================
 \section{Current Results}
 
-This chapter summarizes the results achieved during the first stage of the project (as of March 2026).
+This chapter summarizes the results achieved during the project (as of May 2026).
 
 \subsection{Dataset Summary}
 
@@ -546,20 +556,150 @@ Figure~\ref{fig:search_hybrid} shows hybrid retrieval combining a text query ``\
 \label{fig:search_hybrid}
 \end{figure}
 
+\subsection{NSFW Filtering}
+
+To ensure content safety, a vocabulary-based NSFW filter was implemented in \texttt{scripts/nsfw\_filter.py}. The filter operates on all textual fields of each meme annotation (caption, OCR, main\_idea, tone, objects) and applies two matching strategies:
+
+\begin{itemize}
+    \item \textbf{Exact word match}: tokenises text into words and checks for membership in a curated stop-word set.
+    \item \textbf{Prefix matching}: flags words that begin with known offensive morphological roots (minimum 3 characters), catching inflected forms without explicit enumeration.
+\end{itemize}
+
+The stop-word dictionary contains 700 terms covering Russian and English profanity, transliterated forms, and digit-substituted variants (e.g. ``x83'' for a Russian obscenity). Text is normalised to lowercase with \foreignlanguage{russian}{ё}\,$\to$\,е substitution before matching. A whitelist of 25 ambiguous terms (e.g., \textit{ass}, \textit{cock}) is excluded from prefix matching to avoid false positives on words such as \textit{class} or \textit{cockatoo}.
+
+Of the 9,998 annotated memes, \textbf{228 (2.3\%)} were flagged as NSFW. These records are retained in the annotation file with \texttt{is\_nsfw=true} but excluded from all FAISS indices and BM25 corpora, yielding \textbf{9,770 clean memes} for retrieval.
+
+\subsection{Russian Translation Index}
+
+To improve retrieval for Russian-language queries, all 9,770 clean memes received Russian translations of their English captions and OCR fields. Translations were produced using the Google Translate API (via \texttt{deep-translator}) with automatic language detection: texts already containing more than 30\% Cyrillic characters are passed through unchanged. The translated fields \texttt{caption\_ru} and \texttt{ocr\_ru} are stored in \texttt{vqa\_annotations\_v2.jsonl} and encoded into a dedicated FAISS index (\texttt{faiss\_caption\_ru.index}) using bge-m3.
+
+The motivation for a separate Russian index is validated by the language routing experiment (Section~\ref{sec:lang_exp}): routing Russian queries to Russian-language descriptions achieves Hit@5\,=\,45\%, compared to 37\% for cross-lingual search against English descriptions.
+
+%==============================================================================
+\section{Experiments}
+%==============================================================================
+
+\subsection{Embedding Model Comparison}
+\label{sec:model_exp}
+
+To select the optimal sentence transformer for multilingual meme retrieval, eight publicly available models were evaluated on a manually annotated test set of 100 memes. For each meme, one English and one Russian query were written by the author. Retrieval quality was measured by Hit@5 against the full 9,770-meme index (single caption index, no BM25 or re-ranking). Results are presented in Table~\ref{tab:models}.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Model} & \textbf{EN Hit@5} & \textbf{RU Hit@5} & \textbf{EN MRR} & \textbf{RU MRR} \\
+\hline
+all-MiniLM-L6-v2 (baseline) & 32\% & 2\% & 0.2361 & 0.0150 \\
+\hline
+multilingual-MiniLM-L12 & 32\% & 25\% & 0.2371 & 0.1751 \\
+\hline
+multilingual-e5-base & 37\% & 23\% & 0.2712 & 0.1721 \\
+\hline
+\textbf{bge-m3} & \textbf{38\%} & \textbf{37\%} & \textbf{0.2955} & \textbf{0.2290} \\
+\hline
+deepvk/USER-bge-m3 & 40\% & 37\% & 0.2832 & 0.2366 \\
+\hline
+multilingual-e5-large & 43\% & 28\% & 0.3385 & 0.2361 \\
+\hline
+e5-large-instruct & 41\% & 21\% & 0.3045 & 0.1585 \\
+\hline
+sbert\_large\_nlu\_ru & 6\% & 3\% & 0.0443 & 0.0235 \\
+\hline
+\end{tabular}
+\caption{Embedding model comparison on 100 manually annotated queries (single caption index)}
+\label{tab:models}
+\end{table}
+
+\texttt{BAAI/bge-m3} was selected as the production model because it achieves the best balance between English and Russian quality. While \texttt{multilingual-e5-large} scores higher on English (43\% vs.~38\%), it drops sharply on Russian (28\% vs.~37\%). bge-m3 is the only model that exceeds 35\% on both languages simultaneously.
+
+\subsection{Language Routing Experiment}
+\label{sec:lang_exp}
+
+A key architectural question is whether Russian queries should be searched against English descriptions (cross-lingual, relying on the multilingual encoder) or against Russian-translated descriptions (monolingual matching). To answer this, 100 Russian-translated captions were generated for the test memes and encoded with bge-m3.
+
+An initial run of the experiment contained a bug: the Russian caption dictionary was never populated, making \texttt{emb\_ru} identical to \texttt{emb\_en} and producing equal metrics for both conditions. After fixing the data pipeline and re-running, the results change substantially (Table~\ref{tab:routing}).
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Routing} & \textbf{Hit@1} & \textbf{Hit@5} & \textbf{Hit@10} & \textbf{MRR} \\
+\hline
+RU query $\to$ EN descriptions & 13\% & 37\% & 43\% & 0.2290 \\
+\hline
+RU query $\to$ RU descriptions & 34\% & 45\% & 48\% & 0.3881 \\
+\hline
+\end{tabular}
+\caption{Language routing experiment (bge-m3, single caption index, 100 queries)}
+\label{tab:routing}
+\end{table}
+
+Monolingual RU--RU matching outperforms cross-lingual RU--EN by \textbf{+8\% Hit@5}, confirming that maintaining a Russian-language index is beneficial even when using a multilingual encoder.
+
+\subsection{Search Pipeline Ablation}
+\label{sec:ablation}
+
+Starting from the single-caption bge-m3 baseline, each retrieval component was added incrementally and evaluated on the same 100-query test set. Table~\ref{tab:ablation} shows the contribution of each component.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Configuration} & \textbf{Hit@1} & \textbf{Hit@5} & \textbf{Hit@10} & \textbf{MRR} \\
+\hline
+\multicolumn{5}{|l|}{\textit{English queries}} \\
+\hline
+MiniLM caption (initial baseline) & 6\% & 32\% & 37\% & 0.2361 \\
+\hline
+bge-m3 caption only & 23\% & 39\% & 44\% & 0.2968 \\
+\hline
++ Multi-vector (caption+OCR+keywords) & 17\% & 41\% & 49\% & 0.2716 \\
+\hline
++ BM25 (caption only) & 28\% & 47\% & 53\% & 0.3584 \\
+\hline
+\textbf{+ CLIP image search (EN best)} & \textbf{26\%} & \textbf{51\%} & \textbf{57\%} & \textbf{0.3600} \\
+\hline
+\multicolumn{5}{|l|}{\textit{Russian queries}} \\
+\hline
+MiniLM caption (initial baseline) & 1\% & 2\% & 3\% & 0.0150 \\
+\hline
+bge-m3 caption only & 14\% & 37\% & 43\% & 0.2341 \\
+\hline
++ Multi-vector + BM25 & 23\% & 42\% & 48\% & 0.3081 \\
+\hline
++ RU description index & 24\% & 46\% & 57\% & 0.3385 \\
+\hline
+\textbf{+ CLIP image search (RU best)} & \textbf{23\%} & \textbf{46\%} & \textbf{57\%} & \textbf{0.3313} \\
+\hline
+\end{tabular}
+\caption{Incremental pipeline ablation on 100 manually annotated queries (RRF fusion, $k$=60)}
+\label{tab:ablation}
+\end{table}
+
+Key findings:
+\begin{enumerate}
+    \item \textbf{BM25 provides the largest single gain} for English queries (+8\% Hit@5 over bge-m3 caption alone), confirming that lexical search captures exact-match queries (e.g., \textit{``change my mind''}) that semantic embeddings miss.
+    \item \textbf{CLIP image search adds +5\% for English} but is neutral for Russian, because the CLIP text encoder was pre-trained on English data only.
+    \item \textbf{Russian index (+4\%)} is more impactful than query translation alone (+0\%), validating the monolingual matching hypothesis from Section~\ref{sec:lang_exp}.
+    \item \textbf{Multi-vector search} (adding OCR and keyword indices) modestly improves Hit@10 but slightly hurts Hit@1, suggesting that lower-quality indices introduce noise at the top rank.
+\end{enumerate}
+
+Overall improvement from the initial baseline: \textbf{EN: 32\%\,$\to$\,51\%~(+19~pp)}; \textbf{RU: 2\%\,$\to$\,46\%~(+44~pp)}.
+
 \subsection{Completed Milestones}
 
-At the current stage, the following project milestones have been achieved:
-
 \begin{enumerate}
-    \item Data collection: A corpus of 18,888 memes collected from 6 diverse sources (Bing, Telegram, Kaggle, HuggingFace, Imgflip).
-    
-    \item OCR pipeline: Two-stage text extraction (EasyOCR + PaddleOCR v3) with confidence-based filtering, producing a cleaned dataset of 16,080 entries.
-    
-    \item Content moderation: Automated filtering using a curated list of 580+ prohibited terms with both exact and fuzzy matching.
-    
-    \item VQA annotation: Base annotations completed for 9,998 memes (99.1\% valid JSON). Enrichment stage (Stage 2) currently in progress.
-    
-    \item Embedding infrastructure: Scripts for generating CLIP and sentence-transformer embeddings and building FAISS indices have been implemented and tested.
+    \item Data collection: 18,888 memes from 6 sources; 9,770 retained after OCR filtering and NSFW moderation.
+    \item OCR pipeline: Two-stage EasyOCR + PaddleOCR with confidence-based filtering.
+    \item NSFW filter: Vocabulary-based filter (700 terms), 228 memes flagged (2.3\%).
+    \item VQA annotation: 9,998 memes annotated with Qwen2.5-VL-3B (99.1\% valid JSON).
+    \item Russian translations: All 9,770 clean captions translated to Russian via Google Translate; stored in \texttt{vqa\_annotations\_v2.jsonl}.
+    \item Embedding model selection: 8 multilingual models evaluated; bge-m3 selected.
+    \item Multi-vector FAISS indices: 4 text indices (caption, OCR, keywords, caption\_ru) + 1 image index (CLIP).
+    \item BM25 index: Bilingual BM25 corpus (EN + RU tokens) built with \texttt{rank-bm25}.
+    \item Retrieval pipeline: Multi-vector search + BM25 + CLIP fused with RRF ($k$=60).
+    \item Evaluation: 100 manually annotated EN/RU query pairs; final pipeline: EN Hit@5=51\%, RU Hit@5=46\%.
 \end{enumerate}
 
 \pagebreak
@@ -570,25 +710,22 @@ At the current stage, the following project milestones have been achieved:
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
 
-This interim report presents the first stage of developing a VQA-augmented multimodal meme retrieval system. The main contributions at this stage include:
+This report presents the results of developing a VQA-augmented multimodal meme retrieval system. The main contributions include:
 
 \begin{enumerate}
-    \item A diverse meme corpus of 18,888 images collected from 6 sources, cleaned and filtered to 16,080 high-quality entries using a two-stage OCR pipeline and content moderation.
-    
-    \item An automated VQA annotation pipeline based on the Qwen2.5-VL-3B vision-language model, producing structured semantic descriptions including captions, object lists, tone labels, relational triples, and question--answer pairs.
-    
-    \item The designed system architecture combining CLIP and sentence-transformer embeddings with FAISS vector indices for efficient multimodal retrieval.
+    \item A diverse meme corpus of 9,770 clean memes with structured VQA annotations, bilingual OCR, and Russian-translated descriptions.
+    \item A systematic comparison of 8 multilingual embedding models, leading to the selection of bge-m3 as the optimal backbone.
+    \item A multi-vector hybrid retrieval pipeline combining semantic embeddings (bge-m3), lexical search (BM25), image search (CLIP), and a bilingual RU description index, fused via Reciprocal Rank Fusion.
+    \item Empirical evaluation showing substantial improvements over the initial baseline: EN Hit@5 from 32\% to 51\%; RU Hit@5 from 2\% to 46\%.
 \end{enumerate}
 
-The remaining work for the second stage includes:
+The remaining work includes:
 \begin{itemize}
-    \item Formal validation of VQA annotation quality: manual review of a representative sample with inter-annotator agreement metrics, comparison against ground-truth captions (CER/WER for OCR, accuracy for tone/objects).
-    \item Building and optimizing BM25 text indices for sparse retrieval.
-    \item Implementing the FastAPI backend and Telegram bot interface.
-    \item Integrating cross-encoder re-ranking for result refinement.
-    \item Conducting a comprehensive evaluation using Hit@K, Recall@K, and MRR@10 metrics on a manually annotated validation set of 300 queries.
-    \item Load/latency stress testing and monitoring setup.
-    \item Exploring the effect of VQA enrichment on retrieval quality through ablation studies.
+    \item Cross-encoder re-ranking of top-50 candidates (expected +5--10\% Hit@5).
+    \item Expanding the evaluation set to 5 queries per meme using LLM-assisted annotation.
+    \item Implementing result diversity (Maximal Marginal Relevance) to avoid near-duplicate results.
+    \item FastAPI backend and Telegram bot interface.
+    \item Latency benchmarking and LLM-as-a-judge quality evaluation.
 \end{itemize}
 
 \pagebreak

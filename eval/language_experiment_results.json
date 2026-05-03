@@ -1,8 +1,8 @@
 [
   {
     "model": "all-MiniLM-L6-v2",
-    "load_time": 5.123204946517944,
-    "encode_time": 5.389128923416138,
+    "load_time": 5.007237911224365,
+    "encode_time": 5.697948932647705,
     "EN_hit1": 0.17,
     "EN_hit5": 0.32,
     "EN_hit10": 0.37,
@@ -14,8 +14,8 @@
   },
   {
     "model": "multilingual-MiniLM-L12",
-    "load_time": 6.8728320598602295,
-    "encode_time": 7.463063955307007,
+    "load_time": 6.122726917266846,
+    "encode_time": 7.622664928436279,
     "EN_hit1": 0.16,
     "EN_hit5": 0.32,
     "EN_hit10": 0.41,
@@ -27,8 +27,8 @@
   },
   {
     "model": "multilingual-e5-base",
-    "load_time": 9.066197872161865,
-    "encode_time": 22.419044017791748,
+    "load_time": 6.639841079711914,
+    "encode_time": 21.69464898109436,
     "EN_hit1": 0.19,
     "EN_hit5": 0.37,
     "EN_hit10": 0.42,
@@ -40,8 +40,8 @@
   },
   {
     "model": "bge-m3",
-    "load_time": 9.036931991577148,
-    "encode_time": 65.71560597419739,
+    "load_time": 8.351019859313965,
+    "encode_time": 65.79184532165527,
     "EN_hit1": 0.23,
     "EN_hit5": 0.38,
     "EN_hit10": 0.43,
