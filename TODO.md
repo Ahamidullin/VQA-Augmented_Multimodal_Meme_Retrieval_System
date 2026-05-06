@@ -1,41 +1,27 @@
-# TODO по замечаниям научника
+Сейчас Предложение
+build_embeddings.py + build_embeddings_v2.py + build_index.py → один scripts/build_index.py
+vqa_annotations.jsonl + vqa_annotations_v2.jsonl Оставить только _v2 (полная версия)
 
-## 1. gold-набор для валидации (200-500 мемов)
-- [ ] собрать gold-набор: есть текст/нет текста + точная транскрипция
-- [ ] можно через Label Studio
-- [ ] подобрать пороги по CER/WER и precision/recall
-- [ ] это спросят на защите
+---
+scripts/: scrape_bing_fast, scrape_telegram_stickers, download_hf_memes,
+          run_ocr, run_paddle_ocr, clean_easy_ocr, merge_and_clean,
+          generate_vqa, enrich_vqa, nsfw_filter, generate_ru_queries
+data/:    emb_caption/ocr/keywords/image/caption_ru.npy + faiss_*.index,
+          index_metadata.jsonl, vqa_annotations_v2.jsonl, ru_translations.json
+eval/:    language_experiment_queries.json, final_pipeline_results.json, evaluate.py
+notebooks/: language_experiment, build_embeddings_bge, search_pipeline,
+            ru_index_after_marshrutization_exp
 
-## 2. метрики IR
-- [ ] собрать "голден" набор — идеальные ответы системы на запросы
-- [ ] посчитать Hit@K, Recall@K, MRR@10 для text / image / hybrid
-- [ ] оценка непрерывно на каждом этапе, не в конце
+----
 
-## 3. валидация VQA
-- [ ] ручной review выборки аннотаций от VLM
-- [ ] inter-annotator agreement
-- [ ] описать в отчёте
+1. Что перезапустить после нового набора запросов
+Индексы и эмбеддинги мемов НЕ меняются — меняются только запросы. Порядок:
 
-## 4. переразметка на Qwen3-8B
-- [ ] попробовать через LM Studio / llama.cpp (24gb хватит)
-- [ ] если не тянет — Yandex DataSphere GPU
-- [ ] сравнить 3B vs 8B на ~100 мемах
-
-## 5. OCR ансамбль
-- [ ] EasyOCR и PaddleOCR независимо на одних картинках
-- [ ] объединить/выбрать лучший (не каскад)
-- [ ] не трактовать confidence==0 как "нет текста"
-
-## 6. дедупликация
-- [ ] почистить дубли в корпусе
-- [ ] заменить дублирующиеся картинки в отчёте
-
-## 7. структура отчёта
-- [ ] переструктурировать: введение → теория (больше) → практика → заключение
-- [ ] методология улетает в практическую часть
-
-## уже сделано
-- [x] Phase 5 → Finalization (stress tests, monitoring)
-- [x] оценка идёт непрерывно
-- [x] артефакты на GitHub
-- [x] переписаны комменты в коде
+1. Подготовить новый JSON (5 EN + 5 RU на мем)
+   → eval/language_experiment_queries_v3.json
+1. Перезапустить search_pipeline.ipynb:
+   - Ячейка 4 (Pre-encode запросов) — encode новых 500 EN + 500 RU
+   - Ячейка 5 (Evaluate) — финальная таблица
+1. Перезапустить ru_index.ipynb:
+   - Только ячейки 5-7 (evaluate с RU индексом)
+Всё. Индексы, BM25, переводы — не трогаем.

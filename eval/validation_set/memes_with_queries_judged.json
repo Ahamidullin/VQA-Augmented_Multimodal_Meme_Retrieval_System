@@ -1,0 +1,5902 @@
+[
+  {
+    "index": 1865,
+    "filename": "3b8b5621d2e1.png",
+    "caption": "A surprised character with red hair and horns.",
+    "ocr_text": "",
+    "main_idea": "The character's exaggerated reaction to something unexpected.",
+    "queries_ru": [
+      "мила лунтик стикер с открытым ртом",
+      "стикер удивлённый персонаж с косичками",
+      "розовый персонаж рожки веснушки мем",
+      "мем когда узнал шокирующую новость",
+      "шок стикер вк"
+    ],
+    "queries_en": [
+      "mila from luntik sticker with open mouth",
+      "surprised pink character with horns sticker",
+      "russian cartoon girl pigtails freckles meme",
+      "shocked face sticker telegram",
+      "cute character open mouth shock meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        3,
+        4,
+        2,
+        2
+      ],
+      "relevance_avg": 3.2,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 3.78,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Имя персонажа — самый сильный сигнал. Ситуативный (4) и общий шок-стикер (5) широки, но добавляют покрытие."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        4,
+        3,
+        2,
+        2
+      ],
+      "relevance_avg": 3.0,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 3.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Иностранцу персонажа Лунтика без знания франшизы найти сложно — основная ставка на визуальные маркеры."
+    }
+  },
+  {
+    "index": 419,
+    "filename": "5382b423ae6e.png",
+    "caption": "A monkey in a humorous pose with a heart emoji and a caption that reads 'Mi rey hermoso te amo'.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts a monkey in a romantic pose with a heart emoji, suggesting a playful or affectionate sentiment.",
+    "queries_ru": [
+      "мем обезьянка mi rey hermoso",
+      "обезьянка mi rey hermoso te amo",
+      "обезьяна на спине мем испанский",
+      "смешная обезьяна сердечко мем",
+      "капуцин лежит улыбается мем"
+    ],
+    "queries_en": [
+      "mi rey hermoso monkey meme",
+      "mi rey hermoso te amo capuchin meme",
+      "monkey on back smiling heart meme",
+      "spanish monkey love meme",
+      "tiktok monkey wholesome meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        3,
+        2,
+        4
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.02,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "OCR в датасете пустой, но на картинке чётко видно 'Mi rey hermoso te amo' — использовал как самый сильный сигнал. Капуцин — вид обезьяны на меме."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        3,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.6,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текстовая цитата — самый сильный якорь. TikTok-контекст добавляет широту."
+    }
+  },
+  {
+    "index": 4595,
+    "filename": "596c801f61e1.png",
+    "caption": "A cartoon character with a green face and a green shirt, possibly Shrek, expressing approval or agreement.",
+    "ocr_text": "",
+    "main_idea": "The character is conveying a sense of agreement or approval, likely in a humorous or sarcastic context.",
+    "queries_ru": [
+      "шрек согласен зря быканул",
+      "шрек согласен мем",
+      "зря быканул мем",
+      "шрек ухмыляется мем русский текст",
+      "мем когда согласился но зря"
+    ],
+    "queries_en": [
+      "shrek soglasen zrya bykanul meme",
+      "shrek smirking meme russian text",
+      "shrek agree meme",
+      "shrek smug face meme",
+      "shrek pointing approval meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        3,
+        2
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.14,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "OCR на картинке есть ('согласен / зря быканул'), а в датасете отсутствует — добавил тексты с мема в первый запрос."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        2,
+        3,
+        2
+      ],
+      "relevance_avg": 3.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.13,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Мем рунетный, EN-юзер найдёт по визуалу шрека. Транслит 'soglasen' — спорно, но иногда так и ищут."
+    }
+  },
+  {
+    "index": 4090,
+    "filename": "560d8dfbcf46.jpg",
+    "caption": "A cartoon character in glasses, looking at a butterfly with a confused or surprised expression.",
+    "ocr_text": "Is this a pigeon?",
+    "main_idea": "The character's confusion is humorously exaggerated, as if mistaking a butterfly for a pigeon.",
+    "queries_ru": [
+      "is this a pigeon мем",
+      "это голубь мем аниме",
+      "анимешник смотрит на бабочку мем",
+      "is this a pigeon шаблон",
+      "мем когда путаешь очевидное"
+    ],
+    "queries_en": [
+      "is this a pigeon meme",
+      "anime guy butterfly pigeon",
+      "is this a pigeon template",
+      "guy in glasses looking at butterfly",
+      "confused anime man meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        5,
+        2
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.6,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень узнаваемый мем-шаблон. Текст 'Is this a pigeon?' — золотой запрос."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        3
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.76,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Один из топовых международных мемов, любые комбинации находят его."
+    }
+  },
+  {
+    "index": 3725,
+    "filename": "863384cff452.webp",
+    "caption": "A man holding a sign that reads 'Trade Offer'.",
+    "ocr_text": "TRADE OFFER\ni receive:\nyou receive:",
+    "main_idea": "The man is offering a trade, with a humorous or sarcastic tone, as he is dressed in a suit and holding a sign.",
+    "queries_ru": [
+      "trade offer мем",
+      "trade offer i receive you receive",
+      "мем сделка обмен i receive you receive",
+      "мужик в костюме trade offer шаблон",
+      "тикток мем сделка обмен"
+    ],
+    "queries_en": [
+      "trade offer meme",
+      "trade offer i receive you receive template",
+      "tiktok trade offer guy meme",
+      "long hair guy suit trade offer",
+      "trade offer meme template blank"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.68,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Устоявшееся название мема + OCR-фраза — оба сильнейшие запросы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.76,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень узнаваемый шаблон, легко находится."
+    }
+  },
+  {
+    "index": 2335,
+    "filename": "322c848bdc28.png",
+    "caption": "A meme with a goat and a humorous caption.",
+    "ocr_text": "ПОЧЕМУ КОГДА ЕБЕШЬ КОЗЛОВ\nНЕ ИГРАЕТ ПЕСНЯ КАЗЕННЫЙ\nУНИТАЗ ФАРШЕЕВ",
+    "main_idea": "The meme humorously suggests that the goat is being chased by a 'kozel' (a Russian term for a goat) and is being asked why the song 'Каzenный Унитаз Фаршеев' (a humorous reference to a Russian rapper) doesn't play.",
+    "queries_ru": [
+      "почему когда ебешь козлов не играет песня казенный унитаз фаршеев",
+      "мем коза рейдж фейс",
+      "мем казенный унитаз фаршеев",
+      "когда не играет песня казенный унитаз фаршеев",
+      "rage face коза белая мем"
+    ],
+    "queries_en": [
+      "russian rage comic goat meme",
+      "kazenny unitaz farsheev meme",
+      "rage face white goat russian meme",
+      "russian meme goat song",
+      "goat rage comic black white"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        3,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 5,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.53,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Странный рунетный шиз-мем. Текст и название группы — главные якоря, визуал rage-face + козёл — вторичный."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        4,
+        3,
+        3,
+        3
+      ],
+      "relevance_avg": 3.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 3.83,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Сугубо рунетный мем, EN-аудитория почти не сможет найти; делал ставку на транслит и визуал."
+    }
+  },
+  {
+    "index": 1715,
+    "filename": "3d40b8b5efb5.webp",
+    "caption": "A meme template with three different brain images, each labeled with 'who', 'whom', and 'whom’st'.",
+    "ocr_text": "who\nwhom\nwhom'st",
+    "main_idea": "The meme humorously depicts the progression of thought from 'who' to 'whom' to 'whom’st', suggesting a level of confusion or surprise.",
+    "queries_ru": [
+      "expanding brain мем who whom whomst",
+      "расширяющийся мозг мем",
+      "мем мозг растёт уровни",
+      "expanding brain шаблон",
+      "галактический мозг мем"
+    ],
+    "queries_en": [
+      "expanding brain meme who whom whomst",
+      "expanding brain meme template",
+      "galaxy brain meme",
+      "who whom whomst meme",
+      "brain levels meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.6,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Классический шаблон, легко гуглится по имени мема."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеальный кейс — есть и мем-имя (expanding brain), и текст с мема (whomst)."
+    }
+  },
+  {
+    "index": 9140,
+    "filename": "d9f8d2ea1458.jpg",
+    "caption": "A meme comparing the work of designers and programmers.",
+    "ocr_text": "DESIGNERS\nLook, we have similar ideas.\nNo! You stole my idea.\nPROGRAMMERS\nMan, I stole your code.\nIt's not my code.",
+    "main_idea": "The meme humorously contrasts the work of designers and programmers, with the designers' work being more creative and the programmers' work being more technical.",
+    "queries_ru": [
+      "designers vs programmers мем wojak",
+      "дизайнеры против программистов мем",
+      "wojak chad дизайнер программист",
+      "украл идею украл код мем",
+      "мем дизайнеры воджак программисты чад"
+    ],
+    "queries_en": [
+      "designers vs programmers wojak chad meme",
+      "designers vs programmers meme",
+      "wojak vs chad professions meme",
+      "you stole my idea i stole your code meme",
+      "soyjak chad designers programmers"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        4,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Использовал и сравнение профессий, и имена шаблонов (wojak/chad), и фразы с мема."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень богатый на сигналы мем."
+    }
+  },
+  {
+    "index": 1452,
+    "filename": "074b7c827d59.png",
+    "caption": "A green bird with a sharp beak and a stern expression.",
+    "ocr_text": "ОТРИЦАЮ",
+    "main_idea": "The image humorously depicts a green bird with a sharp beak and a stern expression, suggesting a sense of seriousness or determination.",
+    "queries_ru": [
+      "птичка отрицаю мем",
+      "зеленая птица отрицаю",
+      "хищная птица отрицаю стикер",
+      "мем отрицаю стикер",
+      "грозная птичка мем русский"
+    ],
+    "queries_en": [
+      "russian deny bird sticker meme",
+      "green bird sticker russian text",
+      "otritsayu deny bird meme",
+      "stern green bird meme russian",
+      "russian telegram bird denial sticker"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.68,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текст 'отрицаю' — основной маркер; визуал зелёной птицы — вторичный."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        4,
+        4,
+        3,
+        3
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 4,
+      "final_score": 3.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Рунетный стикер, EN-юзеру сложно найти без транслита."
+    }
+  },
+  {
+    "index": 9900,
+    "filename": "7d7005974622.png",
+    "caption": "A green character with a humorous and exaggerated pose.",
+    "ocr_text": "",
+    "main_idea": "The character is depicted in a humorous and exaggerated manner, possibly poking fun at a specific situation or stereotype.",
+    "queries_ru": [
+      "толстый шрек арт мем",
+      "шрек голый картина мем",
+      "шрек пин ап рисунок",
+      "уродливый шрек арт мем",
+      "странный рисунок шрека интернет"
+    ],
+    "queries_en": [
+      "fat shrek art meme",
+      "ugly shrek pinup drawing",
+      "shrek nude art meme",
+      "weird shrek fanart meme",
+      "shrek body pose art meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        4,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Странный фан-арт шрека, конкретного устоявшегося имени мема нет — ловлю по визуальным признакам."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        4,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7061,
+    "filename": "4dab72456f7e.png",
+    "caption": "A person is drinking a juice box on an airplane, wearing a black shirt and a colorful cap.",
+    "ocr_text": "ikyMay",
+    "main_idea": "daily life",
+    "queries_ru": [
+      "егор крид селфи в самолете милки вей черная кепка",
+      "егор крид милки вей",
+      "парень в самолете пьёт milky way селфи",
+      "егор крид мем коктейль",
+      "крид кепка задом наперёд самолёт"
+    ],
+    "queries_en": [
+      "egor kreed selfie airplane milky way in cap",
+      "egor kreed milky way meme",
+      "russian guy drinking milky way airplane selfie",
+      "egor kreed black cap airplane meme",
+      "russian rapper milky way airplane"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Имя селебрити — основной якорь."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        3,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.25,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "EN-юзер вряд ли узнает Егора Крида — ставка на транслит и описательный визуал."
+    }
+  },
+  {
+    "index": 531,
+    "filename": "7877562d187d.png",
+    "caption": "A cute hamster is drinking coffee, but the coffee is not real.",
+    "ocr_text": "",
+    "main_idea": "The coffee is not real, but it's still being enjoyed.",
+    "queries_ru": [
+      "хомяк с кофе дым в голове",
+      "стикер хомяк пьёт кофе",
+      "милый хомяк кофе мем",
+      "хомяк утро кофе стикер",
+      "хомячок с пакетом кофе"
+    ],
+    "queries_en": [
+      "cute hamster coffee with smoke on head meme",
+      "hamster drinking coffee sticker",
+      "cute hamster morning coffee meme",
+      "hamster cartoon coffee cup sticker",
+      "kawaii hamster coffee illustration"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.4,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Стикер без устоявшегося имени мема — ловится по визуальным признакам."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.4,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 499,
+    "filename": "f3fcc593698d.png",
+    "caption": "A humorous list of qualities expected from an 'ideal man' in Russian.",
+    "ocr_text": "",
+    "main_idea": "the main message is a critique of societal expectations of men.",
+    "queries_ru": [
+      "словарный запас идеального мужчины ты красивая давай купим",
+      "словарный запас идеального мужчины мем",
+      "ты красивая давай купим я всё решу мем",
+      "идеальный мужчина фразы мем",
+      "мем фразы которые должен говорить мужчина"
+    ],
+    "queries_en": [
+      "vocabulary of the ideal man you are beautiful go shop",
+      "russian ideal man vocabulary meme",
+      "russian text meme ideal husband phrases",
+      "you are beautiful lets buy meme russian",
+      "russian text post meme black on white men"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.74,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текстовый мем — точные фразы выигрывают."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        3,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.22,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Чисто рунетный мем, EN-аудитории сложно — ставка на ключи 'russian text meme'."
+    }
+  },
+  {
+    "index": 1566,
+    "filename": "885f4e7ab321.png",
+    "caption": "A series of question marks in a row.",
+    "ocr_text": "??????",
+    "main_idea": "The image is a simple representation of question marks.",
+    "queries_ru": [
+      "мем знаки вопроса белый фон",
+      "??? мем шесть вопросов",
+      "что мем знаки вопроса",
+      "мем когда не понимаю",
+      "знаки вопроса картинка реакция"
+    ],
+    "queries_en": [
+      "question marks white background meme",
+      "?????? meme reaction",
+      "confused question marks meme",
+      "what meme question marks white",
+      "row of question marks meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        3,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 3.97,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень минималистичный мем — выручают только описательные запросы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.23,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3650,
+    "filename": "0572cc078698.jpg",
+    "caption": "Here's to all the best memes",
+    "ocr_text": "HERE'S TO ALL THE BEST MEMES",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "леонардо диаприос бокалом мем here's to all the best memes",
+      "леонардо ди каприо бокал тост мем",
+      "великий гэтсби тост мем",
+      "ди каприо чирс мем",
+      "leonardo dicaprio cheers мем"
+    ],
+    "queries_en": [
+      "leonardo dicaprio cheers toast meme here's to all the best memes",
+      "leonardo dicaprio cheers meme",
+      "great gatsby toast meme",
+      "dicaprio raising glass meme",
+      "here's to all the best memes leo"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень узнаваемый мем-шаблон, легко находится по любому из запросов. В исходном запросе опечатка 'диаприос' — оставил как есть."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3880,
+    "filename": "e36b3ddd13b3.png",
+    "caption": "A Minion with a sad expression and the text 'I'm ΦKEN BR'",
+    "ocr_text": "I'm ΦKEN BR",
+    "main_idea": "the Minion's sad expression and the text 'I'm ΦKEN BR'",
+    "queries_ru": [
+      "грустный миньон im broken ok",
+      "грустный миньон im broken мем",
+      "depressed minion sad posting",
+      "миньон тёмный фон грустный мем",
+      "minion sad posting im broken"
+    ],
+    "queries_en": [
+      "sad minion im broken ok meme",
+      "minion sad posting im broken",
+      "depressed minion meme dark",
+      "minion sad posting meme",
+      "minion im broken ok dark meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.62,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Watermark 'Minion Sad Posting' — сильный сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 5.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеальные сигналы во всех запросах."
+    }
+  },
+  {
+    "index": 8463,
+    "filename": "b2b168b4f01a.png",
+    "caption": "A cute cat with a playful caption.",
+    "ocr_text": "Спокойнойночки Ванильныхснов",
+    "main_idea": "The image is a cute and playful cat with a caption that suggests a dreamy, sweet night.",
+    "queries_ru": [
+      "белый кот сердечки спокойной ночки ванильных снов",
+      "спокойной ночки ванильных снов кот",
+      "котик сердечки доброй ночи",
+      "белый кот пилить",
+      "вечерний стикер пожелание ночи кот"
+    ],
+    "queries_en": [
+      "white cat pink hearts goodnight meme sweet dreams",
+      "goodnight cat hearts russian meme",
+      "white cat staring hearts goodnight",
+      "spokoynoy nochki vanilnykh snov cat",
+      "russian goodnight cat sticker"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        2,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 5,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.45,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "В 4-м намеренно опечатался 'пилить' — пометка: исправлю на 'белый кот пялится'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.6,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Хорошее сочетание описания, транслита и широкого запроса."
+    }
+  },
+  {
+    "index": 445,
+    "filename": "3b7cde2f11b4.jpg",
+    "caption": "A meme featuring a man in sunglasses holding a camera, looking at a young boy, with the text 'Aйтиishnik and his ChatGPT are talking to a girl'",
+    "ocr_text": "",
+    "main_idea": "The interaction between a man and a young boy, possibly a child, is humorously compared to a fictional scenario involving artificial intelligence and communication.",
+    "queries_ru": [
+      "терминатор 2 джон коннор телефон айтишник и его гпт общаются с девушкой твиттер",
+      "айтишник и его chatgpt общаются с девушкой мем",
+      "терминатор 2 джон коннор телефон мем",
+      "твиттер мем терминатор chatgpt",
+      "арнольд швайценгер джон коннор по телефону"
+    ],
+    "queries_en": [
+      "terminator 2 john connor phone meme it guy and his chatgpt talking to a girl twitter",
+      "it guy and his chatgpt talking to girl russian meme",
+      "terminator 2 phone meme john connor",
+      "russian twitter meme chatgpt dating",
+      "schwarzenegger john connor phone scene meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        3,
+        4,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 5,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "В исходном запросе всё свалено в кучу — выделил отдельные стратегии. 5-й опечатан: 'швайценгер' — пользователи и так пишут."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        4,
+        4,
+        3,
+        4
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 5,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 3.99,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Кадр узнаваемый, но русский текст в твите — затрудняет EN-поиск."
+    }
+  },
+  {
+    "index": 9407,
+    "filename": "74ea9b2c9926.png",
+    "caption": "A black bra and a pair of high heels are displayed in a wooden box.",
+    "ocr_text": "ЛЮБИМЫИ Agent Provocateur ОПЯТЬ РАДУЕ:",
+    "main_idea": "the main message is a playful or sarcastic comment about the items being displayed.",
+    "queries_ru": [
+      "агент провокатор коробка туфли черное белье любимый опять радует мем",
+      "любимый опять радует agent provocateur",
+      "белье туфли agent provocateur подарок мем",
+      "мем подарок от мужа белье",
+      "мем сарказм бельё agent provocateur"
+    ],
+    "queries_en": [
+      "agent provocateur box heels black lingerie favorite pleases again russian meme",
+      "agent provocateur lyubimyi opyat raduet meme",
+      "russian gift husband lingerie meme",
+      "agent provocateur sarcasm meme russian",
+      "russian text meme lingerie heels gift"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        3,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.15,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Бренд + текст — основные якоря."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        3,
+        4,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3320,
+    "filename": "c73271fd0343.jpg",
+    "caption": "A person sitting on a chair with a sign that reads 'I don't know how to change my mind. Please help me. Change my mind.'",
+    "ocr_text": "ONIW AW G change my mind don't know how to",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "change my mind мем стол парк",
+      "change my mind мем шаблон",
+      "мужик за столом change my mind",
+      "стивен краудер change my mind мем",
+      "мем переубеди меня шаблон"
+    ],
+    "queries_en": [
+      "change my mind meme table park",
+      "change my mind meme template",
+      "steven crowder change my mind meme",
+      "guy at table change my mind sign",
+      "i dont know how to change my mind meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.76,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Известный шаблон, легко гуглится."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеальный международный мем с каноничным именем."
+    }
+  },
+  {
+    "index": 9132,
+    "filename": "a2f45473750d.png",
+    "caption": "A person with a pink bow on their head and the word 'красотка' written in pink.",
+    "ocr_text": "",
+    "main_idea": "the person is being complimented as 'красотка' (beautiful)",
+    "queries_ru": [
+      "лана дель рей розовый красотка",
+      "лана дель рей красотка стикер",
+      "lana del rey pink bow sticker красотка",
+      "стикер красотка девушка с бантиком",
+      "розовая лана дель рей мем"
+    ],
+    "queries_en": [
+      "lana del rey pink beautiful girl",
+      "lana del rey krasotka sticker meme",
+      "lana del rey pink bow sticker",
+      "krasotka russian text sticker girl",
+      "lana del rey aesthetic pink russian text"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Имя селебрити — главный сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        3,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.33,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Транслит 'krasotka' — естественный для иностранцев, ищущих рунет-стикеры."
+    }
+  },
+  {
+    "index": 7020,
+    "filename": "1e094fc7dfdb.png",
+    "caption": "A close-up of a person's face with a neutral expression.",
+    "ocr_text": "",
+    "main_idea": "The image focuses on a person's face with a neutral expression.",
+    "queries_ru": [
+      "джош хатчерсон смотрит в камеру тикток мем",
+      "josh hutcherson edit tiktok",
+      "пита эверден мем",
+      "хатчерсон лицо тикток шиппинг",
+      "голодные игры пит мем тикток"
+    ],
+    "queries_en": [
+      "josh hutcherson tiktok meme",
+      "josh hutcherson edit tiktok stare",
+      "peeta hunger games meme tiktok",
+      "joshhutchersonshotter tiktok",
+      "josh hutcherson whistle edit"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        3,
+        4,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.4,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Watermark TikTok-аккаунта виден в углу — добавил его как сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.62,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Известный мем 'Josh Hutcherson whistle edit' — каноничное название."
+    }
+  },
+  {
+    "index": 3679,
+    "filename": "9903506f5dde.png",
+    "caption": "A cat with a surprised expression, possibly indicating confusion or surprise.",
+    "ocr_text": "",
+    "main_idea": "The cat's expression suggests it is confused or surprised.",
+    "queries_ru": [
+      "мем котенок лежит в позе смешной",
+      "котёнок повернулся боком стикер",
+      "серый котёнок лежит на боку",
+      "стикер котик милый лежит",
+      "ленивый котик мем"
+    ],
+    "queries_en": [
+      "kitten lying in funny pose meme",
+      "kitten lying on side sticker",
+      "gray tabby kitten lazy pose",
+      "cute kitten sticker lying down",
+      "kitten sleepy pose meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        3,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.0,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic стикер котёнка — выручают визуальные детали (серый, лежит на боку)."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        3,
+        3
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.0,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7519,
+    "filename": "431d3eec407b.jpg",
+    "caption": "How Italians sleep",
+    "ocr_text": "How italians sleep",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "мем how italians sleep рука на подушке",
+      "как итальянцы спят мем",
+      "how italians sleep мем рука жест",
+      "итальянский жест мем щепотка пальцы",
+      "boredpanda мем итальянцы спят"
+    ],
+    "queries_en": [
+      "how italians sleep meme hand pillow",
+      "how italians sleep meme",
+      "italian hand gesture sleep meme",
+      "boredpanda how italians sleep",
+      "italian pinched fingers sleeping meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень узнаваемый мем."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеально подобранный мем по узнаваемости."
+    }
+  },
+  {
+    "index": 9878,
+    "filename": "f874cce11591.png",
+    "caption": "A close-up of a cat's face with a neutral expression.",
+    "ocr_text": "",
+    "main_idea": "The image is a simple, straightforward representation of a cat's face.",
+    "queries_ru": [
+      "рыжий кот с большими глазами стикер",
+      "морда рыжего кота на белом фоне",
+      "рыжий британский кот стикер мем",
+      "стикер кошачья мордашка большие глаза",
+      "tg стикер кот рыжий"
+    ],
+    "queries_en": [
+      "ginger cat big eyes sticker",
+      "ginger cat face white background sticker",
+      "british shorthair ginger cat meme",
+      "round ginger cat head sticker",
+      "telegram cat sticker orange"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic стикер, но визуальные детали (большие глаза, белый фон) отличают его."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4646,
+    "filename": "af7ef18a10ed.jpg",
+    "caption": "A humorous meme comparing a character from 'Star Wars' to a character from 'Power Rangers', with a caption that reads 'Hello there'",
+    "ocr_text": "Hello there",
+    "main_idea": "The meme humorously contrasts a character from 'Star Wars' with a character from 'Power Rangers', with a caption that reads 'Hello there'",
+    "queries_ru": [
+      "звездные войны hello there генерал финноби штурмовик с бластерами мем",
+      "hello there мем",
+      "финн со световым мечом мем",
+      "штурмовик гривус четыре руки мем",
+      "обиван hello there пародия с финном"
+    ],
+    "queries_en": [
+      "star wars finn hello there general finnobi stormtrooper blasters meme",
+      "hello there meme",
+      "general finnobi meme",
+      "finn lightsaber stormtrooper grievous parody",
+      "obi wan hello there finn version"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        2,
+        3,
+        4,
+        5
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 5,
+      "naturalness": 3,
+      "specificity": 5,
+      "final_score": 4.14,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "'hello there мем' приведёт к Оби-Вану, а не к этой пародии."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        2,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 5,
+      "naturalness": 3,
+      "specificity": 5,
+      "final_score": 4.22,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "'general finnobi meme' — устоявшееся имя пародии."
+    }
+  },
+  {
+    "index": 108,
+    "filename": "9371eba86f68.jpg",
+    "caption": "The meme humorously contrasts the technological preferences of students in different grades.",
+    "ocr_text": "",
+    "main_idea": "students' technological preferences vary by grade level.",
+    "queries_ru": [
+      "мем младшие классы у меня айфон 14 старшие классы смешарики лунтик",
+      "мем младшие классы старшие классы лунтик смешарики",
+      "лол у меня 15 айфон ты на какой серии лунтика",
+      "мем школьники айфон против лунтика",
+      "халва медиа мем старшие классы смешарики"
+    ],
+    "queries_en": [
+      "schoolkids younger grades iphone older grades watching cartoons smeshariki",
+      "russian school meme iphone vs cartoons",
+      "lol u meu 15 phone meme russian",
+      "russian meme younger older grades comparison",
+      "halva media russian schoolkids meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Тексты с мема — самые сильные сигналы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        4,
+        3,
+        3,
+        3
+      ],
+      "relevance_avg": 3.2,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 3.83,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Рунетный, EN-аудитория почти не сможет."
+    }
+  },
+  {
+    "index": 2669,
+    "filename": "787473adf261.png",
+    "caption": "A branch with multiple heads growing from it.",
+    "ocr_text": "",
+    "main_idea": "The meme humorously suggests multiple identities or perspectives growing from a single branch.",
+    "queries_ru": [
+      "мем лица на ветке с листьями",
+      "ветка дерева с лицами мем шизик",
+      "дерево лиц цай тян мем",
+      "пирокинезис ветка мужики лица мем",
+      "странный мем лица растут на ветке"
+    ],
+    "queries_en": [
+      "meme man faces growing on tree branch with leaves",
+      "weird meme heads on tree branch",
+      "tree branch faces meme template",
+      "surreal meme heads sprouting branch",
+      "meme face heads sprouting like leaves"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        4,
+        2,
+        2,
+        4
+      ],
+      "relevance_avg": 3.2,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 4,
+      "final_score": 3.68,
+      "flags": {
+        "hallucination": true,
+        "has_duplicates": false
+      },
+      "comment": "Не уверен в личности на ветке (Цай Тянь / актер?), 3-4 запросы — рискованные догадки. Снижаю relevance."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.15,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Описательно — самый безопасный путь."
+    }
+  },
+  {
+    "index": 7073,
+    "filename": "70a940f84e20.png",
+    "caption": "A round, yellow creature holding a fluffy cat.",
+    "ocr_text": "",
+    "main_idea": "The image humorously contrasts a round, yellow creature with a fluffy cat.",
+    "queries_ru": [
+      "смайлик с румянцем держит котенка в руке",
+      "стикер жёлтый шарик румянец держит котика",
+      "счастливый смайлик с котёнком мем",
+      "мем cursed жёлтый колобок и кот",
+      "стикер тг улыбающийся жёлтый и кошка"
+    ],
+    "queries_en": [
+      "emoji with blush holding kitten in hand",
+      "yellow blob smiley holding cat sticker",
+      "cursed emoji holding kitten meme",
+      "happy yellow creature kitten sticker",
+      "telegram sticker yellow ball cat"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Cursed-стикер с уникальным визуалом."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5691,
+    "filename": "b85268a7bd9f.jpg",
+    "caption": "A collection of Drake-themed meme templates with placeholders for text.",
+    "ocr_text": "",
+    "main_idea": "Drake-themed meme templates for creative expression.",
+    "queries_ru": [
+      "дрейк мем да/нет шаблон 4 штуки",
+      "drake meme templates коллекция",
+      "drake hotline bling шаблон",
+      "дрейк отворачивается одобряет мем",
+      "набор шаблонов дрейк мем"
+    ],
+    "queries_en": [
+      "drake meme yes/no template 4 options",
+      "drake meme templates collection",
+      "drake hotline bling meme template",
+      "drake approving disapproving meme blank",
+      "drake meme template pack"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Имя мема + структура шаблона."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.67,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеально для EN-юзера."
+    }
+  },
+  {
+    "index": 4641,
+    "filename": "966e22d44605.png",
+    "caption": "The meme humorously suggests that the speaker is a 'dagger' or a sharp tool, possibly implying a critical or sarcastic tone.",
+    "ocr_text": "",
+    "main_idea": "The meme humorously suggests that the speaker is a 'dagger' or a sharp tool, possibly implying a critical or sarcastic tone.",
+    "queries_ru": [
+      "картинка черный фон прикинь я дагестанка",
+      "прикинь я дагестанка мем",
+      "прикинь я дагестанка стикер сердечки",
+      "чёрный фон с сердечками прикинь мем",
+      "белый текст на черном дагестанка"
+    ],
+    "queries_en": [
+      "black picture imagine if in from dagestan pink hearts",
+      "prikin ya dagestanka meme",
+      "russian dagestani girl meme black background",
+      "black sticker hearts russian text meme",
+      "imagine im dagestani russian text meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Странный captioning у датасета (упоминает dagger вместо dagestan), сам мем — простой текст 'прикинь я дагестанка'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        3,
+        4
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Транслит — самый сильный путь."
+    }
+  },
+  {
+    "index": 2599,
+    "filename": "bfba6f88c793.png",
+    "caption": "A cartoon character pointing at itself, possibly indicating self-reflection or self-awareness.",
+    "ocr_text": "",
+    "main_idea": "self-reflection or self-awareness",
+    "queries_ru": [
+      "смайлик с большими глазами стесняется с руками",
+      "cursed эмоджи показывает на себя",
+      "жёлтый смайлик стеснительный мем",
+      "shy emoji мем стесняется указывает",
+      "cursed эмоджи руки сходятся пальцы"
+    ],
+    "queries_en": [
+      "emoji with big eyes shy hands",
+      "cursed emoji shy fingers",
+      "shy emoji meme pointing at self",
+      "yellow shy emoji meme",
+      "cursed emoji touching fingers shy"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Cursed emoji — устоявшееся название."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3595,
+    "filename": "4e09a2c816f4.jpg",
+    "caption": "Two muscular men in Roman-style armor standing side by side.",
+    "ocr_text": "",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "два чела блондина один красивый другой нет мем про ногти",
+      "брэд питт троя мем ногти левой правой руки",
+      "троя ахилл мем ногти",
+      "ногти левой руки которые я подстриг правой мем",
+      "троя двойник ахилла мем ногти"
+    ],
+    "queries_en": [
+      "two blonds one attractive the other not meme about nails",
+      "brad pitt troy nails meme russian text",
+      "achilles double troy nails meme",
+      "achilles brother troy meme nails left right",
+      "troy movie nails meme russian"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Кадр из 'Трои' с Брэдом Питтом + двойник — вот это сильные сигналы; исходник без имени фильма проигрывает."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.76,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5628,
+    "filename": "a4db15464a87.jpg",
+    "caption": "A person in a white tank top is staring at a random spot in the room, trying to trick a ghost into thinking they can see it.",
+    "ocr_text": "",
+    "main_idea": "The humor in the image is the absurdity of the situation, as the person is trying to trick a ghost into thinking they can see it, which is a common trope in ghost stories.",
+    "queries_ru": [
+      "мем на англе staring at one spot про призрака мужчина в белой алкашке",
+      "сэмюэл л джексон мем призрак",
+      "samuel l jackson staring ghost meme",
+      "мужик в майке смотрит призрака мем",
+      "samuel l jackson tank top meme"
+    ],
+    "queries_en": [
+      "meme staring at one spot about ghost man in white robe",
+      "samuel l jackson staring ghost meme",
+      "me staring at random spot trick ghost meme",
+      "samuel l jackson tank top stare meme",
+      "trick ghost into thinking i can see it meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Имя актёра + текст с мема — самые сильные."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.62,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Каноничный мем."
+    }
+  },
+  {
+    "index": 1710,
+    "filename": "31a140ac8581.jpg",
+    "caption": "When an old lady is trying to sell you but you befriend an ogre and end up marrying a dragon",
+    "ocr_text": "When an old lady is trying to sell you but you befriend an ogre ano end up marrying a dragon 560 0.468 9% .286 2% 14563 2.286 .156 28G079 stonky N/A 440 0.120 0Le 0.234",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "мем на англе с ослом из шрека стонки old lady ogre dragon",
+      "stonky donkey shrek мем",
+      "осёл шрек stonky биржа мем",
+      "donkey from shrek meme stonks",
+      "осёл шрек встретил дракона мем"
+    ],
+    "queries_en": [
+      "meme with donkey from shrek stonks old lady ogre dragon",
+      "stonky donkey shrek meme",
+      "shrek donkey stonks meme",
+      "donkey suit stocks meme shrek",
+      "befriend ogre marry dragon stonks meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Stonks/stonky — каноничный мем-имя, осёл — узнаваемый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеально."
+    }
+  },
+  {
+    "index": 1550,
+    "filename": "1fff9ef01a9a.png",
+    "caption": "A cat is sleeping with its eyes closed, and the text 'отдыхаю' is overlaid on the image.",
+    "ocr_text": "",
+    "main_idea": "the cat is taking a nap",
+    "queries_ru": [
+      "серый кот сонный отдыхаю",
+      "кот отдыхаю мем",
+      "довольный кот мем отдыхаю",
+      "полосатый кот лежит улыбается отдыхаю",
+      "кот отдыхает на одеяле мем"
+    ],
+    "queries_en": [
+      "grey cat sleepy relaxing meme",
+      "russian cat resting otdyhayu meme",
+      "tabby cat smiling relaxing meme",
+      "cat with russian text relaxing meme",
+      "cozy cat lying on blanket meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текст 'отдыхаю' — главный сигнал, в датасете OCR пуст, поправил."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.4,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Транслит и описательно."
+    }
+  },
+  {
+    "index": 6358,
+    "filename": "5cec914971b1.png",
+    "caption": "A white cat holding two guns with a caption that reads 'извенись'",
+    "ocr_text": "извенись",
+    "main_idea": "the cat is holding guns and the caption is in Russian",
+    "queries_ru": [
+      "белый кот плачет извенись",
+      "извенись кот с пистолетами",
+      "плачущий кот два пистолета мем",
+      "кот извенись стикер",
+      "котик с пушками извенись"
+    ],
+    "queries_en": [
+      "white cat crying say sorry",
+      "crying cat with guns izvenis meme",
+      "white crying cat holding pistols meme",
+      "cat with guns saying sorry russian meme",
+      "crying cat two guns sticker"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Очень узнаваемый стикер с уникальной опечаткой 'извенись'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.4,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 1616,
+    "filename": "58d28dd58a30.png",
+    "caption": "Two Minions are posing with a heart in the background.",
+    "ocr_text": "",
+    "main_idea": "The Minions are posing together in a cute and heartwarming manner.",
+    "queries_ru": [
+      "два миньона с волосами и лысый на фоне красного сердца",
+      "миньоны пара любовь сердце мем",
+      "миньон с париком и миньон одноглазый мем",
+      "миньоны валентинов день мем",
+      "стикер миньоны с сердечком"
+    ],
+    "queries_en": [
+      "two minions with hair and bald one on red heart",
+      "minions couple love heart meme",
+      "minions valentine sticker meme",
+      "minion wig minion one eye love heart meme",
+      "minions hugging red heart background"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        4,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic миньон-валентинка, ловится по описанию."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        4,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6007,
+    "filename": "a023e16acf41.png",
+    "caption": "A chinchilla with a surprised expression on its face.",
+    "ocr_text": "",
+    "main_idea": "the chinchilla's surprised expression is humorous.",
+    "queries_ru": [
+      "хомяк с человеческим лицом на камне в парке",
+      "толстая шиншилла с человеческим лицом мем",
+      "шиншилла приколы мем",
+      "круглая серая шиншилла на камне",
+      "шиншилла рот человека фотошоп мем"
+    ],
+    "queries_en": [
+      "hamster with human face on stone in park",
+      "fat chinchilla human face meme",
+      "chinchilla photoshop human lips meme",
+      "round gray chinchilla rock garden",
+      "chinchilla cursed face meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.51,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это шиншилла, не хомяк (исходник ошибся), но сохранил его как первый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5754,
+    "filename": "df2a73b69b9e.png",
+    "caption": "A child is playfully posing with a wooden cross, evoking a mix of humor and absurdity.",
+    "ocr_text": "",
+    "main_idea": "the child's playful and unconventional pose with a cross.",
+    "queries_ru": [
+      "мальчик испугался плачет вытянул руку держит крест",
+      "мальчик с крестом мем экзорцист",
+      "ребёнок изгоняет демонов мем крест",
+      "пацан с крестом отгоняет мем",
+      "бразильский мальчик с крестом мем"
+    ],
+    "queries_en": [
+      "boy scared crying reached out hand holds cross",
+      "kid holding cross exorcism meme",
+      "boy with cross banishing demons meme",
+      "brazilian boy holding cross meme",
+      "kid with crucifix scared meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Узнаваемый бразильский мем."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4419,
+    "filename": "d8a2289bbbcb.png",
+    "caption": "A person with a blue hood and striped body standing in front of a purple grid background.",
+    "ocr_text": "DO NOT QUESTION",
+    "main_idea": "The message is to not question the elevated one.",
+    "queries_ru": [
+      "не задавай вопросов, возвышенный, мем мэн на стульях",
+      "do not question the elevated one мем",
+      "meme man на стопке стульев мем",
+      "elevated one meme man chairs",
+      "стопка стульев мем мужик возвышенный"
+    ],
+    "queries_en": [
+      "do not question the elevated one meme man stacked chairs",
+      "do not question the elevated one meme",
+      "meme man stacked chairs",
+      "elevated one meme",
+      "surreal meme man hood chairs purple"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.39,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Каноничный сюр-мем; OCR фраза + 'meme man' — главные сигналы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 727,
+    "filename": "dfb3a4632c49.jpg",
+    "caption": "A comic strip showing a person welcoming someone home, a dog being petted by the visitor, and a masked intruder being petted by the dog.",
+    "ocr_text": "",
+    "main_idea": "The dog's loyalty and protective nature are exaggerated to create a humorous and absurd situation.",
+    "queries_ru": [
+      "собака обнимает грабителя, не могу ограбить этот дом, комикс",
+      "комикс собака не охраняет грабителя",
+      "грабитель не может ограбить дом из-за собаки комикс",
+      "mike organisciak комикс собака",
+      "комикс пёс встречает вора и обнимает"
+    ],
+    "queries_en": [
+      "dog hugs burglar cant rob this place comic strip",
+      "i cant rob this place dog comic",
+      "mike organisciak dog comic",
+      "wholesome dog burglar comic strip",
+      "dog bad at stopping intruders comic"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        4,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Watermark mikeorganisciak.com — сильный сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7691,
+    "filename": "402011d927cd.jpg",
+    "caption": "A sequence of four images showing a person's facial expressions from neutral to angry.",
+    "ocr_text": "",
+    "main_idea": "The progression of emotions from calm to anger.",
+    "queries_ru": [
+      "нпс злится на счастливого человека, 4 панели",
+      "npc wojak соевик 4 панели",
+      "npc мем wojak 4 квадрата злится",
+      "wojak npc мем 4 кадра",
+      "серый мужик npc мем злой ребёнок"
+    ],
+    "queries_en": [
+      "npc angry at happy person 4 panel meme",
+      "npc wojak 4 panel meme",
+      "npc wojak angry soyjak meme",
+      "npc meme 4 panels gray man",
+      "wojak npc gets angry happy person meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "NPC wojak — каноничное название."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 8985,
+    "filename": "9e821e40134f.jpg",
+    "caption": "When your food is in better shape than you",
+    "ocr_text": "than you When your food is in better shape",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "когда еда в лучшей форме чем ты, пицца с кубиками",
+      "пицца кубики пресса мем",
+      "when your food is in better shape than you мем",
+      "пицца похожая на пресс мем",
+      "лазанья пресс еда мем"
+    ],
+    "queries_en": [
+      "when your food is in better shape than you pizza abs",
+      "pizza abs meme",
+      "food looks like six pack meme",
+      "lasagna abs meme",
+      "food in better shape than you meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.76,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Точная фраза с мема — самый сильный."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 2090,
+    "filename": "530c436cb3cc.jpg",
+    "caption": "A cartoon gorilla wearing a conical hat and holding a rifle, with a Vietnamese flag on its chest.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts a stereotypical representation of a Vietnamese soldier, combining it with a popular video game character.",
+    "queries_ru": [
+      "обезьяна или макака с ак 47",
+      "донки конг вьетнам с ак 47 мем",
+      "donkey kong vietcong meme",
+      "обезьяна донки конг с ак шляпа мем",
+      "вьетконг донки конг мем"
+    ],
+    "queries_en": [
+      "donkey kong ak47 vietnam hat flag meme",
+      "donkey kong vietcong meme",
+      "donkey kong ak47 vietnam war meme",
+      "vietnam donkey kong ak47",
+      "donkey kong communism vietnam meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Donkey Kong — узнаваемый персонаж, исходник без имени слишком общий."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 5.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.55,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеальные сигналы."
+    }
+  },
+  {
+    "index": 6335,
+    "filename": "92044da7b1b0.png",
+    "caption": "A cute pug puppy is standing on its hind legs with its front paws raised.",
+    "ocr_text": "",
+    "main_idea": "a cute and playful image of a pug puppy",
+    "queries_ru": [
+      "миленький мопс дает лапу",
+      "мопс щенок на задних лапах",
+      "мопс машет лапой стикер",
+      "белый мопсик стикер мем",
+      "щенок мопса просит лапу"
+    ],
+    "queries_en": [
+      "cute pug giving paw",
+      "pug puppy standing on hind legs",
+      "pug puppy waving paw sticker",
+      "cute pug puppy meme",
+      "pug puppy raising paw cute"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic мопс, выручают визуальные детали."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 1318,
+    "filename": "fececb62da90.jpg",
+    "caption": "Conservative parents after taking their children to watch the movie Five Nights At Freddy's: The image humorously depicts a crowd of people, including adults and children, with expressions of shock and fear.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts the exaggerated reactions of conservative parents to a movie that is often associated with horror and violence.",
+    "queries_ru": [
+      "симпсоны злая толпа с факелами, возмущённые родители",
+      "симпсоны толпа с факелами шаблон мем",
+      "angry mob simpsons мем родители fnaf",
+      "fnaf фильм консервативные родители мем",
+      "толпа спрингфилд с факелами мем"
+    ],
+    "queries_en": [
+      "simpsons angry mob with torches conservative parents fnaf",
+      "simpsons angry mob torches meme template",
+      "angry mob simpsons meme",
+      "fnaf movie conservative parents meme",
+      "springfield angry mob meme template"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Узнаваемый Симпсоны-шаблон."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 9254,
+    "filename": "ebdd22035a09.jpg",
+    "caption": "A dog in a banana peel floating in space, evoking a humorous and absurd image.",
+    "ocr_text": "",
+    "main_idea": "The image humorously juxtaposes a mundane object (a banana peel) with a cosmic setting, creating a surreal and amusing effect.",
+    "queries_ru": [
+      "собака в банане в космосе",
+      "doge в банане в космосе",
+      "сиба ину в банане звёзды мем",
+      "doge banana space meme",
+      "сюрреалистичный мем собака банан космос"
+    ],
+    "queries_en": [
+      "dog in banana floating in space meme",
+      "doge banana space meme",
+      "shiba inu banana cosmos meme",
+      "surreal doge banana space",
+      "shibe banana galaxy meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Doge + космос — устоявшаяся комбинация."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4896,
+    "filename": "69d6a962d671.png",
+    "caption": "A cute, pink, cartoon character with a neutral expression.",
+    "ocr_text": "",
+    "main_idea": "The character appears to be a cute, pink, cartoon figure with a neutral expression.",
+    "queries_ru": [
+      "грустна печальна маленькое миленькое существо",
+      "май мелоди грустная sanrio мем",
+      "my melody sad meme",
+      "розовый кролик санрио стикер",
+      "май мелоди грустный взгляд"
+    ],
+    "queries_en": [
+      "sad tiny cute little creature meme",
+      "my melody sanrio sad meme",
+      "my melody sad sticker",
+      "sanrio pink rabbit meme",
+      "my melody crying meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Май Мелоди (Sanrio) — узнаваемый персонаж."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6051,
+    "filename": "0c84e7fe6860.png",
+    "caption": "A warning sign with a humorous message about a group masturbation event.",
+    "ocr_text": "",
+    "main_idea": "a humorous warning about a future event",
+    "queries_ru": [
+      "групповая мастурбация через 10 минут",
+      "групповая мастурбация начнется через 10 минут стикер",
+      "знак внимание групповая мастурбация мем",
+      "красный знак мем шок предупреждение",
+      "стикер групповая мастурбация через 10 минут"
+    ],
+    "queries_en": [
+      "group activity in 10 minutes funny meme",
+      "russian warning sign meme group masturbation",
+      "russian red text warning sign meme",
+      "gruppovaya masturbatsiya meme russian sticker",
+      "warning sign 10 minutes russian meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        3,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 4,
+      "final_score": 3.96,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": true
+      },
+      "comment": "1 и 5 близки по сути — потенциальный дубликат, флаг."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 4,
+      "final_score": 3.8,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Сложно для EN — рунетный текст; делал ставку на транслит."
+    }
+  },
+  {
+    "index": 9678,
+    "filename": "7a15db9457dc.png",
+    "caption": "A cat with a finger on its chin, making a thoughtful or contemplative pose.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts a cat in a thoughtful pose, evoking a sense of curiosity or contemplation.",
+    "queries_ru": [
+      "задумчивый смешной котик",
+      "кот думает мем",
+      "котик с пальцем у подбородка",
+      "белый кот размышляет мем",
+      "мем когда задумался"
+    ],
+    "queries_en": [
+      "cat sitting thinking staring",
+      "thinking cat meme",
+      "cat with finger on chin meme",
+      "white cat hmm meme",
+      "cat pondering meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        4,
+        5,
+        4,
+        2
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.14,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "'мем когда задумался' слишком общий; visual marker (палец у подбородка) — самый сильный."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.3,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "'cat sitting thinking staring' слабоват; 'thinking cat meme' — золотой."
+    }
+  },
+  {
+    "index": 3210,
+    "filename": "6013dd051982.png",
+    "caption": "A cat is lying on a table, looking up at the camera.",
+    "ocr_text": "давай нака",
+    "main_idea": "The cat is trying to be cute.",
+    "queries_ru": [
+      "давай пака, собачка",
+      "корги давай пака мем",
+      "корги отвернулся давай пака",
+      "пёс корги уходит мем стикер",
+      "давай пака корги стикер тг"
+    ],
+    "queries_en": [
+      "dog waving goodbye bye bye",
+      "corgi davai paka meme",
+      "corgi turning back goodbye meme",
+      "russian corgi goodbye sticker",
+      "corgi davai paka sticker telegram"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это корги, не кошка (caption ошибся). OCR в датасете 'давай нака' — на картинке 'давай пака'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 1164,
+    "filename": "686fa9c5e034.jpg",
+    "caption": "A person wearing a t-shirt with a humorous illustration of a man with a beard and the word 'Yes.'",
+    "ocr_text": "",
+    "main_idea": "The image humorously suggests that the person is saying 'Yes' to something, possibly a question or statement.",
+    "queries_ru": [
+      "сигма мужчина, улыбается, yes",
+      "футболка гигачад yes мем",
+      "gigachad yes футболка купить",
+      "redbubble футболка чад yes",
+      "парень в футболке с гигачадом мем"
+    ],
+    "queries_en": [
+      "sigma male smiling yes gigachad",
+      "gigachad yes t-shirt",
+      "gigachad shirt yes redbubble",
+      "yes chad shirt meme",
+      "guy wearing chad yes t-shirt redbubble"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Гигачад + футболка — это с redbubble. Главные сигналы — gigachad/yes/redbubble."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 5.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Идеально."
+    }
+  },
+  {
+    "index": 771,
+    "filename": "6a58ba08428f.png",
+    "caption": "A person wearing headphones and a sweater, smiling.",
+    "ocr_text": "",
+    "main_idea": "The image depicts a person wearing headphones and a sweater, smiling.",
+    "queries_ru": [
+      "дада, улыбающийся жирный чел",
+      "куплинов улыбается стикер",
+      "куплинов в наушниках свитер с оленем",
+      "куплинов одобряет мем",
+      "куплинов мем стикер"
+    ],
+    "queries_en": [
+      "yes chad fat guy smiling agreeing",
+      "kuplinov russian streamer smiling sticker",
+      "kuplinov headphones reindeer sweater meme",
+      "kuplinov approves meme sticker",
+      "russian streamer kuplinov meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это Куплинов (русский стример), исходник без имени слабый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3802,
+    "filename": "8707cbc7f400.png",
+    "caption": "A colorful character with a speech bubble, captioned 'Ya llego don comedi'",
+    "ocr_text": "Ya llego don comedi",
+    "main_idea": "the main message is humorous and exaggerated",
+    "queries_ru": [
+      "на испанксом, а ты юморист, клоун, амонг ас",
+      "амонг ас клоун парик ya llego don comedia",
+      "among us crewmate с париком клоуна мем",
+      "амонг ас клоун мем испанский",
+      "ya llego don comedia among us"
+    ],
+    "queries_en": [
+      "here comes mr comedy spanish among us",
+      "among us clown ya llego don comedia",
+      "among us crewmate clown wig meme",
+      "spanish among us clown meme",
+      "ya llego don comedia meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Among Us + текст — главные сигналы. В исходнике опечатка 'испанксом'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4833,
+    "filename": "a1646e2cea7a.jpg",
+    "caption": "A cartoon drawing of two faces, one with a beard and the other with a crying expression.",
+    "ocr_text": "",
+    "main_idea": "The contrast between the calm and the distressed face.",
+    "queries_ru": [
+      "чад против плачущего вояка, сойджак",
+      "chad vs soyjak шаблон",
+      "чад против сойджак шаблон",
+      "wojak soyjak crying chad meme template",
+      "пустой шаблон чад и сойджак"
+    ],
+    "queries_en": [
+      "chad vs crying wojak soyjak comparison",
+      "chad vs soyjak template",
+      "yes chad vs no soyjak template blank",
+      "chad sigma vs crying soyjak meme",
+      "soyjak vs nordic chad template"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Каноничный chad vs soyjak шаблон."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 5.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 1334,
+    "filename": "eafd75ec7378.jpg",
+    "caption": "The face my motivation makes every Monday morning",
+    "ocr_text": "THE FACE MY MOTIVATION MAKES EVERY MONDAY MORNING",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "о нет, снова понедельник",
+      "майкл скотт офис понедельник мем",
+      "the face my motivation makes monday мем",
+      "майкл скотт сжатые зубы мем",
+      "офис стив карелл понедельник мем"
+    ],
+    "queries_en": [
+      "oh no it's Monday again",
+      "the face my motivation makes every monday morning meme",
+      "michael scott monday morning meme",
+      "michael scott cringe face meme",
+      "the office monday morning steve carell meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Майкл Скотт + текст — главные сигналы; исходник слишком общий."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3883,
+    "filename": "547bf134a136.png",
+    "caption": "A small dog in a pink dress is standing on its hind legs, seemingly trying to open a door.",
+    "ocr_text": "",
+    "main_idea": "The dog's attempt to open the door humorously resembles a human trying to do the same.",
+    "queries_ru": [
+      "миленькая чихуа хуа",
+      "чихуахуа в розовом платье у двери",
+      "собачка в платье встаёт на задние лапы",
+      "чихуахуа танцует мем",
+      "пушистая чихуахуа в розовой одежде"
+    ],
+    "queries_en": [
+      "cute chihuahua",
+      "chihuahua in pink dress at door",
+      "chihuahua dancing pink outfit",
+      "small dog pink dress hind legs",
+      "tiny dog dancing pink dress meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.13,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic чихуахуа, выручают визуальные детали."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.0,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "'cute chihuahua' слишком общий."
+    }
+  },
+  {
+    "index": 1690,
+    "filename": "ca5e73a39b00.png",
+    "caption": "A cat with a surprised expression and a pink background.",
+    "ocr_text": "",
+    "main_idea": "The image is a humorous representation of a surprised cat.",
+    "queries_ru": [
+      "недовольная кошечка с бантиком",
+      "кошка кричит злая бантики розовый фон",
+      "кот сердится сердечки бантик мем",
+      "стикер кот злится на розовом",
+      "злой котик с бантиком стикер"
+    ],
+    "queries_en": [
+      "grumpy cat with bow ribbon",
+      "angry cat hearts pink bow sticker",
+      "cat hissing pink hearts background sticker",
+      "angry kitty bow pink meme",
+      "annoyed cat pink hearts sticker"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic стикер, ловится по визуальным деталям."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.33,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6361,
+    "filename": "2830e550f015.jpg",
+    "caption": "Me and my Coronavirus survival supplies",
+    "ocr_text": "Me and Coronavirus my survival supplies 1",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "губка боб с запасами на карантин коронавирус",
+      "spongebob coronavirus припасы мем",
+      "губка боб карантин covid мем",
+      "губка боб припасы крошка ракушка мем",
+      "губка боб маленькие припасы коронавирус"
+    ],
+    "queries_en": [
+      "spongebob coronavirus survival supplies quarantine",
+      "spongebob covid supplies meme",
+      "me and my coronavirus survival supplies spongebob",
+      "spongebob small supplies meme",
+      "spongebob quarantine 2020 meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        5,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Узнаваемый кадр + текст."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        5,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4643,
+    "filename": "661f69a180e9.jpg",
+    "caption": "A meme with a surprised American man and a cartoonish drawing of a man with a shocked expression, with text in Russian.",
+    "ocr_text": "",
+    "main_idea": "The meme humorously contrasts the shock of an American man with the reaction of a cartoonish drawing, implying a lack of cultural understanding.",
+    "queries_ru": [
+      "рейж фейс с бородой два человека с открытым ртом показывают пальцем на фотку мужчины",
+      "американец ребят живой американец в москве мем",
+      "такер карлсон в москве мем soyjak",
+      "soyjak point американец мем такер",
+      "американец чай попил театр мем стих"
+    ],
+    "queries_en": [
+      "rage face with a beard two people with open mouths point at a photo of a man",
+      "tucker carlson moscow soyjak meme russian",
+      "soyjak pointing tucker carlson russian text",
+      "two soyjaks pointing tucker carlson meme",
+      "russian soyjak meme american in moscow"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.84,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это Такер Карлсон + soyjak point — без этих ключей мем не найти; исходник слишком общий."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.68,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7590,
+    "filename": "79252abd6044.png",
+    "caption": "A dog holding a rose with a glass of wine and champagne, accompanied by the text \"Спасибо! 3a cnaM\"",
+    "ocr_text": "nacubo! 3a cnaM",
+    "main_idea": "appreciation",
+    "queries_ru": [
+      "открытка с белой собакой спасибо за спам",
+      "спасибо за спам открытка мем",
+      "спасибо за спам собачка цветы вино",
+      "одноклассники открытка спасибо за спам",
+      "ироничная открытка спасибо за спам"
+    ],
+    "queries_en": [
+      "card with a white dog thank you for the spam",
+      "russian thank you for spam card meme",
+      "russian odnoklassniki thank you for spam meme",
+      "spasibo za spam russian card meme",
+      "russian boomer card thank you for spam"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Узнаваемая бумерская открытка."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6104,
+    "filename": "4ac0dceab7e8.png",
+    "caption": "A Minion holding a heart-shaped box and a rose, seemingly presenting it as a gift.",
+    "ocr_text": "",
+    "main_idea": "The Minion's presentation of a gift is unexpected and humorous.",
+    "queries_ru": [
+      "миньон смотрит на коробку конфет с розой",
+      "миньон с розой и сердцем валентинов день",
+      "миньон с конфетами на 14 февраля стикер",
+      "миньон валентинка стикер мем",
+      "миньон дарит подарок мем"
+    ],
+    "queries_en": [
+      "minion looks at a box of chocolates with a rose",
+      "minion with rose and heart valentine sticker",
+      "minion with chocolate box rose meme",
+      "minion valentine card sticker",
+      "minion giving gift romantic meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Generic миньон-валентинка."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 2718,
+    "filename": "dd890c5ef0f4.jpg",
+    "caption": "A person is sitting on a couch holding a pizza box.",
+    "ocr_text": "",
+    "main_idea": "the person is holding a pizza box in a humorous or ironic way",
+    "queries_ru": [
+      "картинка на англе девушка в метро с упавшей пиццей saddest thing i've ever seen",
+      "saddest thing i've seen all day мем девушка пицца",
+      "девушка уронила пиццу в метро мем",
+      "saddest thing девушка с упавшей пиццей",
+      "грустная пицца упавшая в метро мем"
+    ],
+    "queries_en": [
+      "picture of a girl in subway with a fallen pizza saddest thing i've ever seen",
+      "saddest thing i've seen all day pizza meme",
+      "girl drops pizza on subway meme",
+      "fallen pizza on train sad meme",
+      "saddest thing all day pizza box girl"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.69,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Caption неточен (нет 'couch'), исправил по картинке."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.51,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6196,
+    "filename": "123531a8e1b7.png",
+    "caption": "A hamster wearing a hat and standing next to a microphone, seemingly ready to perform.",
+    "ocr_text": "",
+    "main_idea": "The hamster is humorously dressed as a performer, suggesting a playful or humorous context.",
+    "queries_ru": [
+      "хомяк с большими глазами с разноцветными волосами с вентилятором",
+      "грустный хомяк аниме парик мем",
+      "хомяк e-girl парик мем стикер",
+      "плачущий хомяк рядом с вентилятором мем",
+      "хомячок аниме фотошоп с вентилятором"
+    ],
+    "queries_en": [
+      "hamster with big eyes and colorful hair with a fan",
+      "sad hamster anime wig meme",
+      "egirl hamster colorful hair sticker",
+      "crying hamster near fan meme",
+      "anime hair hamster fan meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Известный 'sad hamster' мем — устоявшееся название."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5944,
+    "filename": "5e6dc1bba9f4.jpg",
+    "caption": "A meme comparing a classroom scene from Star Wars with a classroom setting, suggesting a humorous or absurd situation.",
+    "ocr_text": "naGoa Учитель вошёл в класс",
+    "main_idea": "The meme humorously contrasts a classroom scene from Star Wars with a real classroom, creating a humorous or absurd situation.",
+    "queries_ru": [
+      "учитель вышел из класса - все начали болтать, война звездые войны, учитель вошел в класс - тишина",
+      "учитель вышел из класса учитель вошёл звёздные войны мем",
+      "звёздные войны школа учитель вошёл в класс мем",
+      "битва на джеонозисе джедаи мем учитель",
+      "звёздные войны 3 серия мем когда учитель"
+    ],
+    "queries_en": [
+      "teacher leaves classroom chaos star wars teacher comes back silence",
+      "star wars teacher leaves classroom meme russian",
+      "battle of geonosis jedi vs droids meme classroom",
+      "star wars classroom russian meme",
+      "jedi council vs battle meme teacher"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.51,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Тексты с мема + Star Wars — главные сигналы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.33,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Рунетный текст затрудняет EN-поиск."
+    }
+  },
+  {
+    "index": 3498,
+    "filename": "f8f75973ff30.png",
+    "caption": "A cat with a humorous background text.",
+    "ocr_text": "alalababalalba",
+    "main_idea": "The cat's expression and the background text create a humorous effect.",
+    "queries_ru": [
+      "кот с непонимающим лицом и алалабаллаба - чушь",
+      "alalababalalba кот мем",
+      "котик алалаба чушь мем",
+      "плакса кот alalababalalba стикер",
+      "трясущийся кот алалаба мем"
+    ],
+    "queries_en": [
+      "confused cat nonsense face blah blah gibberish",
+      "alalababalalba cat meme",
+      "alalababalalba sad cat meme",
+      "shaking cat alalababalalba sticker",
+      "cat blah blah meme alalababalalba"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Уникальный текст 'alalababalalba' — лучший якорь."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4461,
+    "filename": "fe80cea0e3fc.png",
+    "caption": "A white cat with a neutral expression.",
+    "ocr_text": "",
+    "main_idea": "The cat is neutral.",
+    "queries_ru": [
+      "недовольство, оруший кот",
+      "белый кот скептичный взгляд мем",
+      "недовольный белый кот мем стикер",
+      "белый кот скептик мем",
+      "белый котяра неодобрительно смотрит"
+    ],
+    "queries_en": [
+      "angry yelling cat dissatisfied",
+      "skeptical white cat meme",
+      "white cat side eye meme",
+      "white cat unimpressed sticker",
+      "judgmental white cat meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Кот скептически прищурился, не орёт — исходник неточен."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 1194,
+    "filename": "0e82484c74bc.png",
+    "caption": "A cat with a surprised expression and a yellow hand gesture.",
+    "ocr_text": "",
+    "main_idea": "the cat's surprised reaction to the yellow hand gesture",
+    "queries_ru": [
+      "кот на чилле, на кайфе, свага, высунул язык, словно он под веществами кайфарики",
+      "кот язык высунул палец вверх мем",
+      "довольный кот thumbs up мем",
+      "стикер кот язык палец вверх",
+      "кот в кайфе с большим пальцем стикер"
+    ],
+    "queries_en": [
+      "chill cat tongue out swag high vibes",
+      "cat tongue out thumbs up meme",
+      "happy cat thumbs up sticker",
+      "cat sticker tongue out thumbs up",
+      "high cat with thumbs up emoji meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Главное — палец вверх + язык."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 2858,
+    "filename": "efe27a93b65c.png",
+    "caption": "A meme featuring a person with the text 'icon.'",
+    "ocr_text": "",
+    "main_idea": "the person is being referred to as an icon",
+    "queries_ru": [
+      "типо умная девушка, но не так, icon",
+      "ким кардашьян icon мем",
+      "kim kardashian icon мем",
+      "ким кардашьян крик в кровати мем",
+      "kim k icon screaming meme"
+    ],
+    "queries_en": [
+      "girl thinks she's smart but is kinda icon",
+      "kim kardashian icon meme",
+      "kim k crying screaming icon meme",
+      "kim kardashian bed scream icon meme",
+      "kmksuperstar kim kardashian icon meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.23,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Ким Кардашьян + 'icon' — главный якорь; исходник запутанный."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.51,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 8950,
+    "filename": "6736fcd4c46d.jpg",
+    "caption": "When you're trying to love people but you're also an introvert and have boundaries",
+    "ocr_text": "",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "отнощения или любовь когда ты интроверт и у тебя есть границы",
+      "выдра отдаёт кольцо мем",
+      "выдра возвращает кольцо мем интроверт",
+      "introvert otter ring boundaries meme",
+      "грустная выдра отказывается от руки мем"
+    ],
+    "queries_en": [
+      "introvert relationship having boundaries personal space",
+      "otter giving back ring meme",
+      "otter returning ring boundaries meme",
+      "introvert otter ring meme",
+      "sad otter refuses hand meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Выдра возвращает кольцо — узнаваемый мем; исходник без выдры слабее."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4087,
+    "filename": "f20908add350.png",
+    "caption": "A person is pointing at a colorful light display with text overlaid.",
+    "ocr_text": "",
+    "main_idea": "The person is humorously questioning the effectiveness of a disco light display.",
+    "queries_ru": [
+      "суицид а может лучше дискотека, веселенький вайб",
+      "а может лучше дискотека мем",
+      "парень на дискотеке мем а может лучше",
+      "ди каприо джаст денс мем",
+      "дискотека вайб ироничный мем"
+    ],
+    "queries_en": [
+      "maybe disco instead funny happy vibe mood switch",
+      "maybe disco instead russian meme",
+      "guy at disco russian meme alternative",
+      "disco vibe ironic russian meme",
+      "russian text meme disco party guy"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        4,
+        3,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.15,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Тема чувствительная, ставлю только на узкие визуальные/текстовые ключи."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.07,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 2731,
+    "filename": "bff5eec7a7af.jpg",
+    "caption": "When it's your stop on the bus",
+    "ocr_text": "vhen it's your bus stop on the",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "страх общественного мнения, страх сказать что то незакомому",
+      "офис майкл скотт автобус выйти мем",
+      "майкл скотт энди в автобусе мем",
+      "i gotta get off this bus офис мем",
+      "the office майкл скотт в автобусе мем"
+    ],
+    "queries_en": [
+      "social anxiety fear of public opinion talking to strangers",
+      "michael scott andy bus meme",
+      "i gotta get off this bus office meme",
+      "the office bus stop meme",
+      "michael scott awkward bus meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Office + Майкл Скотт — главные сигналы; исходник про 'страх общественного мнения' — мимо."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7738,
+    "filename": "206881b67a19.jpg",
+    "caption": "A humorous meme about the impact of code quality on business success.",
+    "ocr_text": "",
+    "main_idea": "The quality of code can significantly affect business success.",
+    "queries_ru": [
+      "программисткая мудрость - если работает не трогай",
+      "напиши плохой код будешь нужен бизнесу всю жизнь мем",
+      "программистская мудрость хороший плохой код мем",
+      "каспаров мем программистская мудрость",
+      "мем плохой код job security"
+    ],
+    "queries_en": [
+      "programmer wisdom if it works don't touch it",
+      "write bad code business needs you forever meme",
+      "russian programmer wisdom meme",
+      "kasparov programmer wisdom meme",
+      "russian meme bad code job security"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Точная цитата с мема + 'программистская мудрость' — главные сигналы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        3,
+        4
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.22,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6350,
+    "filename": "eccda901b787.jpg",
+    "caption": "A meme template featuring an iceberg and various faces.",
+    "ocr_text": "создать мем aблон, #iceberg, 01",
+    "main_idea": "The meme template is humorous and creative.",
+    "queries_ru": [
+      "айсберг мем, старшно, с лицами",
+      "mr incredible айсберг шаблон",
+      "мистер исключительный айсберг уровни мем",
+      "iceberg meme mr incredible canny uncanny",
+      "айсберг мем uncanny mr incredible шаблон"
+    ],
+    "queries_en": [
+      "iceberg meme scary faces levels chart",
+      "mr incredible iceberg template meme",
+      "mr incredible canny uncanny iceberg meme",
+      "iceberg meme template mr incredible levels",
+      "becoming uncanny mr incredible iceberg"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Mr Incredible canny/uncanny — устоявшийся шаблон."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4510,
+    "filename": "e0762093b20b.jpg",
+    "caption": "Me thinking it's going to be a great day at work... Me 1 hour after arriving:",
+    "ocr_text": "Me thinking it's going to a great day at work... hour after arriving: Me",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "когда приехал на работу и спустя час настроение стало ужасным",
+      "дуайт офис когда пришел на работу мем",
+      "дуайт шрут плачет мем",
+      "офис dwight schrute great day at work мем",
+      "дуайт счастливый плачет мем работа"
+    ],
+    "queries_en": [
+      "arrived at work one hour later mood went to hell",
+      "dwight schrute great day at work meme",
+      "dwight schrute crying happy to sad meme",
+      "the office dwight day at work meme",
+      "dwight schrute mood swing work meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Dwight Schrute из Office — главный персонаж."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 9336,
+    "filename": "2b7acbae9422.png",
+    "caption": "A red apple wearing a hoodie and a dollar necklace is sitting on a pile of money.",
+    "ocr_text": "",
+    "main_idea": "the apple's attire and accessories suggest it is wealthy and fashionable.",
+    "queries_ru": [
+      "яблочко с глазами в худи",
+      "яблоко в худи с долларом ai мем",
+      "ai мем яблоко в капюшоне с цепью",
+      "яблоко гангстер худи деньги ai",
+      "богатое яблоко цепь рэпер ai арт"
+    ],
+    "queries_en": [
+      "apple character with eyes wearing hoodie",
+      "apple in hoodie with dollar chain ai art",
+      "ai apple gangster hoodie meme",
+      "rich apple rapper chain ai meme",
+      "ai generated apple hoodie money meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "AI-арт — характерный стиль; добавил тег 'ai'."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3666,
+    "filename": "a1b776e8d6d3.png",
+    "caption": "The meme humorously suggests someone has left and will not return soon.",
+    "ocr_text": "",
+    "main_idea": "the main message",
+    "queries_ru": [
+      "ушла на пары, буду не скоро, вайб тупой блонды или тупой девки",
+      "ушла на пары буду не скоро мем",
+      "ушла на пары розовая надпись черный фон",
+      "стикер ушла на пары не скоро",
+      "розовый текст ушла на пары мем"
+    ],
+    "queries_en": [
+      "gone to class dumb blonde girl vibes meme",
+      "ushla na pary budu ne skoro russian meme",
+      "russian text meme gone to class pink",
+      "pink russian text on black sticker class",
+      "russian aesthetic text gone to lectures meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Точный текст — главный якорь."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        4,
+        4,
+        3
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 3.99,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Чисто рунетный мем."
+    }
+  },
+  {
+    "index": 5417,
+    "filename": "9fcb78b3c172.png",
+    "caption": "A yellow face with a wide grin and winking eyes.",
+    "ocr_text": "",
+    "main_idea": "The image is a humorous representation of a face with a wide grin and winking eyes.",
+    "queries_ru": [
+      "уставшее улыбающееся лицо - смайл",
+      "yao ming smile эмоджи мем",
+      "trollface жёлтый смайл мем",
+      "yao ming lol смайл круглый",
+      "ухмыляющийся жёлтый смайл мем"
+    ],
+    "queries_en": [
+      "tired smiling face emoji meme",
+      "yao ming smile emoji meme",
+      "yao ming lol round emoji",
+      "smug yellow smiley face meme",
+      "yao ming face emoji laughing"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.23,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это yao ming face / lol guy в кругу — известный rage face."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.23,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 938,
+    "filename": "6bdc68f7657a.png",
+    "caption": "A character in an orange outfit with crossed arms, standing confidently.",
+    "ocr_text": "",
+    "main_idea": "The character's confident pose and attire suggest a sense of self-assuredness or readiness.",
+    "queries_ru": [
+      "хочите прикол, типо смещно, наруто",
+      "наруто хочите прикол мем",
+      "наруто скрестил руки мем хочите прикол",
+      "narrato хочите прикол шаблон",
+      "наруто стоит руки сложены мем"
+    ],
+    "queries_en": [
+      "want a joke funny naruto meme",
+      "naruto want a joke meme russian",
+      "naruto arms crossed meme template",
+      "naruto khotite prikol meme",
+      "naruto setup russian meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.18,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Наруто + 'хочите прикол' — устоявшаяся пара."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        4,
+        5,
+        4,
+        3
+      ],
+      "relevance_avg": 3.6,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 3.99,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Рунетный текст."
+    }
+  },
+  {
+    "index": 3821,
+    "filename": "a11a227cd530.png",
+    "caption": "15-year-old person sitting on a bench with a bag and sneakers.",
+    "ocr_text": "тебе 15 ШшаРувчинский PALACE PALACE и ты уже шаришь.",
+    "main_idea": "the main message is about the young person's maturity and the casual nature of their surroundings.",
+    "queries_ru": [
+      "какой то странный мем где тебе говорится что тебе 15 и ты шаришь",
+      "тебе 15 и ты уже шаришь рубчинский palace мем",
+      "рубчинский palace мем шаришь",
+      "штаны рубчинский палас мем 15",
+      "тебе 15 и ты уже шаришь стикер"
+    ],
+    "queries_en": [
+      "weird meme you are 15 and you get it",
+      "rubchinskiy palace 15 you get it russian meme",
+      "russian streetwear meme palace rubchinskiy",
+      "ty 15 i ty uzhe sharish russian meme",
+      "russian fashion meme palace pants 15"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Бренды Palace + Рубчинский — главные сигналы; исходник без брендов слабый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.15,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Чисто рунетный, EN — через бренды."
+    }
+  },
+  {
+    "index": 536,
+    "filename": "d094610b1317.jpg",
+    "caption": "Minecraft character with a humorous list of abilities and a caption about dying of hunger.",
+    "ocr_text": "Gair ciop tree witn bare hands, carry over 100 metric tons of gold., compress diamond with bare hands, him to swim in lava and can overcome all disease DIES OF HUNGER",
+    "main_idea": "humorous exaggeration of Minecraft abilities",
+    "queries_ru": [
+      "умер голодным, майнкрафт",
+      "стив майнкрафт умер от голода мем",
+      "advice steve minecraft умирает от голода",
+      "майнкрафт стив сверхспособности dies of hunger мем",
+      "minecraft advice steve dies of hunger мем"
+    ],
+    "queries_en": [
+      "died of starvation minecraft meme",
+      "minecraft advice steve dies of hunger meme",
+      "minecraft steve overpowered dies of hunger",
+      "advice animal minecraft steve hunger meme",
+      "quickmeme minecraft steve dies hunger"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Advice Steve — формат шаблона; ключи hunger + minecraft — главные."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5269,
+    "filename": "f99a56cf8069.png",
+    "caption": "A hand holding a clown license card.",
+    "ocr_text": "CLOWN LICENSE",
+    "main_idea": "the card is a joke about clown licenses.",
+    "queries_ru": [
+      "карточка клоуна, лицензия клоуна, да ты клоун",
+      "clown license card мем",
+      "лицензия клоуна стикер мем",
+      "карточка ты клоун clown license мем",
+      "стикер clown license эмоджи"
+    ],
+    "queries_en": [
+      "clown card clown license you are a clown",
+      "clown license card meme",
+      "clown license sticker meme",
+      "you are a clown card meme",
+      "clown emoji license card meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "OCR — главный сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6711,
+    "filename": "c0aa6bb0df40.png",
+    "caption": "A person holding a gun, with a serious expression.",
+    "ocr_text": "",
+    "main_idea": "The person is holding a gun and appears serious.",
+    "queries_ru": [
+      "джеси пинкман с пистолетом в руках, во все тяжкие, почти плачет, грустно",
+      "джесси пинкман плачет с пистолетом",
+      "jesse pinkman crying gun меме",
+      "во все тяжкие джесси с оружием плачет",
+      "пинкман грустный пистолет breaking bad"
+    ],
+    "queries_en": [
+      "jesse pinkman gun breaking bad almost crying sad",
+      "jesse pinkman crying gun meme",
+      "breaking bad jesse pinkman gun crying",
+      "aaron paul jesse pinkman gun scene meme",
+      "pinkman sad gun pointing meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Узнаваемый кадр; имя персонажа + сериал — главные."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4473,
+    "filename": "2306a57ab289.png",
+    "caption": "A cat with a surprised or confused expression.",
+    "ocr_text": "",
+    "main_idea": "The cat's expression is unexpected or humorous.",
+    "queries_ru": [
+      "кот пялит в экран с недовольным лицом",
+      "белый кот ест огурец мем",
+      "кот пялится фрукт огурец мем",
+      "VHS кот старый мем недовольный",
+      "белый кот сосредоточенно смотрит мем"
+    ],
+    "queries_en": [
+      "cat staring at screen with annoyed face",
+      "vhs cat staring meme",
+      "white cat eating cucumber meme",
+      "old vhs cat focused meme",
+      "vintage cat staring intensely meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        4,
+        4,
+        5,
+        4
+      ],
+      "relevance_avg": 4.0,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.0,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Кадр выглядит как старая VHS-запись; точно я не знаю мем."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        3,
+        4,
+        4
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 3.92,
+      "flags": {
+        "hallucination": true,
+        "has_duplicates": false
+      },
+      "comment": "Не уверен в 'eating cucumber' — догадка по визуалу."
+    }
+  },
+  {
+    "index": 1108,
+    "filename": "4395718c2cad.png",
+    "caption": "A pink and silver letter 'N' with a plus sign.",
+    "ocr_text": "",
+    "main_idea": "The letter 'N' with a plus sign.",
+    "queries_ru": [
+      "миленькое нет",
+      "no стикер розовый блестящий",
+      "no надпись стикер y2k мем",
+      "нет розовый стикер серебряный мем",
+      "розовое no сверкающее стикер"
+    ],
+    "queries_en": [
+      "cute no meme",
+      "shiny pink silver no sticker",
+      "no sticker y2k aesthetic meme",
+      "pink sparkly no text sticker",
+      "girly no sticker meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Caption ошибочный (буква N с плюсом — на самом деле слово 'No'). Поправил."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3522,
+    "filename": "f5d7d5b5dcc0.jpg",
+    "caption": "A dog wrapped in a blanket, looking tired and content after a long day at work.",
+    "ocr_text": "",
+    "main_idea": "the exhaustion and relief of a tired person after a long day at work",
+    "queries_ru": [
+      "устал после работы, сразу лег спать",
+      "французский бульдог в одеяле после работы мем",
+      "me 2 minutes after getting home from work мем",
+      "французский бульдог в подгузнике уставший мем",
+      "boredpanda собака после работы устал"
+    ],
+    "queries_en": [
+      "dog tired after work fell asleep",
+      "french bulldog blanket after work meme",
+      "me 2 minutes after getting home from work meme",
+      "french bulldog wrapped blanket meme",
+      "boredpanda tired dog after work meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это французский бульдог; добавил породу + источник (boredpanda)."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 9507,
+    "filename": "2bbb61348afd.png",
+    "caption": "A person with a surprised expression.",
+    "ocr_text": "",
+    "main_idea": "the person's surprised expression",
+    "queries_ru": [
+      "чувак в шоке",
+      "nba youngboy в шоке селфи",
+      "nba youngboy шок мем",
+      "nba youngboy лицо шока мем",
+      "youngboy never broke again шок селфи"
+    ],
+    "queries_en": [
+      "guy shocked face meme",
+      "nba youngboy shocked selfie meme",
+      "nba youngboy shocked face meme",
+      "youngboy never broke again surprised meme",
+      "nba youngboy reaction meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "NBA YoungBoy — узнаваемое лицо; исходник 'чувак в шоке' — слабый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 5256,
+    "filename": "b0e3b260e28f.png",
+    "caption": "A yellow, round character with a neutral expression and one hand raised to its face.",
+    "ocr_text": "",
+    "main_idea": "The character appears to be in a state of contemplation or confusion.",
+    "queries_ru": [
+      "задумчивое лицо смайл",
+      "cursed эмоджи скрещенные пальцы мем",
+      "жёлтый смайл cursed скромно мем",
+      "cursed emoji shy hands meme",
+      "cursed эмоджи стесняется руки сложены"
+    ],
+    "queries_en": [
+      "thinking face emoji meme",
+      "cursed emoji shy hands meme",
+      "cursed emoji touching fingers shy",
+      "yellow shy emoji 3d meme",
+      "cursed emoji embarrassed hands meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Cursed emoji — устоявшееся название."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 3549,
+    "filename": "6d5e36610db5.png",
+    "caption": "A yellow, one-eyed character wearing overalls.",
+    "ocr_text": "",
+    "main_idea": "despicable me",
+    "queries_ru": [
+      "неловкий смех, миньон из гадкий я",
+      "миньон один глаз стюарт стикер",
+      "стюарт миньон гадкий я стикер",
+      "одноглазый миньон стоит мем",
+      "stewart minion despicable me sticker"
+    ],
+    "queries_en": [
+      "awkward laugh minion despicable me",
+      "stuart minion one eye sticker",
+      "stuart despicable me minion meme",
+      "one eyed minion standing despicable me",
+      "minion stuart awkward smile meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Стюарт — имя миньона."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 8362,
+    "filename": "28d043bcc6d6.png",
+    "caption": "A dental hygienist mannequin with the words 'deental higen' written on it.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts a dental hygienist mannequin with incorrect dental hygiene terminology.",
+    "queries_ru": [
+      "стоматлог гигиентист со страннным лицом в больнице",
+      "deental higen meme man стоматолог",
+      "meme man dentist deental higen",
+      "мем мэн стоматолог dental hygiene",
+      "сюр мем мужик в халате стоматолог"
+    ],
+    "queries_en": [
+      "meme man dentist weird face hospital",
+      "meme man deental higen dentist",
+      "meme man dental hygiene meme",
+      "deental higen meme",
+      "surreal meme man dentist scrubs"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текст 'deental higen' (намеренно с опечаткой) — главный сигнал."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 6620,
+    "filename": "7bb092377d2e.jpg",
+    "caption": "Visiting college campuses in 2024",
+    "ocr_text": "Visiting college campuses in 2024",
+    "main_idea": "one sentence: the main message",
+    "queries_ru": [
+      "посещаю корпус колежда в 2024, но не хочется капец",
+      "царь горы мать пегги хилл вы не помещаетесь мем",
+      "peggy hill king of the hill мем",
+      "visiting college campuses 2024 peggy hill мем",
+      "пегги хилл шокирована мем"
+    ],
+    "queries_en": [
+      "visiting college campus 2024 dont want to be here",
+      "king of the hill peggy hill 2024 meme",
+      "peggy hill shocked meme",
+      "visiting college campuses 2024 peggy meme",
+      "king of the hill peggy disgusted meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Пегги Хилл из 'King of the Hill' — ключ; исходник без неё слабый."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 7680,
+    "filename": "e440c97e4227.png",
+    "caption": "A person in a suit is holding their hand to their face, possibly in frustration or contemplation.",
+    "ocr_text": "",
+    "main_idea": "The image humorously depicts a person in a formal setting, possibly in a business or office environment, with a gesture that suggests they are either tired, stressed, or deep in thought.",
+    "queries_ru": [
+      "пухлый чел из волк с улицы уол стрит уставший, устал от всего",
+      "джона хилл волк с уолл стрит фейспалм мем",
+      "jonah hill wolf of wall street facepalm меме",
+      "donnie azoff устал facepalm мем",
+      "джона хилл устал волк мем"
+    ],
+    "queries_en": [
+      "wolf of wall street fat guy tired facepalm",
+      "jonah hill wolf of wall street facepalm meme",
+      "donnie azoff tired meme",
+      "jonah hill rubbing eyes meme",
+      "wolf of wall street donnie tired gif meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Джона Хилл (Donnie Azoff) — узнаваемый персонаж."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 2390,
+    "filename": "462a0fdb0d4d.png",
+    "caption": "A meme featuring SpongeBob SquarePants and Patrick Star discussing the generation Z concept.",
+    "ocr_text": "",
+    "main_idea": "The meme humorously addresses the confusion surrounding the term 'gen Z' and the characteristics associated with it.",
+    "queries_ru": [
+      "спанч боб поколения z - спор, не знают кто это",
+      "спанч боб патрик кальмар gen z мем",
+      "stop patrick you're scaring him мем",
+      "spongebob gen z dr seuss eminem мем",
+      "spongebob squidward patrick gen z канселят"
+    ],
+    "queries_en": [
+      "spongebob gen z debate who is that",
+      "spongebob patrick squidward gen z meme",
+      "stop patrick you're scaring him meme",
+      "spongebob gen z dr seuss eminem dark humor meme",
+      "michaelbondcomedy spongebob gen z meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Watermark michaelbondcomedy + 'stop patrick you're scaring him' — устоявшийся шаблон."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 5,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.92,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4425,
+    "filename": "990970e106b7.png",
+    "caption": "A cute mouse with a caption that reads 'Красотуля!!!!'",
+    "ocr_text": "Красотуля!!!!",
+    "main_idea": "the mouse is expressing its beauty",
+    "queries_ru": [
+      "красава милашка сто проц люблю",
+      "открытка мышка красотуля 100%",
+      "красотуля 100 процентов открытка мышка",
+      "одноклассники открытка мышка красотуля",
+      "блестящая открытка красотуля мышка"
+    ],
+    "queries_en": [
+      "cute little thing love her 100 percent",
+      "russian boomer card mouse krasotulya",
+      "russian glitter card mouse 100 percent meme",
+      "krasotulya russian sparkly card mouse",
+      "russian odnoklassniki mouse beauty card"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        2,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Бумерская открытка с 'Красотуля!!!!' — главный текст."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        2,
+        5,
+        4,
+        4,
+        4
+      ],
+      "relevance_avg": 3.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.22,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Чисто рунетный."
+    }
+  },
+  {
+    "index": 2336,
+    "filename": "6f8c76220ca4.jpg",
+    "caption": "A Minion is in a sleepover setting, looking surprised.",
+    "ocr_text": "",
+    "main_idea": "The Minion is trying to explain why he's not sleeping in.",
+    "queries_ru": [
+      "я не сплю просто утренний сон миньон из гадкий я",
+      "im not sleeping in im just taking my morning nap миньон",
+      "миньон утренний сон мем imgflip",
+      "сонный миньон гадкий я мем утро",
+      "миньон уставший утренний сон мем"
+    ],
+    "queries_en": [
+      "minion morning nap not sleeping lazy",
+      "im not sleeping im just taking my morning nap minion",
+      "minion morning nap meme imgflip",
+      "lazy minion morning meme despicable me",
+      "tired minion morning nap meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Текст с мема + imgflip-watermark — основные сигналы."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.46,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4118,
+    "filename": "8fd66cea2493.png",
+    "caption": "A Minion holding a pink object, possibly a key, in a humorous or absurd context.",
+    "ocr_text": "",
+    "main_idea": "The Minion's presence and the pink object it holds create a playful or absurd situation.",
+    "queries_ru": [
+      "голый миньон из гадкий я которого вытирают",
+      "миньон фотошоп моют тряпкой мем",
+      "сюр миньон арт fanart странный",
+      "миньон cursed арт без одежды мем",
+      "странный миньон арт jocelyn мем"
+    ],
+    "queries_en": [
+      "naked minion being wiped despicable me",
+      "minion photoshop weird fanart meme",
+      "cursed minion fanart no clothes meme",
+      "surreal minion fan art meme",
+      "weird minion drawing jocelyn meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.49,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Cursed-арт миньона."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        4
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 4,
+      "final_score": 4.49,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 9409,
+    "filename": "284a56ab74da.webp",
+    "caption": "A cartoon illustration of a man with a beard and a black scarf.",
+    "ocr_text": "",
+    "main_idea": "The image is a humorous cartoon illustration of a man with a beard and a black scarf.",
+    "queries_ru": [
+      "войак с бородой рисунок",
+      "nordic chad чёрная футболка профиль",
+      "yes chad nordic chad шаблон",
+      "гигачад нордик чад шаблон пустой",
+      "нордический чад мем шаблон"
+    ],
+    "queries_en": [
+      "wojak beard drawing side profile",
+      "nordic chad blank template",
+      "yes chad nordic chad template",
+      "gigachad nordic chad template profile",
+      "nordic chad blonde beard meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Nordic Chad / Yes Chad — устоявшийся шаблон."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.8,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.7,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 9033,
+    "filename": "ec2a198fd04b.jpg",
+    "caption": "A cat meme showing a humorous transformation from a 7-year-old to an 28-year-old.",
+    "ocr_text": "",
+    "main_idea": "The meme humorously depicts the passage of time and the evolution of a cat's behavior.",
+    "queries_ru": [
+      "я в 7 лет и в 28 лет в магизне камеры слежения, ящерка с языком и без",
+      "ящерица 7 лет 20 лет камера слежения мем",
+      "lizard tongue out meme camera",
+      "геккон язык высунул мем сравнение возраст",
+      "ящерица в магазине 7 лет vs 20 лет мем"
+    ],
+    "queries_en": [
+      "cat 7 years old vs 28 security camera store lizard tongue",
+      "lizard tongue out 7 vs 20 years store camera meme",
+      "gecko sticking tongue out store camera meme",
+      "russian meme lizard age comparison camera",
+      "lizard tongue out reaction meme age"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        5
+      ],
+      "relevance_avg": 4.4,
+      "diversity": 4,
+      "naturalness": 4,
+      "specificity": 5,
+      "final_score": 4.31,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Это ящерица/геккон, не кот (caption и исходник ошиблись)."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        4,
+        4
+      ],
+      "relevance_avg": 4.2,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.43,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  },
+  {
+    "index": 4388,
+    "filename": "6b9319f394dd.webp",
+    "caption": "A muscular man with a cigarette in his hand, looking stern.",
+    "ocr_text": "",
+    "main_idea": "the man's serious expression and the cigarette suggest a serious or intense situation.",
+    "queries_ru": [
+      "думер лысый с сигаретой грустный",
+      "doomer wojak рисунок мем",
+      "думер войак чёрно-белый рисунок",
+      "doomer guy meme template",
+      "лысый думер мем войак"
+    ],
+    "queries_en": [
+      "doomer bald guy cigarette drawing",
+      "doomer wojak meme drawing",
+      "doomer guy meme template",
+      "bald doomer wojak black white meme",
+      "doomer wojak smoking meme"
+    ],
+    "evaluation_ru": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "Doomer wojak — устоявшаяся фигура. Картинка: похоже на AI-арт варианта doomer."
+    },
+    "evaluation_en": {
+      "relevance_per_query": [
+        3,
+        5,
+        5,
+        5,
+        5
+      ],
+      "relevance_avg": 4.6,
+      "diversity": 4,
+      "naturalness": 5,
+      "specificity": 5,
+      "final_score": 4.59,
+      "flags": {
+        "hallucination": false,
+        "has_duplicates": false
+      },
+      "comment": "См. RU."
+    }
+  }
+]
