@@ -1,11 +1,11 @@
 """
 build_embeddings_v2.py
 
-Строит РАЗДЕЛЬНЫЕ эмбеддинги для каждого типа данных:
-  - emb_ocr.npy         — OCR-текст с картинки
-  - emb_caption.npy     — caption + main_idea (семантическое описание)
-  - emb_keywords.npy    — objects + tone (ключевые слова)
-  - emb_image.npy       — CLIP-эмбеддинг картинки (не пересчитываем если есть)
+строим эмбеддинги для каждого типа данных:
+  emb_ocr.npy         OCR-текст с картинки
+  emb_caption.npy     caption + main_idea (семантическое описание)
+  emb_keywords.npy    objects + tone (ключевые слова)
+  emb_image.npy       CLIP-эмбеддинг картинки (не пересчитываем если есть)
 
 + FAISS-индексы для каждого
 + обновлённые метаданные

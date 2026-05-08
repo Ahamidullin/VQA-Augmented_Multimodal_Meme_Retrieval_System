@@ -96,7 +96,7 @@ Thumbs.db
 htmlcov/
 .coverage
 
-
+.env
 .venv/
 __pycache__/
 .DS_Store

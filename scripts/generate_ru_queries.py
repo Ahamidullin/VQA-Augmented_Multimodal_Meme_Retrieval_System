@@ -1,69 +1,98 @@
 """
-Генерация русских поисковых запросов для языкового эксперимента.
-Берёт EN-описания мемов и генерирует короткие RU-запросы через Qwen.
+Генерация русских search_queries для каждого мема.
+Берёт EN search_queries из vqa_annotations_v3.jsonl,
+переводит через OpenAI API, сохраняет в vqa_annotations_v3.jsonl (поле search_queries_ru).
 """
 
 import json
-import requests
+import os
+import threading
+from openai import OpenAI
 from tqdm import tqdm
 from pathlib import Path
+from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-QUERIES_FILE = Path("eval/language_experiment_queries.json")
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "qwen3-vl:2b"  # лёгкая модель, для перевода хватит
+load_dotenv()
+
+VQA_FILE = Path("data/processed/vqa_annotations_v3.jsonl")
+WORKERS = 10
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="https://ai.redivo.ru/v1"
+)
+
+# загрузка
+records = []
+with open(VQA_FILE) as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            records.append(json.loads(line))
+
+# считаем сколько уже переведено
+already = sum(1 for r in records if r.get("search_queries_ru"))
+print(f"Уже переведено: {already}, осталось: {len(records) - already}")
+
+lock = threading.Lock()
+updated = 0
 
 
-def translate_query(caption_en, main_idea_en, query_en):
-    """Генерирует короткий русский поисковый запрос для мема"""
-    prompt = f"""You are a translator. Given an English meme description, write a SHORT Russian search query (3-7 words) that a Russian-speaking user would type to find this meme.
+def translate_queries(queries_en):
+    """Переводит список EN search_queries на RU"""
+    prompt = f"""Translate these English meme search queries to Russian. 
+Keep them short (3-7 words each). Return ONLY the Russian queries, one per line.
 
-English description: {caption_en}
-Main idea: {main_idea_en}
-English query: {query_en}
+{chr(10).join(queries_en)}"""
 
-Write ONLY the Russian query, nothing else. No quotes, no explanation. Example format:
-мем про кота и программиста"""
+    resp = client.chat.completions.create(
+        model="gpt-5.4-mini-fast",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3,
+        max_tokens=200,
+    )
+    text = resp.choices[0].message.content.strip()
+    return [q.strip().strip('"\'') for q in text.split("\n") if q.strip()]
 
+
+def process(idx):
+    r = records[idx]
+    if r.get("search_queries_ru"):
+        return None
+    queries_en = r.get("search_queries", [])
+    if not queries_en:
+        r["search_queries_ru"] = []
+        return None
     try:
-        resp = requests.post(OLLAMA_URL, json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False,
-            "options": {"temperature": 0.3, "num_predict": 50}
-        }, timeout=30)
-        
-        text = resp.json().get("response", "").strip()
-        # Берём только первую строку
-        text = text.split("\n")[0].strip().strip('"\'')
-        return text
+        r["search_queries_ru"] = translate_queries(queries_en)
+        return idx
     except Exception as e:
-        print(f"Error: {e}")
-        return ""
+        r["search_queries_ru"] = []
+        return None
 
 
-def main():
-    with open(QUERIES_FILE) as f:
-        queries = json.load(f)
+# параллельный перевод
+to_process = [i for i, r in enumerate(records) if not r.get("search_queries_ru") and r.get("search_queries")]
+print(f"К обработке: {len(to_process)}")
 
-    updated = 0
-    for q in tqdm(queries, desc="Generating RU queries"):
-        if q.get("query_ru"):  # уже есть
-            continue
-        
-        ru = translate_query(q["caption"], q["main_idea"], q["query_en"])
-        q["query_ru"] = ru
-        updated += 1
+with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+    futures = {pool.submit(process, i): i for i in to_process}
+    for f in tqdm(as_completed(futures), total=len(futures), desc="Перевод"):
+        result = f.result()
+        if result is not None:
+            updated += 1
+        # сохранение каждые 500
+        if updated % 500 == 0 and updated > 0:
+            with lock:
+                with open(VQA_FILE, "w", encoding="utf-8") as out:
+                    for rec in records:
+                        out.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    with open(QUERIES_FILE, "w", encoding="utf-8") as f:
-        json.dump(queries, f, ensure_ascii=False, indent=2)
+# финальное сохранение
+with open(VQA_FILE, "w", encoding="utf-8") as f:
+    for rec in records:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    print(f"\nОбновлено {updated} запросов")
-    print("\nПримеры:")
-    for q in queries[:10]:
-        print(f'  EN: "{q["query_en"]}"')
-        print(f'  RU: "{q["query_ru"]}"')
-        print()
-
-
-if __name__ == "__main__":
-    main()
+print(f"\nПереведено {updated} записей")
+print(f"Пример: {records[0].get('search_queries_ru', [])}")

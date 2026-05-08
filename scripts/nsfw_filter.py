@@ -2,11 +2,11 @@
 nsfw_filter.py
 
 Фильтрация NSFW-контента в датасете мемов.
-Ставит флаг is_nsfw=True в vqa_annotations_v2.jsonl.
+Ставит флаг is_nsfw=True в vqa_annotations_v3.jsonl.
 Картинки НЕ удаляются.
 
 Подход: поиск по СЛОВАМ (не подстрока) — точное совпадение + prefix matching.
-Нормализация: lowercase + ё→е.
+Нормализация: lowercase + ё->е.
 """
 
 import json
@@ -14,7 +14,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
-VQA_FILE = Path("data/processed/vqa_annotations_v2.jsonl")
+VQA_FILE = Path("data/processed/vqa_annotations_v3.jsonl")
 BAD_WORDS_FILE = Path("configs/bad_words.txt")
 
 # слова из bad_words которые безобидны в контексте мемов
@@ -107,7 +107,7 @@ def main():
     with open(VQA_FILE, "w", encoding="utf-8") as f:
         for r in records:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print("\nСохранено!")
+ 
 
 
 if __name__ == "__main__":

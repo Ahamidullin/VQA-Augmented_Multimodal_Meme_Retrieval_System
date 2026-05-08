@@ -1,27 +1,60 @@
-Сейчас Предложение
-build_embeddings.py + build_embeddings_v2.py + build_index.py → один scripts/build_index.py
-vqa_annotations.jsonl + vqa_annotations_v2.jsonl Оставить только _v2 (полная версия)
+# TODO — курсовая: мультимодальный поиск мемов
+
+## ✅ Выполнено
+
+- [x] Собрана и очищена база мемов — 15530 после NSFW фильтра
+- [x] VQA-аннотации v3 (10 полей: caption, main_idea, ocr_text, objects, tone, meme_template, search_queries, tags, emotions, vqa)
+- [x] Ablation эксперимент: конфиги A→B→C→D→E→F (в `embedding_experiment.ipynb`)
+- [x] CLIP image эмбеддинги v3 — `emb_image_v3.npy` (15530×512)
+- [x] Финальные метрики F (C + search_queries, RRF [0.6, 0.4]):
+  - EN: Hit@1=29.9%, Hit@5=60.0%, Hit@10=65.5%, MRR@10=0.429
+  - RU: Hit@1=26.3%, Hit@5=57.0%, Hit@10=60.8%, MRR@10=0.397
+- [x] Reranker эксперимент — ухудшает (−2.2% EN, −3.7% RU), не используем
 
 ---
-scripts/: scrape_bing_fast, scrape_telegram_stickers, download_hf_memes,
-          run_ocr, run_paddle_ocr, clean_easy_ocr, merge_and_clean,
-          generate_vqa, enrich_vqa, nsfw_filter, generate_ru_queries
-data/:    emb_caption/ocr/keywords/image/caption_ru.npy + faiss_*.index,
-          index_metadata.jsonl, vqa_annotations_v2.jsonl, ru_translations.json
-eval/:    language_experiment_queries.json, final_pipeline_results.json, evaluate.py
-notebooks/: language_experiment, build_embeddings_bge, search_pipeline,
-            ru_index_after_marshrutization_exp
 
-----
+## ⏳ В процессе
 
-1. Что перезапустить после нового набора запросов
-Индексы и эмбеддинги мемов НЕ меняются — меняются только запросы. Порядок:
+- [ ] CLIP как компонент RRF — `eval_clip_rrf.py` считается
 
-1. Подготовить новый JSON (5 EN + 5 RU на мем)
-   → eval/language_experiment_queries_v3.json
-1. Перезапустить search_pipeline.ipynb:
-   - Ячейка 4 (Pre-encode запросов) — encode новых 500 EN + 500 RU
-   - Ячейка 5 (Evaluate) — финальная таблица
-1. Перезапустить ru_index.ipynb:
-   - Только ячейки 5-7 (evaluate с RU индексом)
-Всё. Индексы, BM25, переводы — не трогаем.
+---
+
+## 🔴 Критично (до созвона 10:00)
+
+### 1. Русские search_queries (цель: RU Hit@5 → 70%+)
+- [ ] Сгенерировать RU search_queries для 15530 мемов через GPT (~$1, 30 мин)
+- [ ] Построить русский search_queries индекс
+- [ ] Добавить в RRF как 3-й/4-й компонент
+- [ ] Оценить финальные метрики
+
+### 2. Телеграм-бот
+- [ ] Создать бота в BotFather, получить токен
+- [ ] Написать `src/bot/main.py` с финальным pipeline
+- [ ] Выдача top-K мемов картинками
+- [ ] Тест на живых запросах
+
+---
+
+## 🟡 После созвона
+
+### 3. Русские описания (caption_ru)
+- [ ] Догенерировать переводы для 8049 мемов (есть 7481 из 15530)
+- [ ] Построить русский caption индекс
+- [ ] Добавить в RRF
+
+### 4. Дописать тезис
+- [ ] Таблица ablation A→F + CLIP + RU
+- [ ] Секция про reranker (не помогает — объяснение)
+- [ ] Финальные метрики и архитектура pipeline
+
+---
+
+## Текущий лучший pipeline
+
+```
+Запрос → bge-m3 encode
+  ├── Индекс C (мега-текст, все поля) → top-50
+  ├── Индекс search_queries → top-50
+  └── (CLIP image — TBD)
+  → Weighted RRF [0.6, 0.4] → top-K
+```
