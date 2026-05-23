@@ -97,14 +97,14 @@ def evaluate(indices_list, weights, label=""):
 
 
 # сравнение конфигов
-print("\n=== F: C + EN_sq [0.6, 0.4] ===")
+print("\n F: C + EN_sq [0.6, 0.4]")
 evaluate([idx_all, idx_sq_en], [0.6, 0.4], "F")
 
-print("\n=== G: C + EN_sq + RU_sq [0.5, 0.25, 0.25] ===")
+print("\n G: C + EN_sq + RU_sq [0.5, 0.25, 0.25]")
 evaluate([idx_all, idx_sq_en, idx_sq_ru], [0.5, 0.25, 0.25], "G")
 
-print("\n=== G2: C + EN_sq + RU_sq [0.4, 0.3, 0.3] ===")
+print("\nG2: C + EN_sq + RU_sq [0.4, 0.3, 0.3]")
 evaluate([idx_all, idx_sq_en, idx_sq_ru], [0.4, 0.3, 0.3], "G2")
 
-print("\n=== G3: C + RU_sq [0.6, 0.4] ===")
+print("\n G3: C + RU_sq [0.6, 0.4]")
 evaluate([idx_all, idx_sq_ru], [0.6, 0.4], "G3")

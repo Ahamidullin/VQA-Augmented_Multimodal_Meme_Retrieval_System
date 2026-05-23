@@ -1,16 +1,22 @@
 """
 Телеграм-бот для поиска мемов.
 Pipeline: bge-m3 encode → FAISS (C + EN_sq + RU_sq) → RRF → top-5
-С пагинацией: "Показать ещё" если не нашёл нужное.
+С пагинацией и автообновлением БД.
 """
 
 import os
 import json
 import re
 import logging
+import asyncio
+import base64
+import shutil
 import numpy as np
 import faiss
 from pathlib import Path
+from io import BytesIO
+from PIL import Image
+from openai import OpenAI
 from dotenv import load_dotenv
 
 from aiogram import Bot, Dispatcher, F
@@ -23,14 +29,23 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
-# ── конфиг ──
+#  конфиг 
 BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
 VQA_FILE = Path("data/processed/vqa_annotations_v3.jsonl")
 EXP_DIR = Path("data/experiments")
+NEW_DIR = Path("data/raw/new")
+DONE_DIR = Path("data/raw/processed_new")
 PAGE_SIZE = 5
-MAX_PAGES = 5  # максимум 25 мемов
+MAX_PAGES = 5
+UPDATE_INTERVAL = 300  # секунд (5 мин)
+IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 
-# ── загрузка данных ──
+gpt_client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url="https://ai.redivo.ru/v1"
+)
+
+# загрузка данных 
 records = []
 with open(VQA_FILE) as f:
     for line in f:
@@ -42,21 +57,25 @@ with open(VQA_FILE) as f:
 
 log.info(f"Загружено {len(records)} мемов")
 
-# ── загрузка индексов ──
+# загрузка индексов 
 idx_all = faiss.read_index(str(EXP_DIR / "faiss_C_all.index"))
 idx_sq_en = faiss.read_index(str(EXP_DIR / "faiss_D_search_queries.index"))
 idx_sq_ru = faiss.read_index(str(EXP_DIR / "faiss_ru_search_queries.index"))
 
-# ── загрузка модели ──
+# эмбеддинги из индекса C для MMR
+emb_all = idx_all.reconstruct_n(0, idx_all.ntotal)
+log.info(f"Эмбеддинги для MMR: {emb_all.shape}")
+
+# загрузка модели
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("BAAI/bge-m3", device="cpu")
 log.info("Модель загружена")
 
-# ── хранилище сессий ──
-user_sessions = {}  # user_id → {query, fused, page, lang}
+# хранилище сессий
+user_sessions = {}  # user_id -> {query, fused, page, lang}
 
 
-# ── поисковые функции ──
+# поисковые функции
 def detect_lang(text):
     return "ru" if re.search("[а-яА-ЯёЁ]", text) else "en"
 
@@ -69,6 +88,25 @@ def rrf_fusion(index_results, weights, k=60):
                 continue
             scores[idx] = scores.get(idx, 0.0) + w / (k + rank + 1)
     return [idx for idx, _ in sorted(scores.items(), key=lambda x: -x[1])]
+
+
+def mmr_diversify(candidates, all_embs, threshold=0.80):
+    """MMR: убирает из candidates результаты, слишком похожие на уже выбранные.
+    all_embs — numpy массив всех эмбеддингов из индекса C."""
+    if not candidates:
+        return candidates
+    selected = [candidates[0]]
+    sel_vecs = [all_embs[candidates[0]]]
+
+    for idx in candidates[1:]:
+        vec = all_embs[idx]
+        # cosine similarity с каждым уже выбранным
+        max_sim = max(float(np.dot(vec, sv)) for sv in sel_vecs)
+        if max_sim < threshold:
+            selected.append(idx)
+            sel_vecs.append(vec)
+
+    return selected
 
 
 def search_full(query):
@@ -87,7 +125,9 @@ def search_full(query):
         results = [(i1[0], s1[0]), (i2[0], s2[0])]
         weights = [0.6, 0.4]
 
-    fused = rrf_fusion(results, weights)[:PAGE_SIZE * MAX_PAGES]
+    fused = rrf_fusion(results, weights)
+    fused = [idx for idx in fused if not records[idx].get("is_duplicate")]
+    fused = mmr_diversify(fused, emb_all)[:PAGE_SIZE * MAX_PAGES]
     return fused, lang
 
 
@@ -134,14 +174,14 @@ async def send_page(message_or_callback, user_id):
         kb.adjust(2)
         lang_label = "🇷🇺" if lang == "ru" else "🇺🇸"
         await target.answer(
-            f"{lang_label} Показано {end}/{len(fused)}. Нашёл нужный мем?",
+            f"{lang_label} Показано {sent} мемов. Нашёл нужный?",
             reply_markup=kb.as_markup()
         )
     elif sent > 0:
         await target.answer(f"Это все результаты ({end} мемов).")
 
 
-# ── бот ──
+#  бот 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
@@ -206,11 +246,111 @@ async def found_it(callback: CallbackQuery):
     user_sessions.pop(callback.from_user.id, None)
 
 
+#  автообновление БД 
+ANNOTATE_PROMPT = """Analyze this meme. Return JSON with: "caption", "ocr_text", "meme_template", "objects", "tone", "main_idea", "search_queries", "tags", "emotions", "vqa" (3 q/a pairs). Return ONLY valid JSON."""
+
+
+def encode_image_b64(path, max_size=512):
+    img = Image.open(path).convert("RGB")
+    img.thumbnail((max_size, max_size))
+    buf = BytesIO()
+    img.save(buf, format="JPEG", quality=85)
+    return base64.b64encode(buf.getvalue()).decode()
+
+
+def annotate_new_meme(img_path):
+    b64 = encode_image_b64(img_path)
+    resp = gpt_client.chat.completions.create(
+        model="gpt-5.4-mini-fast",
+        messages=[{"role": "user", "content": [
+            {"type": "text", "text": ANNOTATE_PROMPT},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}"}}
+        ]}],
+        temperature=0.2, max_tokens=800,
+    )
+    text = resp.choices[0].message.content.strip()
+    text = re.sub(r"^```json\s*", "", text)
+    text = re.sub(r"\s*```$", "", text)
+    return json.loads(text)
+
+
+def translate_sq(queries_en):
+    if not queries_en:
+        return []
+    resp = gpt_client.chat.completions.create(
+        model="gpt-5.4-mini-fast",
+        messages=[{"role": "user", "content": f"Translate to Russian, one per line:\n" + "\n".join(queries_en)}],
+        temperature=0.3, max_tokens=200,
+    )
+    return [q.strip().strip('"\'') for q in resp.choices[0].message.content.strip().split("\n") if q.strip()]
+
+
+async def auto_update_loop():
+    """Фоновая задача: проверяет data/raw/new/ каждые 5 мин"""
+    NEW_DIR.mkdir(parents=True, exist_ok=True)
+    DONE_DIR.mkdir(parents=True, exist_ok=True)
+    existing = {r["filename"] for r in records}
+
+    while True:
+        await asyncio.sleep(UPDATE_INTERVAL)
+        try:
+            new_imgs = [f for f in NEW_DIR.iterdir() if f.suffix.lower() in IMAGE_EXTS and f.name not in existing]
+            if not new_imgs:
+                continue
+
+            log.info(f"Автообновление: {len(new_imgs)} новых мемов")
+            for img_path in new_imgs:
+                try:
+                    ann = annotate_new_meme(img_path)
+                    ann["filename"] = img_path.name
+                    ann["source_path"] = str(DONE_DIR / img_path.name)
+                    ann["source"] = "auto_update"
+                    ann["is_nsfw"] = False
+                    ann["search_queries_ru"] = translate_sq(ann.get("search_queries", []))
+
+                    # encode + добавить в индексы
+                    all_text = ". ".join([
+                        ann.get("caption", ""), ann.get("main_idea", ""),
+                        ann.get("ocr_text", ""), " ".join(ann.get("objects", [])),
+                        ann.get("tone", ""), ann.get("meme_template", ""),
+                        " ".join(ann.get("search_queries", [])),
+                        " ".join(ann.get("tags", [])), " ".join(ann.get("emotions", [])),
+                    ])
+                    emb = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)
+                    idx_all.add(emb)
+
+                    sq_en = ", ".join(ann.get("search_queries", [])) or "empty"
+                    idx_sq_en.add(model.encode(sq_en, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+
+                    sq_ru = ", ".join(ann.get("search_queries_ru", [])) or "empty"
+                    idx_sq_ru.add(model.encode(sq_ru, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+
+                    records.append(ann)
+                    existing.add(img_path.name)
+                    shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+                    log.info(f"  + {img_path.name}")
+
+                except Exception as e:
+                    log.error(f"  ошибка {img_path.name}: {e}")
+
+            # сохранить на диск
+            with open(VQA_FILE, "w", encoding="utf-8") as f:
+                for r in records:
+                    f.write(json.dumps(r, ensure_ascii=False) + "\n")
+            faiss.write_index(idx_all, str(EXP_DIR / "faiss_C_all.index"))
+            faiss.write_index(idx_sq_en, str(EXP_DIR / "faiss_D_search_queries.index"))
+            faiss.write_index(idx_sq_ru, str(EXP_DIR / "faiss_ru_search_queries.index"))
+            log.info(f"Автообновление завершено. Всего: {len(records)} мемов")
+            
+        except Exception as e:
+            log.error(f"Ошибка автообновления: {e}")
+
+
 async def main():
     log.info("Бот запущен")
+    asyncio.create_task(auto_update_loop())
     await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
