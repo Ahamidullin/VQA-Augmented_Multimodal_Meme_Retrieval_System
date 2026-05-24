@@ -69,7 +69,7 @@ def image_to_base64_resized(image_path, max_size=512):
         w, h = img.size
         if max(w, h) > max_size:
             ratio = max_size / max(w, h)
-            img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)
+            img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)  # type: ignore
         buf = BytesIO()
         img.save(buf, format='JPEG', quality=85)
         return base64.b64encode(buf.getvalue()).decode("utf-8")
@@ -109,7 +109,7 @@ def query_ollama(image_path, prompt_text, max_retries=2):
             if attempt < max_retries - 1:
                 time.sleep(1)
         except requests.exceptions.RequestException as e:
-            log.error(f"Request failed (attempt {attempt+1}): {e}")
+            log.error(f"request failed (attempt {attempt+1}): {e}")
             if attempt < max_retries - 1:
                 time.sleep(2)
     return None
@@ -174,80 +174,70 @@ def load_already_enriched(path):
     return done
 
 
-def main():
-    log.info("запуск обогащения vqa-аннотаций")
-    log.info(f"Модель: {MODEL}")
 
-    records = load_existing_records(INPUT_JSONL)
-    log.info(f"загружено {len(records)} базовых аннотаций")
+records = load_existing_records(INPUT_JSONL)
+done = load_already_enriched(OUTPUT_JSONL)
+remaining = [r for r in records if r.get("filename", "") not in done]
 
-    done = load_already_enriched(OUTPUT_JSONL)
-    log.info(f"уже обработано: {len(done)}")
+if not remaining:
+    log.info("всё готово")
+    import sys; sys.exit(0)
 
-    remaining = [r for r in records if r.get("filename", "") not in done]
-    log.info(f"нужно обработать: {len(remaining)}")
+random.seed(42)
+random.shuffle(remaining)
 
-    if not remaining:
-        log.info("всё готово")
-        return
+OUTPUT_JSONL.parent.mkdir(parents=True, exist_ok=True)
 
-    random.seed(42)
-    random.shuffle(remaining)
+stats = {"success": 0, "failed": 0, "no_image": 0}
+start_time = time.time()
 
-    OUTPUT_JSONL.parent.mkdir(parents=True, exist_ok=True)
+with open(OUTPUT_JSONL, "a", encoding="utf-8") as f_out:
+    for record in tqdm(remaining, desc="Enriching VQA"):
+        filename = record.get("filename", "")
+        source_path = record.get("source_path", "")
+        img_path = Path(source_path)
 
-    stats = {"success": 0, "failed": 0, "no_image": 0}
-    start_time = time.time()
+        if not img_path.exists():
+            # сохраняем оригинал без обогащения
+            f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
+            f_out.flush()
+            stats["no_image"] += 1
+            continue
 
-    with open(OUTPUT_JSONL, "a", encoding="utf-8") as f_out:
-        for record in tqdm(remaining, desc="Enriching VQA"):
-            filename = record.get("filename", "")
-            source_path = record.get("source_path", "")
-            img_path = Path(source_path)
+        # формируем промпт
+        prompt = ENRICH_PROMPT.format(
+            caption=record.get("caption", "no caption"),
+            ocr_text=record.get("ocr_text", "")[:200],
+            tone=record.get("tone", "unknown"),
+        )
 
-            if not img_path.exists():
-                # сохраняем оригинал без обогащения
-                f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
-                f_out.flush()
-                stats["no_image"] += 1
-                continue
+        raw_response = query_ollama(str(img_path), prompt)
+        enriched = parse_json_response(raw_response)
 
-            # формируем промпт
-            prompt = ENRICH_PROMPT.format(
-                caption=record.get("caption", "no caption"),
-                ocr_text=record.get("ocr_text", "")[:200],
-                tone=record.get("tone", "unknown"),
-            )
+        if enriched:
+            # мержим новые поля
+            merged = {**record}
+            merged["ocr_normalized"] = enriched.get("ocr_normalized", "")
+            merged["objects_detailed"] = enriched.get("objects_detailed", record.get("objects", []))
+            merged["relations"] = enriched.get("relations", [])
+            merged["required_context"] = enriched.get("required_context", {"is_required": False, "what": ""})
+            merged["vqa"] = enriched.get("vqa", [])
 
-            raw_response = query_ollama(str(img_path), prompt)
-            enriched = parse_json_response(raw_response)
+            f_out.write(json.dumps(merged, ensure_ascii=False) + "\n")
+            f_out.flush()
+            stats["success"] += 1
+        else:
+            # сохраняем оригинал
+            log.warning(f"parse fail: {filename}")
+            f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
+            f_out.flush()
+            stats["failed"] += 1
 
-            if enriched:
-                # мержим новые поля
-                merged = {**record}
-                merged["ocr_normalized"] = enriched.get("ocr_normalized", "")
-                merged["objects_detailed"] = enriched.get("objects_detailed", record.get("objects", []))
-                merged["relations"] = enriched.get("relations", [])
-                merged["required_context"] = enriched.get("required_context", {"is_required": False, "what": ""})
-                merged["vqa"] = enriched.get("vqa", [])
-
-                f_out.write(json.dumps(merged, ensure_ascii=False) + "\n")
-                f_out.flush()
-                stats["success"] += 1
-            else:
-                # сохраняем оригинал
-                log.warning(f"Parse fail: {filename}")
-                f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
-                f_out.flush()
-                stats["failed"] += 1
-
-    elapsed = time.time() - start_time
-    total = stats["success"] + stats["failed"] + stats["no_image"]
-    log.info(f"завершено за {elapsed/3600:.1f} часов")
-    log.info(f"успешно: {stats['success']}, ошибок: {stats['failed']}, без картинки: {stats['no_image']}")
-    if total > 0:
-        log.info(f"среднее: {elapsed/total:.1f} с/мем")
+elapsed = time.time() - start_time
+total = stats["success"] + stats["failed"] + stats["no_image"]
+log.info(f"завершено за {elapsed/3600:.1f} часов")
+log.info(f"успешно: {stats['success']}, ошибок: {stats['failed']}, без картинки: {stats['no_image']}")
+if total > 0:
+    log.info(f"среднее: {elapsed/total:.1f} с/мем")
 
 
-if __name__ == "__main__":
-    main()

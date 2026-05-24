@@ -1,9 +1,5 @@
-"""скачивание мемов с huggingface datasets.
-скачивает картинки, фильтрует по стоп-словам, сохраняет metadata.csv.
-
-перед запуском: pip install datasets pillow
-
-запуск:python scripts/download_hf_memes.py
+"""скачивание мемов с huggingface datasets
+скачиваем картинки фильтрует по стоп-словам сохраняет metadata.csv
 """
 
 import csv
@@ -30,7 +26,6 @@ if bad_words_path.exists():
             line = line.strip()
             if line and not line.startswith('#'):
                 bad_words.append(line.lower())
-print(f'Загружено {len(bad_words)} стоп-слов')
 
 
 def is_clean(text: str) -> bool:
@@ -72,15 +67,12 @@ def safe_iter(ds):
 
 
 def download_memes_dataset():
-    """not-lain/meme-dataset, маленький датасет ~300 картинок"""
-    print('\nnot-lain/meme-dataset')
     results = []
 
     try:
 
         ds = load_dataset('not-lain/meme-dataset', split='train')
     except Exception as e:
-        print(f'  Не удалось загрузить: {e}')
         return results
 
     for idx, item in enumerate(tqdm(safe_iter(ds), desc='not-lain')):
@@ -107,24 +99,20 @@ def download_memes_dataset():
                 'source': 'not-lain/meme-dataset',
             })
 
-    print(f'  Сохранено: {len(results)}')
+    print(f'save {len(results)}')
     return results
 
 
 def download_mimic_memes(limit=5000):
-    """Aakash941/MIMIC-Meme-Dataset, 5k+ мемов"""
-    print('\nAakash941/MIMIC-Meme-Dataset')
     results = []
 
     try:
 
         ds = load_dataset('Aakash941/MIMIC-Meme-Dataset', split='train')
     except Exception as e:
-        print(f'  Не удалось загрузить (попробуем stream): {e}')
         try:
             ds = load_dataset('Aakash941/MIMIC-Meme-Dataset', split='train', streaming=True)
         except Exception as e2:
-             print(f'  Не удалось загрузить вообще: {e2}')
              return results
 
     for idx, item in enumerate(tqdm(safe_iter(ds), desc='MIMIC')):
@@ -154,26 +142,21 @@ def download_mimic_memes(limit=5000):
                 'source': 'Aakash941/MIMIC-Meme-Dataset',
             })
 
-    print(f'  Сохранено: {len(results)}')
+    print(f'save {len(results)}')
     return results
 
 
 def download_harpreetsahota_memes():
-    """harpreetsahota/memes-dataset"""
     print('\nharpreetsahota/memes-dataset')
     results = []
 
     try:
-
         ds = load_dataset('harpreetsahota/memes-dataset', split='train')
     except Exception as e:
-        print(f'  Не удалось загрузить: {e}')
-
         try:
             ds = load_dataset('harpreetsahota/memes-dataset', split='train', streaming=True)
         except:
             return results
-
     for idx, item in enumerate(tqdm(safe_iter(ds), desc='Harpreet')):
         text = ''
         for field in ['text', 'caption', 'title', 'label', 'description']:
@@ -201,60 +184,54 @@ def download_harpreetsahota_memes():
         if len(results) >= 2000:
             break
 
-    print(f'  Сохранено: {len(results)}')
+    print(f' save {len(results)}')
     return results
 
 
-def main():
-    print('HuggingFace Meme Downloader')
 
 
-    csv_path = OUTPUT_DIR / 'metadata.csv'
-    fieldnames = ['image_name', 'title', 'text_on_image', 'tags', 'source']
-    if not csv_path.exists():
-        with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
+csv_path = OUTPUT_DIR / 'metadata.csv'
+fieldnames = ['image_name', 'title', 'text_on_image', 'tags', 'source']
+if not csv_path.exists():
+    with open(csv_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-    def save_results(new_results):
-        if not new_results:
-            return
-        with open(csv_path, 'a', newline='', encoding='utf-8') as f:
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writerows(new_results)
-        print(f"  Saved {len(new_results)} records to metadata.csv")
+def save_results(new_results):
+    if not new_results:
+        return
+    with open(csv_path, 'a', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writerows(new_results)
 
-    all_results = []
+all_results = []
 
-    # not-lain
-    res = download_memes_dataset()
+
+res = download_memes_dataset()
+save_results(res)
+all_results.extend(res)
+
+if len(all_results) < MAX_TOTAL:
+    needed = MAX_TOTAL - len(all_results)
+    res = download_mimic_memes(limit=needed)
     save_results(res)
     all_results.extend(res)
-    
-    # mimic
-    if len(all_results) < MAX_TOTAL:
-        needed = MAX_TOTAL - len(all_results)
-        res = download_mimic_memes(limit=needed)
-        save_results(res)
-        all_results.extend(res)
-
-    # harpreet
-    if len(all_results) < MAX_TOTAL:
-        res = download_harpreetsahota_memes()
-        save_results(res)
-        all_results.extend(res)
-
-    print(f'\nготово')
-    print(f'Всего сохранено: {len(all_results)}')
-    print(f'Метаданные: {csv_path}')
-    print(f'Картинки: {IMAGES_DIR}')
-
-    from collections import Counter
-    src_counts = Counter(r['source'] for r in all_results)
-    print(f'\nпо источникам:')
-    for src, count in src_counts.most_common():
-        print(f'  {src}: {count}')
 
 
-if __name__ == '__main__':
-    main()
+if len(all_results) < MAX_TOTAL:
+    res = download_harpreetsahota_memes()
+    save_results(res)
+    all_results.extend(res)
+
+
+print(f'всего {len(all_results)}')
+print(f'метаданные {csv_path}')
+print(f'картинки {IMAGES_DIR}')
+
+from collections import Counter
+src_counts = Counter(r['source'] for r in all_results)
+for src, count in src_counts.most_common():
+    print(f'{src}: {count}')
+
+
+

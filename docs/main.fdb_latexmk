@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1772479396.84721 "main.bcf" "main.bbl" "main" 1772494088.99143 0
-  "main.bcf" 1772494088.88754 108970 9304dc591076ff35b1be8b4aefec89d6 "pdflatex"
+["biber main"] 1779616013.70939 "main.bcf" "main.bbl" "main" 1779616079.12551 0
+  "main.bcf" 1779616079.03066 108826 dac18621876bfb78a0be7d815d517b30 "pdflatex"
   "refs.bib" 1772478014.49233 6018 8b011c20e0e686ae6ebcdec350fa3a41 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1772494087.11189 "/Users/amirhamidullin/PycharmProjects/coursework3/docs/main.tex" "main.pdf" "main" 1772494088.99165 0
+["pdflatex"] 1779616077.54093 "/Users/amirhamidullin/PycharmProjects/coursework3/docs/main.tex" "main.pdf" "main" 1779616079.12571 0
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/labx1200.tfm" 1772402613.09304 3308 eee81981029f67083258db36df06e523 ""
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/labx1440.tfm" 1772402624.48013 3304 6a543c07045572737981351171e0505e ""
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/labx1728.tfm" 1772396585.84641 3312 d199be9bd555944e2403193d58a0256a ""
@@ -16,7 +16,7 @@
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/larm1728.tfm" 1772402616.88571 3252 92d08740ce00199d6cf9ff4aaada81d1 ""
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/lati1200.tfm" 1772402632.30976 3512 f3a56cfe95a159371df20f73d1eb107d ""
   "/Users/amirhamidullin/Library/texlive/2025/texmf-var/fonts/tfm/lh/lh-t2a/latt1200.tfm" 1772402628.12523 1272 bf3bb5cc29880b269c8bcb412a1ac6e2 ""
-  "/Users/amirhamidullin/PycharmProjects/coursework3/docs/main.tex" 1772494086.69567 39570 035ed2c215099055e1e0ebe32d716db8 ""
+  "/Users/amirhamidullin/PycharmProjects/coursework3/docs/main.tex" 1779616075.48226 48433 458ee7f0728b901a1d65fbc7f900cc1d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc" 1136849721 3141 82d5616418ed8d5de703b3951bedecb4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -155,12 +155,12 @@
   "graphics/tone_distribution.png" 1772405086.16908 36818 d824f96b314f7f659aef5bac5334fefd ""
   "graphics/vqa_overview.png" 1772405086.16946 54361 d9d8fabd0e8a42f8256bc0a46af3ab19 ""
   "graphics/word_frequency.png" 1772405086.17018 81469 3dc6dc3dca867dab89c1e615cdb392cf ""
-  "main.aux" 1772494088.88337 10486 891b14cef2c823a6781da47c4a8d7ba5 "pdflatex"
-  "main.bbl" 1772479400.99565 32030 a37921366f54e4d8bf9244796e10c1fe "biber main"
-  "main.out" 1772494088.88624 5103 b82c4daee881348917ed8586dfb64558 "pdflatex"
-  "main.run.xml" 1772494088.88811 2330 5eed0c2688ff3afbb2dc5b3dd2cd8203 "pdflatex"
-  "main.tex" 1772494086.69567 39570 035ed2c215099055e1e0ebe32d716db8 ""
-  "main.toc" 1772494088.88818 2858 ce00e385d9de3ca5b02760614000547d "pdflatex"
+  "main.aux" 1779616079.02204 12896 340bf3876eda2c4d48d22f5b33b37220 "pdflatex"
+  "main.bbl" 1779616015.75896 32070 b4e2c9fb02dc93a2a9a789e68abbfc55 "biber main"
+  "main.out" 1779616079.02805 6525 67316256a4c321d5bc09c4ff6d9db043 "pdflatex"
+  "main.run.xml" 1779616079.03132 2330 d6977b92a6002f43f31a915c27ba19d6 "pdflatex"
+  "main.tex" 1779616075.48226 48433 458ee7f0728b901a1d65fbc7f900cc1d ""
+  "main.toc" 1779616079.0314 3570 0143085b2c0dc66b4e50f6846d411107 "pdflatex"
   "title_kr.tex" 1772398361.11498 933 5539260030c3a7f383ddc819e2c9991c ""
   (generated)
   "main.aux"

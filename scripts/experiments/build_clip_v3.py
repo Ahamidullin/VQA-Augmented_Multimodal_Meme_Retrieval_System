@@ -1,4 +1,4 @@
-"""Строим CLIP эмбеддинги для v3 (15530 мемов после NSFW фильтра)"""
+"""строим clip эмбеддинги для v3 - 15530 мемов после фильтра"""
 import json, numpy as np, torch
 from pathlib import Path
 from PIL import Image
@@ -14,7 +14,6 @@ with open("data/processed/vqa_annotations_v3.jsonl") as f:
             if not r.get("is_nsfw"):
                 records.append(r)
 
-print(f"{len(records)} мемов")
 
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -30,7 +29,7 @@ for r in tqdm(records, desc="CLIP"):
         continue
     try:
         img = Image.open(img_path).convert("RGB")
-        inputs = processor(images=img, return_tensors="pt")
+        inputs = processor(images=img, return_tensors="pt")  # type: ignore
         with torch.no_grad():
             v = model.vision_model(pixel_values=inputs["pixel_values"])
             f = model.visual_projection(v.pooler_output)
@@ -42,4 +41,4 @@ for r in tqdm(records, desc="CLIP"):
 
 result = np.stack(embeddings)
 np.save("data/processed/emb_image_v3.npy", result)
-print(f"Сохранено: {result.shape}, ошибок: {errors}")
+print(f"save {result.shape}, errors {errors}")

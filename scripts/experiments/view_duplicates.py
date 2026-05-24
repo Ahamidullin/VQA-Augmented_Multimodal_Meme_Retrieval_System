@@ -1,4 +1,4 @@
-"""Просмотр ПАР дубликатов — открывает дубль и оригинал рядом"""
+"""Просмотр пар дубликатов: открываем дубль и оригинал рядом"""
 import json, subprocess, imagehash
 from pathlib import Path
 from PIL import Image
@@ -9,7 +9,7 @@ HASH_SIZE = 16
 with open(VQA_FILE) as f:
     records = [json.loads(l) for l in f if l.strip()]
 
-# пересчитать хеши
+# пересчитаем хеши
 
 hashes = []
 for r in records:
@@ -20,9 +20,8 @@ for r in records:
         h = None
     hashes.append(h)
 
-# найти пары
-originals = []  # (index, hash)
-pairs = []      # (dup_index, orig_index, distance)
+originals = []
+pairs = []    
 
 for i in range(len(records)):
     if hashes[i] is None:
@@ -37,18 +36,18 @@ for i in range(len(records)):
     if not found:
         originals.append((i, hashes[i]))
 
-print(f"Найдено пар: {len(pairs)}")
+print(f"найдено пар {len(pairs)}")
 
-# показать и открыть первые N пар
+
 N = 10
 for pair_num, (dup_i, orig_i, dist) in enumerate(pairs[:N]):
     dup = records[dup_i]
     orig = records[orig_i]
-    print(f"\nПара {pair_num+1} (distance={dist})")
-    print(f"  дубль:    {dup['filename']} — {dup.get('caption','')[:60]}")
-    print(f"  оригинал: {orig['filename']} — {orig.get('caption','')[:60]}")
+    print(f"\nпара {pair_num+1} (distance={dist})")
+    print(f"дубль {dup['filename']} — {dup.get('caption','')[:60]}")
+    print(f"оригинал {orig['filename']} — {orig.get('caption','')[:60]}")
     
-    # открыть обе картинки
+    
     paths = []
     for r in [dup, orig]:
         p = Path(r.get("source_path", ""))

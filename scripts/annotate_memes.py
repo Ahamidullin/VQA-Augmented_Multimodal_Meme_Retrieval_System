@@ -1,13 +1,9 @@
 """
-annotate_memes.py
-
-Аннотация мемов через GPT-4o-mini API.
-Один проход: описание + метаданные + VQA.
-
-Вход:  data/processed/final_dataset_text.csv
-Выход: data/processed/vqa_annotations_v3.jsonl
-
-Поддерживает resume (безопасно перезапускать).
+аннотация мемов через gpt-5.4-mini-fast
+один проход: описание + метаданные + vqa
+вход: data/processed/final_dataset_text.csv
+выход: data/processed/vqa_annotations_v3.jsonl
+поддерживает resume
 """
 
 import os
@@ -15,30 +11,18 @@ import csv
 import json
 import time
 import base64
-import logging
+import sys
+import threading
 from io import BytesIO
 from pathlib import Path
 from tqdm import tqdm
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
-import sys
-import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 load_dotenv()
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler("annotation.log", encoding="utf-8")
-    ]
-)
-log = logging.getLogger(__name__)
-
-# конфиг
 INPUT_CSV = Path("data/processed/final_dataset_text.csv")
 OUTPUT_JSONL = Path("data/processed/vqa_annotations_v3.jsonl")
 MODEL = "gpt-5.4-mini-fast"
@@ -76,18 +60,17 @@ def image_to_base64_resized(image_path, max_size=512):
     img = Image.open(image_path)
     if img.mode in ('RGBA', 'P', 'LA'):
         img = img.convert('RGB')
-    
+
     w, h = img.size
     if max(w, h) > max_size:
         ratio = max_size / max(w, h)
-        img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)
-    
+        img = img.resize((int(w * ratio), int(h * ratio)), Image.LANCZOS)  # type: ignore
+
     buf = BytesIO()
     img.save(buf, format='JPEG', quality=85)
-    
+
     base64_string = base64.b64encode(buf.getvalue()).decode("utf-8")
     return f"data:image/jpeg;base64,{base64_string}"
-    
 
 
 def query_gpt(image_path, ocr_text="", num_attempt=3):
@@ -117,14 +100,11 @@ def query_gpt(image_path, ocr_text="", num_attempt=3):
             )
             return response.choices[0].message.content
         except Exception as e:
-            log.error(f"gpt error (attempt {attempt+1}): {e}")
             if "401" in str(e) or "invalid_api_key" in str(e):
-                log.error("неверный API ключ — останавливаем скрипт")
                 sys.exit(1)
             if attempt < num_attempt - 1:
                 time.sleep(2)
     return None
-
 
 
 def parse_json_response(text):
@@ -132,15 +112,14 @@ def parse_json_response(text):
     if not text:
         return None
     text = text.strip()
-    
 
     if "```json" in text:
         text = text.split("```json")[1]
     if "```" in text:
         text = text.split("```")[0]
-    
+
     text = text.strip()
-    
+
     # находим json 
     start = text.find("{")
     end = text.rfind("}") + 1
@@ -170,23 +149,20 @@ def load_already_processed(output_path):
     return done
 
 
-log.info(f"запуск аннотации. модель: {MODEL}")
-
 memes = []
 with open(INPUT_CSV, "r", encoding="utf-8") as f:
     for meme in csv.DictReader(f):
         if Path(meme["source_path"]).exists():
             memes.append(meme)
 
-log.info(f"файлов на диске: {len(memes)}")
-
 done = load_already_processed(OUTPUT_JSONL)
-log.info(f"уже обработано: {len(done)}")
-remaining = [meme for meme in memes if meme["filename"] not in done]
-log.info(f"осталось: {len(remaining)}")
+
+remaining = []
+for meme in memes:
+    if meme["filename"] not in done:
+        remaining.append(meme)
 
 if not remaining:
-    log.info("все сделано")
     sys.exit(0)
 
 OUTPUT_JSONL.parent.mkdir(parents=True, exist_ok=True)
@@ -214,7 +190,10 @@ def process_meme(meme):
 
 with open(OUTPUT_JSONL, "a", encoding="utf-8") as f_out:
     with ThreadPoolExecutor(max_workers=WORKERS) as executor:
-        futures = {executor.submit(process_meme, meme): meme for meme in remaining}
+        futures = {}
+        for meme in remaining:
+            fut = executor.submit(process_meme, meme)
+            futures[fut] = meme
         for future in tqdm(as_completed(futures), total=len(remaining), desc="annotate"):
             result, status = future.result()
             with lock:
@@ -223,8 +202,4 @@ with open(OUTPUT_JSONL, "a", encoding="utf-8") as f_out:
                     f_out.write(json.dumps(result, ensure_ascii=False) + "\n")
                     f_out.flush()
 
-log.info(f"готово: {stats}")
-
-
-
-
+print(f"готово {stats}")

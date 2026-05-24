@@ -1,19 +1,15 @@
-"""
-Автообновление БД мемов.
-1. Сканирует data/raw/new/ на новые картинки
-2. Аннотирует через GPT (10 полей)
-3. Переводит search_queries на RU
-4. Encode через bge-m3
-5. Добавляет в FAISS индексы
-6. Перемещает обработанные в data/raw/processed_new/
-
-Запуск: OMP_NUM_THREADS=1 .venv/bin/python scripts/update_db.py
+"""автообновление бд мемов
+сканирует data/raw/new/ на новые картинки
+аннотирует через gpt, переводит search_queries на ru
+encode через bge-m3, добавляет в faiss индексы
+перемещает обработанные в data/raw/processed_new/
 """
 
 import json
 import os
 import re
 import shutil
+import sys
 import base64
 import numpy as np
 import faiss
@@ -26,7 +22,6 @@ from sentence_transformers import SentenceTransformer
 
 load_dotenv()
 
-# ── конфиг ──
 NEW_DIR = Path("data/raw/new")
 DONE_DIR = Path("data/raw/processed_new")
 VQA_FILE = Path("data/processed/vqa_annotations_v3.jsonl")
@@ -76,7 +71,7 @@ def annotate_meme(img_path):
         temperature=0.2,
         max_tokens=800,
     )
-    text = resp.choices[0].message.content.strip()
+    text = (resp.choices[0].message.content or "").strip()
     text = re.sub(r"^```json\s*", "", text)
     text = re.sub(r"\s*```$", "", text)
     return json.loads(text)
@@ -96,113 +91,98 @@ Keep them short (3-7 words each). Return ONLY the Russian queries, one per line.
         temperature=0.3,
         max_tokens=200,
     )
-    text = resp.choices[0].message.content.strip()
-    return [q.strip().strip('"\'') for q in text.split("\n") if q.strip()]
+    text = (resp.choices[0].message.content or "").strip()
+    result = []
+    for q in text.split("\n"):
+        q = q.strip().strip("\"'")
+        if q:
+            result.append(q)
+    return result
 
 
-def main():
-    NEW_DIR.mkdir(parents=True, exist_ok=True)
-    DONE_DIR.mkdir(parents=True, exist_ok=True)
+NEW_DIR.mkdir(parents=True, exist_ok=True)
+DONE_DIR.mkdir(parents=True, exist_ok=True)
 
-    # найти новые картинки
-    new_images = [f for f in NEW_DIR.iterdir() if f.suffix.lower() in IMAGE_EXTS]
-    if not new_images:
-        print("Нет новых мемов в data/raw/new/")
-        return
+new_images = []
+for f in NEW_DIR.iterdir():
+    if f.suffix.lower() in IMAGE_EXTS:
+        new_images.append(f)
 
-    print(f"Найдено {len(new_images)} новых мемов")
+if not new_images:
+    sys.exit(0)
 
-    # загрузка существующих данных
-    records = []
-    with open(VQA_FILE) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                records.append(json.loads(line))
+records = []
+with open(VQA_FILE) as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            records.append(json.loads(line))
 
-    existing_files = {r["filename"] for r in records}
+existing_files = set()
+for r in records:
+    existing_files.add(r["filename"])
 
-    # загрузка модели
-    print("Загрузка bge-m3...")
-    model = SentenceTransformer("BAAI/bge-m3", device="cpu")
+model = SentenceTransformer("BAAI/bge-m3", device="cpu")
 
-    # загрузка индексов
-    idx_all = faiss.read_index(str(EXP_DIR / "faiss_C_all.index"))
-    idx_sq_en = faiss.read_index(str(EXP_DIR / "faiss_D_search_queries.index"))
-    idx_sq_ru = faiss.read_index(str(EXP_DIR / "faiss_ru_search_queries.index"))
+idx_all = faiss.read_index(str(EXP_DIR / "faiss_C_all.index"))
+idx_sq_en = faiss.read_index(str(EXP_DIR / "faiss_D_search_queries.index"))
+idx_sq_ru = faiss.read_index(str(EXP_DIR / "faiss_ru_search_queries.index"))
 
-    added = 0
-    for img_path in new_images:
-        if img_path.name in existing_files:
-            print(f"  [пропуск] {img_path.name} уже в БД")
-            shutil.move(str(img_path), str(DONE_DIR / img_path.name))
-            continue
+added = 0
+for img_path in new_images:
+    if img_path.name in existing_files:
+        shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+        continue
 
-        print(f"  [{added+1}/{len(new_images)}] {img_path.name}")
+    try:
+        ann = annotate_meme(img_path)
+        ann["filename"] = img_path.name
+        ann["source_path"] = str(DONE_DIR / img_path.name)
+        ann["source"] = "user_upload"
+        ann["is_nsfw"] = False
 
-        try:
-            # 1. аннотация
-            ann = annotate_meme(img_path)
-            ann["filename"] = img_path.name
-            ann["source_path"] = str(DONE_DIR / img_path.name)
-            ann["source"] = "user_upload"
-            ann["is_nsfw"] = False
+        ann["search_queries_ru"] = translate_queries(ann.get("search_queries", []))
 
-            # 2. перевод search_queries
-            ann["search_queries_ru"] = translate_queries(ann.get("search_queries", []))
+        parts = [
+            ann.get("caption", ""),
+            ann.get("main_idea", ""),
+            ann.get("ocr_text", ""),
+            " ".join(ann.get("objects", [])),
+            ann.get("tone", ""),
+            ann.get("meme_template", ""),
+            " ".join(ann.get("search_queries", [])),
+            " ".join(ann.get("tags", [])),
+            " ".join(ann.get("emotions", [])),
+        ]
+        all_text = ". ".join(parts)
+        emb_all = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)  # type: ignore
+        idx_all.add(emb_all)  # type: ignore
 
-            # 3. encode и добавление в индексы
-            # C (мега-текст)
-            all_text = ". ".join([
-                ann.get("caption", ""),
-                ann.get("main_idea", ""),
-                ann.get("ocr_text", ""),
-                " ".join(ann.get("objects", [])),
-                ann.get("tone", ""),
-                ann.get("meme_template", ""),
-                " ".join(ann.get("search_queries", [])),
-                " ".join(ann.get("tags", [])),
-                " ".join(ann.get("emotions", [])),
-            ])
-            emb_all = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)
-            idx_all.add(emb_all)
+        sq_en = ", ".join(ann.get("search_queries", []))
+        emb_sq_en = model.encode(sq_en if sq_en else "empty", normalize_embeddings=True).reshape(1, -1).astype(np.float32)  # type: ignore
+        idx_sq_en.add(emb_sq_en)  # type: ignore
 
-            # EN search_queries
-            sq_en = ", ".join(ann.get("search_queries", []))
-            emb_sq_en = model.encode(sq_en if sq_en else "empty", normalize_embeddings=True).reshape(1, -1).astype(np.float32)
-            idx_sq_en.add(emb_sq_en)
+        sq_ru = ", ".join(ann.get("search_queries_ru", []))
+        emb_sq_ru = model.encode(sq_ru if sq_ru else "empty", normalize_embeddings=True).reshape(1, -1).astype(np.float32)  # type: ignore
+        idx_sq_ru.add(emb_sq_ru)  # type: ignore
 
-            # RU search_queries
-            sq_ru = ", ".join(ann.get("search_queries_ru", []))
-            emb_sq_ru = model.encode(sq_ru if sq_ru else "empty", normalize_embeddings=True).reshape(1, -1).astype(np.float32)
-            idx_sq_ru.add(emb_sq_ru)
+        records.append(ann)
+        added += 1
 
-            # 4. сохранить запись
-            records.append(ann)
-            added += 1
+        shutil.move(str(img_path), str(DONE_DIR / img_path.name))
 
-            # 5. переместить файл
-            shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+    except Exception as e:
+        print(f"ошибка {img_path.name} {e}")
 
-        except Exception as e:
-            print(f"    ошибка: {e}")
+if added == 0:
+    sys.exit(0)
 
-    if added == 0:
-        print("Ничего не добавлено")
-        return
+with open(VQA_FILE, "w", encoding="utf-8") as f:
+    for r in records:
+        f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
-    # сохранить обновлённые данные
-    with open(VQA_FILE, "w", encoding="utf-8") as f:
-        for r in records:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+faiss.write_index(idx_all, str(EXP_DIR / "faiss_C_all.index"))
+faiss.write_index(idx_sq_en, str(EXP_DIR / "faiss_D_search_queries.index"))
+faiss.write_index(idx_sq_ru, str(EXP_DIR / "faiss_ru_search_queries.index"))
 
-    faiss.write_index(idx_all, str(EXP_DIR / "faiss_C_all.index"))
-    faiss.write_index(idx_sq_en, str(EXP_DIR / "faiss_D_search_queries.index"))
-    faiss.write_index(idx_sq_ru, str(EXP_DIR / "faiss_ru_search_queries.index"))
-
-    print(f"\n✅ Добавлено {added} мемов. Всего: {len(records)}")
-    print("Индексы обновлены. Перезапусти бота для применения.")
-
-
-if __name__ == "__main__":
-    main()
+print(f"добавлено {added} всего {len(records)}")

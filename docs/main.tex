@@ -57,25 +57,26 @@ maxbibnames=99
 %==============================================================================
 \section*{Annotation} 
 \addcontentsline{toc}{section}{Annotation}
-This work develops an intelligent multimodal meme retrieval system that enables
-users to find relevant images by text description, reference image, or their
-combination. The system is based on modern machine learning methods: multimodal
-embeddings (CLIP), vision-language models for description generation, and a
-two-stage retrieval architecture. At the current interim stage, data collection,
-OCR, VQA annotation, embedding generation, FAISS indexing, and a working search
-demo have been completed. Cross-encoder re-ranking, FastAPI backend, and Telegram
-bot are planned for the second stage. System quality will be evaluated using
-information retrieval metrics (Hit@K, Recall@K, MRR@10) on a validation set of
-300 manually annotated queries.
+This work presents an intelligent multimodal meme retrieval system implemented
+as a Telegram bot, enabling users to find relevant memes by text description
+(in English or Russian), by reference image, or by their combination.
+The system uses GPT with vision capabilities to generate structured 10-field
+annotations for each meme, the BGE-M3 multilingual encoder to build three FAISS
+indices, and Reciprocal Rank Fusion (RRF) for late fusion of search results.
+Maximal Marginal Relevance (MMR) ensures diversity in the output.
+The corpus contains 16,030 annotated memes from 6 sources, with 5,827 exact
+duplicates identified via perceptual hashing and filtered at retrieval time.
+On a test set of 100 memes (495 queries), the system achieves
+Hit@5 = 60.0\% for English and 57.0\% for Russian queries.
 
 
 \section*{\foreignlanguage{russian}{Аннотация}}
 \foreignlanguage{russian}{
-В данной работе разрабатывается интеллектуальная система мультимодального поиска мемов, позволяющая пользователям находить релевантные изображения по текстовому описанию, референсной картинке или их комбинации. Система основана на современных методах машинного обучения: мультимодальных эмбеддингах (CLIP), визуально-языковых моделях для генерации описаний и двухступенчатой архитектуре поиска с переранжированием. Планируется создание базы из 10 000 мемов с описаниями, построение векторного индекса для быстрого поиска и разработка Telegram-бота как пользовательского интерфейса. Качество системы будет оценено с использованием метрик информационного поиска (Hit@K, Recall@K, MRR@10) на валидационной выборке из 300 запросов с ручной разметкой.
+В данной работе представлена интеллектуальная система мультимодального поиска мемов, реализованная в виде Telegram-бота. Система позволяет находить релевантные мемы по текстовому описанию на английском или русском языке, по референсной картинке, либо по их комбинации. Для аннотации используется визуально-языковая модель GPT, генерирующая 10 структурированных полей для каждого мема. Мультиязычный энкодер BGE-M3 строит три FAISS-индекса, результаты объединяются через Reciprocal Rank Fusion (RRF). Для обеспечения разнообразия выдачи применяется Maximal Marginal Relevance (MMR). Корпус содержит 16~030 аннотированных мемов из 6 источников, из которых 5~827 точных дубликатов выявлены перцептивным хешированием и исключены из выдачи. На тестовой выборке из 100 мемов (495 запросов) система достигает Hit@5 = 60.0\% для английских и 57.0\% для русских запросов.
 }
 
 \section*{Keywords}
-Multimodal retrieval, CLIP, vision-language models, VQA, embeddings, vector search, information retrieval, memes, Telegram bot, re-ranking
+Multimodal retrieval, VQA, vision-language models, BGE-M3, FAISS, RRF, MMR, perceptual hashing, memes, Telegram bot
 
 \pagebreak
 
@@ -104,13 +105,13 @@ The goal of this project is to develop an intelligent multimodal meme retrieval 
 
 To achieve this goal, the following objectives must be accomplished:
 
-1. Collect and prepare a database of approximately 10,000 memes from open sources, including text extraction from images (OCR) and semantic description generation using vision-language models (VQA annotations).
+1. Collect and prepare a database of approximately 16,000 memes from open sources, including text extraction from images (OCR) and semantic description generation using a vision-language model (GPT with 10 structured annotation fields).
 
-2. Build a multimodal index based on vector embeddings (CLIP) with efficient storage and search organization in a vector database.
+2. Build a multimodal index based on vector embeddings (BGE-M3) with efficient storage and search organization in FAISS.
 
-3. Implement a two-stage retrieval architecture: fast approximate search by embeddings followed by re-ranking of top-K candidates to improve precision.
+3. Implement a hybrid retrieval architecture with Reciprocal Rank Fusion (RRF) of multiple indices and Maximal Marginal Relevance (MMR) for result diversity.
 
-4. Develop a Telegram bot supporting three input modes with a user-friendly interface.
+4. Develop a Telegram bot supporting three input modes (text, image, hybrid) with a user-friendly interface and automatic database updates.
 
 5. Conduct system quality evaluation using information retrieval metrics on a validation set with manual annotation.
 
@@ -124,11 +125,11 @@ Additionally, the architectural solutions and methods developed within this proj
 
 The novelty of this project lies in its comprehensive approach to multimodal meme retrieval, which includes:
 
-1. Use of VQA annotations: applying vision-language models to generate structured meme descriptions that account for both visual content and overlaid text. Unlike simple captioning, the VQA approach allows extracting deeper semantic information.
+1. Use of VQA annotations: applying GPT with vision to generate structured 10-field meme descriptions that account for visual content, overlaid text, semantics, emotions, and search queries. Unlike simple captioning, this approach captures deeper semantic information.
 
-2. Two-stage retrieval architecture: combining fast approximate search by embeddings (first stage) with more precise re-ranking through a cross-encoder model (second stage). This achieves a balance between search speed and quality.
+2. Hybrid retrieval architecture: combining early fusion (all annotation fields concatenated before encoding) with late fusion (RRF across multiple FAISS indices after independent search). Maximal Marginal Relevance (MMR) ensures diversity in the final ranking.
 
-3. Hybrid representation: combining dense embeddings (CLIP) and sparse representations (BM25 on texts) to improve search robustness for different query types.
+3. Corpus deduplication: applying perceptual hashing (phash) to detect cross-source duplicates, which are filtered at retrieval time while preserving index position consistency.
 
 4. Specialization for the meme domain: adapting approaches to the specifics of internet memes, which differ from standard images by having overlaid text, cultural references, and semantic complexity.
 
@@ -187,13 +188,13 @@ May 2026 & Finalization & Load/latency stress tests, monitoring + final report \
 
 \textbf{Phase 1: Data Collection \& Cleaning.} Parsing memes from Bing Images, Telegram sticker packs, Kaggle datasets, HuggingFace, and Imgflip. Filtering duplicates and inappropriate content using content moderation lists.
 
-Phase 2: Annotation Pipeline. Two-stage OCR (EasyOCR + PaddleOCR v3) with confidence-based filtering. Generating structured VQA annotations using the Qwen2.5-VL vision-language model via Ollama, followed by an enrichment pass.
+Phase 2: Annotation Pipeline. Two-stage OCR (EasyOCR + PaddleOCR v3) with confidence-based filtering. Initial VQA annotations using Qwen2.5-VL-3B via Ollama (4 fields), followed by re-annotation with GPT Vision (10 fields) for the full corpus.
 
-Phase 3: Search Infrastructure. Computing CLIP embeddings for images and sentence-transformer embeddings for text. Building FAISS indices with inner product similarity. BM25 sparse retrieval integration.
+Phase 3: Search Infrastructure. Computing bge-m3 embeddings for text. Building 3 FAISS indices (mega-text, EN search queries, RU search queries). Perceptual hash deduplication.
 
-Phase 4: Application Layer. FastAPI backend with search endpoints. Telegram bot (aiogram) supporting text, image, and hybrid queries. Cross-encoder re-ranking for top-K candidates.
+Phase 4: Application Layer. Telegram bot (aiogram 3) supporting text, image, and hybrid queries. GPT Vision for image-based search. RRF fusion and MMR diversity.
 
-\textbf{Phase 5: Finalization.} Load and latency stress testing, monitoring setup, final report preparation. Note: quality evaluation (Hit@K, Recall@K, MRR@10) is performed continuously throughout all preceding phases to guide method selection and parameter tuning.
+\textbf{Phase 5: Finalization.} Quality evaluation (Hit@K, MRR@10) on 100 annotated memes (495 queries), final report preparation.
 \pagebreak
 
 %==============================================================================
@@ -281,53 +282,46 @@ To enable semantic meme retrieval beyond simple text or visual similarity, each 
 
 \subsubsection{Model Selection}
 
-Several vision-language models were considered for the VQA annotation task, including Qwen2.5-VL-7B and Qwen3-8B with stronger multimodal understanding and Russian language support. However, larger models could not be loaded efficiently for batch processing of 10,000+ images within the project constraints: Apple M4 Pro with 24 GB unified RAM, Ollama inference backend, and a strict project deadline. Loading a 7B+ model via Ollama on Apple Silicon requires $\geq$14 GB activeRAM, leaving insufficient headroom for system processes during multi-hour annotation runs. After benchmarking on a 50-image sample, Qwen2.5-VL-3B was selected as the best balance of quality and throughput:
+Several vision-language models were considered for the VQA annotation task. The initial prototype used Qwen2.5-VL-3B running locally via Ollama on Apple M4 Pro (24~GB unified RAM). While this model produced acceptable results for an initial subset of 10,000 memes, it was limited by processing speed (2--4 seconds per image), an approximately 3.3\% hallucination rate, and coverage of only 4 fields per pass (caption, objects, tone, main\_idea), requiring a separate enrichment stage.
+
+For the final annotation run, the pipeline was migrated to GPT with vision capabilities (via an OpenAI-compatible API endpoint). This enabled:
 
 \begin{itemize}
-    \item Resource efficiency: The 3B parameter variant runs on consumer hardware via the Ollama inference framework, with image preprocessing (resize to 512px) to reduce memory and latency. This was critical for processing the full corpus locally.
-    \item Multimodal understanding: Despite its smaller size, the model jointly processes images and text, enabling it to understand the relationship between overlaid text and visual content in memes.
-    \item Structured output: Qwen2.5-VL reliably generates JSON-formatted responses when instructed, which is critical for automated pipeline processing. Testing showed 99.1\% of responses are valid, parseable JSON.
-    \item Multilingual support: The model handles both English and Russian text, which is important given the bilingual nature of the dataset.
+    \item A single-pass annotation producing all 10 structured fields simultaneously.
+    \item Significantly higher output quality with near-zero hallucination rate.
+    \item Parallel processing with 5 concurrent workers, completing 16,030 memes in approximately 4 hours.
 \end{itemize}
-
-For the second stage, it is planned to re-annotate a subset using the Qwen3-8B model on GPU via Yandex DataSphere and compare annotation quality.
 
 \subsubsection{Subset Selection for Annotation}
 
-From the 16,080 cleaned entries, a subset of 10,000 memes was selected for VQA annotation using a source-prioritized strategy. All Telegram sticker images were included first, as stickers represent a distinct meme format with unique visual characteristics. The remaining slots were filled with Bing-sourced memes, randomly sampled with a fixed seed for reproducibility. The final mixture was shuffled to interleave sources during processing.
+From the 16,080 cleaned entries, all images were selected for VQA annotation (no subset sampling was required due to the efficiency of the GPT-based pipeline). The final annotated corpus contains 16,030 memes (50 images were skipped due to file corruption or format issues).
 
 \subsubsection{Annotation Schema}
 
-The annotation pipeline operates in two stages, producing a rich structured representation for each meme.
+The annotation pipeline operates in a single pass, producing a rich structured representation for each meme.
 
-Stage 1: Base annotation. The \texttt{generate\_vqa.py} script processes each meme image along with its OCR text and produces a base annotation in JSON format:
+The \texttt{annotate\_memes.py} script processes each meme image through GPT with vision and produces a complete annotation in JSON format with 10 fields:
 
 \begin{itemize}
     \item \texttt{caption}: A 1--2 sentence neutral description of the image content.
-    \item \texttt{objects}: A list of up to 5 key objects visible in the image.
-    \item \texttt{tone}: The emotional tone (humor, sarcasm, critique, support, neutral, absurd).
-    \item \texttt{main\_idea}: One sentence summarizing the main message of the meme.
+    \item \texttt{ocr\_text}: Text extracted from the image by the VLM.
+    \item \texttt{meme\_template}: Name of the recognized meme template (e.g., Drake, Distracted Boyfriend).
+    \item \texttt{objects}: A list of up to 5 key visual objects.
+    \item \texttt{tone}: The emotional tone (ironic, wholesome, absurd, dark, relatable, aggressive, neutral).
+    \item \texttt{main\_idea}: One sentence summarizing the joke or main message.
+    \item \texttt{search\_queries}: 3--5 natural-language search queries that would lead to this meme.
+    \item \texttt{tags}: 5--10 descriptive tags.
+    \item \texttt{emotions}: List of emotions conveyed.
+    \item \texttt{vqa}: 3 question--answer pairs covering text content, scene description, and joke explanation.
 \end{itemize}
 
-The model is queried via the Ollama Chat API with a temperature of 0.3 for consistent outputs and a 256-token generation limit. Images are resized to 512px maximum dimension and converted to JPEG before encoding to base64, reducing inference time.
-
-Stage 2: Enrichment. The \texttt{enrich\_vqa.py} script takes the base annotations and generates additional fields using the same model with an extended 800-token generation limit:
-
-\begin{itemize}
-    \item \texttt{ocr\_normalized}: Cleaned OCR text with fixed repeated characters and noise removal.
-    \item \texttt{objects\_detailed}: Extended list of 5--15 visible objects and visual elements.
-    \item \texttt{relations}: Up to 5 subject--relation--object triples (e.g., ``cat''--``sitting on''--``table'').
-    \item \texttt{required\_context}: Whether external cultural knowledge is needed to understand the meme, and what knowledge specifically.
-    \item \texttt{vqa}: Six question--answer pairs covering text content, literal depiction, scene description, joke explanation, target audience, and a search-oriented summary.
-\end{itemize}
+Images are resized to 512px maximum dimension and converted to JPEG before encoding to base64. The model is queried with \texttt{temperature=0.2} and an 800-token generation limit.
 
 \subsubsection{Pipeline Implementation}
 
-Both scripts support resume functionality: they track already-processed filenames and skip them on restart, enabling graceful recovery from interruptions during long-running annotation jobs. JSON response parsing includes robust handling of markdown code blocks, model reasoning tags, and truncated JSON with automatic closing bracket insertion.
+The script supports resume functionality via \texttt{load\_already\_processed()}: it tracks already-processed filenames and skips them on restart. Processing is parallelized with \texttt{ThreadPoolExecutor(5 workers)}. JSON response parsing includes robust handling of markdown code blocks and truncated responses.
 
-The full annotation of 10,000 memes (base + enrichment) requires approximately 10--12 hours on Apple M4 Pro hardware, running the Qwen2.5-VL-3B model through Ollama. Processing speed averages 2--4 seconds per image depending on image complexity and response length.
-
-All annotations are stored in JSONL format (\texttt{vqa\_annotations.jsonl} for base annotations, \texttt{vqa\_annotations\_v2.jsonl} for enriched annotations), with one JSON object per line for efficient streaming reads.
+All annotations are stored in JSONL format (\texttt{vqa\_annotations\_v3.jsonl}), with one JSON object per line. Each record contains the 10 VQA fields plus metadata: \texttt{filename}, \texttt{source\_path}, \texttt{confidence}, \texttt{source\_type}, \texttt{is\_nsfw}, \texttt{is\_duplicate}, and \texttt{search\_queries\_ru} (Russian translations of search queries).
 
 \pagebreak
 
@@ -341,54 +335,41 @@ This section describes the overall architecture of the multimodal meme retrieval
 
 \subsubsection{Embedding Generation}
 
-The system generates four types of vector embeddings per meme, enabling multi-vector retrieval across complementary semantic representations.
+The system generates dense vector embeddings per meme using a single multilingual sentence transformer.
 
-Text embeddings (bge-m3). Each of the three textual fields is encoded separately using the \texttt{BAAI/bge-m3} multilingual sentence transformer~\cite{chen2024bge}, producing 1024-dimensional normalized vectors:
-\begin{itemize}
-    \item \textbf{Caption index}: encodes \texttt{caption} + \texttt{main\_idea} — the semantic description of the meme.
-    \item \textbf{OCR index}: encodes \texttt{ocr\_text} — the literal text extracted from the image.
-    \item \textbf{Keywords index}: encodes \texttt{objects} + \texttt{tone} — detected objects and emotional tone.
-\end{itemize}
+Text embeddings (BGE-M3). All 10 textual annotation fields are combined into a unified representation using the \texttt{BAAI/bge-m3} multilingual sentence transformer~\cite{chen2024bge}, producing 1024-dimensional normalized vectors. This model supports 100+ languages including English, Russian, and Chinese.
 
 The choice of bge-m3 over \texttt{all-MiniLM-L6-v2} (the initial baseline) was made after a systematic comparison of 8 multilingual models (Section~\ref{sec:model_exp}). bge-m3 demonstrated the best EN/RU balance: Hit@5 increased from 32\% to 39\% for English queries and from 2\% to 37\% for Russian queries.
 
-Image embeddings (CLIP). Visual representations are generated using CLIP ViT-B/32~\cite{radford2021clip}. Each meme image is processed through the CLIP vision encoder, producing 512-dimensional normalized vectors.
-
 \subsubsection{Index Construction}
 
-For fast approximate nearest neighbor search, the system builds FAISS~\cite{douze2024faiss} indices using \texttt{IndexFlatIP} (inner product on L2-normalised vectors, equivalent to cosine similarity). Four separate indices are constructed:
+For fast nearest neighbor search, the system builds FAISS~\cite{douze2024faiss} indices using \texttt{IndexFlatIP} (inner product on L2-normalised vectors, equivalent to cosine similarity). Three indices are constructed:
 
 \begin{itemize}
-    \item \texttt{faiss\_caption.index}: 1024-dimensional, caption + main\_idea (bge-m3).
-    \item \texttt{faiss\_ocr.index}: 1024-dimensional, OCR text (bge-m3).
-    \item \texttt{faiss\_keywords.index}: 1024-dimensional, objects + tone (bge-m3).
-    \item \texttt{faiss\_caption\_ru.index}: 1024-dimensional, Russian translations of captions (bge-m3).
-    \item \texttt{faiss\_image.index}: 512-dimensional, image pixels (CLIP ViT-B/32).
+    \item \texttt{faiss\_C\_all.index}: 1024-dimensional, all 10 annotation fields concatenated into a single mega-text (early fusion), encoded with bge-m3.
+    \item \texttt{faiss\_D\_search\_queries.index}: 1024-dimensional, English search queries only (bge-m3).
+    \item \texttt{faiss\_ru\_search\_queries.index}: 1024-dimensional, Russian-translated search queries (bge-m3).
 \end{itemize}
 
-All indices contain 9,770 vectors (after NSFW filtering). A metadata JSONL file maps index positions to filenames, source paths, captions, OCR text, and Russian translations.
+All indices contain 16,030 vectors. A metadata JSONL file maps index positions to filenames, source paths, and all annotation fields.
 
 \subsubsection{Search Modes}
 
-The system is designed to support three retrieval modes:
+The system supports three retrieval modes:
 
 \begin{enumerate}
-    \item Text search: The user query is encoded with the same sentence transformer model and compared against the text embedding index via FAISS top-K retrieval.
+    \item Text search (EN/RU): The query is encoded with bge-m3 and searched across multiple indices. For English queries, two indices are used (C mega-text + EN search queries) with RRF fusion (weights 0.6, 0.4). For Russian queries (detected by Cyrillic character presence), all three indices are used (C + EN + RU) with weights 0.4, 0.3, 0.3. After RRF fusion, Maximal Marginal Relevance (MMR) removes results with cosine similarity $>0.80$ to already-selected items, ensuring diverse output.
     
-    \item Image search: The user uploads a reference image, which is encoded with CLIP and compared against the image embedding index.
+    \item Image search: The user uploads a reference image, which is analysed by GPT with vision capabilities to generate a textual description. This description is then used as a text query through the standard retrieval pipeline, enabling semantic image-based search without a dedicated image embedding index.
     
-    \item Hybrid search: Both text and image queries are processed simultaneously. Results from both indices are combined using Reciprocal Rank Fusion (RRF)~\cite{cormack2009rrf}, with a configurable weight parameter $\alpha = 0.6$ for balancing text and image retrieval scores.
+    \item Hybrid search: The user sends an image with a text caption. Both signals are processed independently—text query through the standard pipeline and image through GPT Vision captioning—and results are fused using a second-level RRF with weights 0.6 (text) and 0.4 (image).
 \end{enumerate}
-
-
 
 \subsubsection{Application Layer}
 
-The user-facing application consists of two components:
+The user-facing application is a Telegram bot built with the aiogram~3 framework. The bot loads 3 FAISS indices, the BGE-M3 model, and all meme metadata at startup. It supports text queries in English and Russian, image-based search (via GPT Vision), hybrid search (image + text), paginated results (5 memes per page, up to 25 total), and automatic database updates. A background task checks the \texttt{data/raw/new/} directory every 5 minutes for new memes, processes them through the full annotation pipeline (GPT + translation + encoding), and adds them to the live indices without restarting the bot. When the database exceeds a configurable limit, a cluster-based rotation removes the oldest memes proportionally across tag categories to prevent distribution drift.
 
-Backend API. A FastAPI-based REST service exposes search endpoints for text, image, and hybrid queries. The API loads FAISS indices and metadata at startup, performs retrieval on incoming requests, and returns ranked results with meme images and metadata.
-
-Telegram Bot. An aiogram-based Telegram bot provides the user interface, accepting text messages, image uploads, and their combinations. The bot communicates with the backend API and presents search results as image galleries with captions.
+For image-based search, uploaded photos are analysed by GPT Vision to generate a caption, then perceptual hashing (phash, 256-bit) is used to exclude the query image itself and near-duplicates from the results.
 
 \pagebreak
 
@@ -413,15 +394,21 @@ Raw images collected & 18,888 \\
 \hline
 After OCR + cleaning & 16,080 \\
 \hline
-Removed (content filter) & 539 \\
+VQA annotations (completed) & 16,030 \\
 \hline
-VQA annotations (completed) & 9,998 of 10,000 \\
+NSFW flagged & 500 (3.1\%) \\
+\hline
+Exact duplicates (phash) & 5,827 \\
+\hline
+Unique clean memes & 9,703 \\
 \hline
 Data sources & 6 \\
 \hline
-OCR engines used & 2 (EasyOCR + PaddleOCR v3) \\
+VLM model & GPT (vision) \\
 \hline
-VLM model & Qwen2.5-VL-3B \\
+Embedding model & BAAI/bge-m3 (1024 dim) \\
+\hline
+FAISS indices & 3 (C mega-text, EN sq, RU sq) \\
 \hline
 \end{tabular}
 \caption{Dataset statistics}
@@ -430,7 +417,7 @@ VLM model & Qwen2.5-VL-3B \\
 
 \subsection{VQA Annotation Analysis}
 
-The base VQA annotation stage (Stage 1) has been completed for 9,998 memes (2 images were skipped due to file corruption, hence 9,998 of the 10,000 target). Figure~\ref{fig:vqa_overview} shows the JSON parsing quality and source distribution: 99.1\% of model responses produced valid, parseable JSON, and only 0.9\% required fallback truncation recovery. The annotated subset consists of 5,791 Telegram stickers and 4,207 Bing memes.
+The VQA annotation stage has been completed for all 16,030 memes using GPT with vision capabilities. The annotated corpus covers all 6 data sources: Bing Images, Telegram stickers, Kaggle Memotion, Kaggle Russian Memes, HuggingFace datasets, and Imgflip.
 
 % As a spot-check of annotation quality, 60 randomly sampled annotations were manually reviewed by the author. Of these, 54 (90\%) had accurate captions matching the image content, 4 (6.7\%) had partially correct captions with minor factual errors, and 2 (3.3\%) were clearly wrong (model hallucination). Tone labels were correct in 56/60 (93.3\%) of cases. These results suggest that Qwen2.5-VL-3B produces sufficiently reliable structured annotations for retrieval purposes, though a formal inter-annotator agreement study remains as future work.
 
@@ -479,24 +466,26 @@ Vocabulary analysis. Figure~\ref{fig:words} shows the 30 most frequent words in 
 
 \subsection{Search System: Embedding Indices and Retrieval Demo}
 
-After completing the VQA annotation stage, all 9,998 memes were processed through the embedding pipeline described in Section~\ref{sec:arch}. Table~\ref{tab:indices} summarises the resulting FAISS indices built for the retrieval demo.
+After completing the VQA annotation stage, all 16,030 memes were processed through the embedding pipeline described in Section~\ref{sec:arch}. Table~\ref{tab:indices} summarises the resulting FAISS indices.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|r|r|l|}
 \hline
-\textbf{Index} & \textbf{Vectors} & \textbf{Dimension} & \textbf{Model} \\
+\textbf{Index} & \textbf{Vectors} & \textbf{Dimension} & \textbf{Content} \\
 \hline
-Text & 9,998 & 384 & \texttt{all-MiniLM-L6-v2} \\
+C (mega-text) & 16,030 & 1024 & All 10 fields concatenated (early fusion) \\
 \hline
-Image & 9,998 & 512 & CLIP ViT-B/32 \\
+D (EN search queries) & 16,030 & 1024 & English search\_queries only \\
+\hline
+RU (RU search queries) & 16,030 & 1024 & Russian search\_queries\_ru only \\
 \hline
 \end{tabular}
 \caption{FAISS index statistics}
 \label{tab:indices}
 \end{table}
 
-Both indices use \texttt{IndexFlatIP} (inner product on L2-normalised vectors), which is equivalent to cosine similarity search and avoids quantisation loss at this dataset scale.
+All indices use \texttt{IndexFlatIP} (inner product on L2-normalised vectors), which is equivalent to cosine similarity search. All vectors are encoded with \texttt{BAAI/bge-m3}.
 
 \subsubsection{Text Search Examples}
 
@@ -567,11 +556,17 @@ To ensure content safety, a vocabulary-based NSFW filter was implemented in \tex
 
 The stop-word dictionary contains 700 terms covering Russian and English profanity, transliterated forms, and digit-substituted variants (e.g. ``x83'' for a Russian obscenity). Text is normalised to lowercase with \foreignlanguage{russian}{ё}\,$\to$\,е substitution before matching. A whitelist of 25 ambiguous terms (e.g., \textit{ass}, \textit{cock}) is excluded from prefix matching to avoid false positives on words such as \textit{class} or \textit{cockatoo}.
 
-Of the 9,998 annotated memes, \textbf{228 (2.3\%)} were flagged as NSFW. These records are retained in the annotation file with \texttt{is\_nsfw=true} but excluded from all FAISS indices and BM25 corpora, yielding \textbf{9,770 clean memes} for retrieval.
+Of the 16,030 annotated memes, \textbf{500 (3.1\%)} were flagged as NSFW. These records are retained in the annotation file with \texttt{is\_nsfw=true} but excluded from search results at retrieval time.
 
-\subsection{Russian Translation Index}
+\subsection{Perceptual Hash Deduplication}
 
-To improve retrieval for Russian-language queries, all 9,770 clean memes received Russian translations of their English captions and OCR fields. Translations were produced using the Google Translate API (via \texttt{deep-translator}) with automatic language detection: texts already containing more than 30\% Cyrillic characters are passed through unchanged. The translated fields \texttt{caption\_ru} and \texttt{ocr\_ru} are stored in \texttt{vqa\_annotations\_v2.jsonl} and encoded into a dedicated FAISS index (\texttt{faiss\_caption\_ru.index}) using bge-m3.
+Since the corpus was collected from 6 independent sources, cross-source duplicates are inevitable. Deduplication was performed using perceptual hashing (\texttt{imagehash.phash}) with \texttt{hash\_size=16} (256-bit hash) and a Hamming distance threshold of 0 (only bitwise-identical hashes are considered duplicates). This identified \textbf{5,827 exact duplicates}, which are marked with \texttt{is\_duplicate=true} in the annotation file and filtered out at retrieval time (but retained in the FAISS indices to preserve position consistency).
+
+After NSFW filtering and deduplication, the effective corpus contains \textbf{9,703 unique clean memes}.
+
+\subsection{Russian Search Query Translation}
+
+To improve retrieval for Russian-language queries, the \texttt{search\_queries} field of all 16,030 memes was translated to Russian using GPT (via an OpenAI-compatible API). The translated queries are stored as \texttt{search\_queries\_ru} in \texttt{vqa\_annotations\_v3.jsonl} and encoded into a dedicated FAISS index (\texttt{faiss\_ru\_search\_queries.index}) using bge-m3.
 
 The motivation for a separate Russian index is validated by the language routing experiment (Section~\ref{sec:lang_exp}): routing Russian queries to Russian-language descriptions achieves Hit@5\,=\,45\%, compared to 37\% for cross-lingual search against English descriptions.
 
@@ -685,21 +680,41 @@ Key findings:
     \item \textbf{Multi-vector search} (adding OCR and keyword indices) modestly improves Hit@10 but slightly hurts Hit@1, suggesting that lower-quality indices introduce noise at the top rank.
 \end{enumerate}
 
-Overall improvement from the initial baseline: \textbf{EN: 32\%\,$\to$\,51\%~(+19~pp)}; \textbf{RU: 2\%\,$\to$\,46\%~(+44~pp)}.
+Overall improvement from the initial baseline: \textbf{EN: 32\%\,$\to$\,60\%~(+28~pp)}; \textbf{RU: 2\%\,$\to$\,57\%~(+55~pp)}.
+
+\subsection{Final Retrieval Metrics}
+
+The final system configuration uses RRF fusion of the C mega-text index and EN search\_queries index for English queries (weights 0.6, 0.4), and all three indices for Russian queries (weights 0.4, 0.3, 0.3), with MMR diversity filtering (threshold 0.80). Evaluation was performed on 100 manually annotated memes with 495 search queries (approximately 5 per meme). Results are presented in Table~\ref{tab:final}.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{Language} & \textbf{Hit@1} & \textbf{Hit@5} & \textbf{Hit@10} & \textbf{MRR@10} \\
+\hline
+EN (495 queries) & 29.9\% & 60.0\% & 65.5\% & 0.429 \\
+\hline
+RU (495 queries) & 26.3\% & 57.0\% & 60.8\% & 0.397 \\
+\hline
+\end{tabular}
+\caption{Final retrieval metrics (RRF + MMR, 100 test memes, 495 queries)}
+\label{tab:final}
+\end{table}
 
 \subsection{Completed Milestones}
 
 \begin{enumerate}
-    \item Data collection: 18,888 memes from 6 sources; 9,770 retained after OCR filtering and NSFW moderation.
+    \item Data collection: 18,888 memes from 6 sources; 16,030 annotated with GPT Vision.
     \item OCR pipeline: Two-stage EasyOCR + PaddleOCR with confidence-based filtering.
-    \item NSFW filter: Vocabulary-based filter (700 terms), 228 memes flagged (2.3\%).
-    \item VQA annotation: 9,998 memes annotated with Qwen2.5-VL-3B (99.1\% valid JSON).
-    \item Russian translations: All 9,770 clean captions translated to Russian via Google Translate; stored in \texttt{vqa\_annotations\_v2.jsonl}.
+    \item NSFW filter: Vocabulary-based filter (700 terms), 500 memes flagged (3.1\%).
+    \item Deduplication: Perceptual hash (phash, 256-bit), 5,827 exact duplicates identified.
+    \item VQA annotation: 16,030 memes annotated with 10 structured fields via GPT Vision.
+    \item Russian translation: All search\_queries translated to Russian via GPT.
     \item Embedding model selection: 8 multilingual models evaluated; bge-m3 selected.
-    \item Multi-vector FAISS indices: 4 text indices (caption, OCR, keywords, caption\_ru) + 1 image index (CLIP).
-    \item BM25 index: Bilingual BM25 corpus (EN + RU tokens) built with \texttt{rank-bm25}.
-    \item Retrieval pipeline: Multi-vector search + BM25 + CLIP fused with RRF ($k$=60).
-    \item Evaluation: 100 manually annotated EN/RU query pairs; final pipeline: EN Hit@5=51\%, RU Hit@5=46\%.
+    \item FAISS indices: 3 indices (C mega-text, EN search queries, RU search queries), 1024-dim.
+    \item Retrieval pipeline: RRF fusion + MMR diversity, adaptive weights by language.
+    \item Telegram bot: aiogram 3, text/image/hybrid search, paginated results, auto-update loop.
+    \item Evaluation: 100 annotated memes (495 queries); EN Hit@5=60.0\%, RU Hit@5=57.0\%.
 \end{enumerate}
 
 \pagebreak
@@ -713,18 +728,17 @@ Overall improvement from the initial baseline: \textbf{EN: 32\%\,$\to$\,51\%~(+1
 This report presents the results of developing a VQA-augmented multimodal meme retrieval system. The main contributions include:
 
 \begin{enumerate}
-    \item A diverse meme corpus of 9,770 clean memes with structured VQA annotations, bilingual OCR, and Russian-translated descriptions.
+    \item A diverse meme corpus of 16,030 memes (9,703 unique after deduplication) with structured 10-field VQA annotations and Russian search query translations.
     \item A systematic comparison of 8 multilingual embedding models, leading to the selection of bge-m3 as the optimal backbone.
-    \item A multi-vector hybrid retrieval pipeline combining semantic embeddings (bge-m3), lexical search (BM25), image search (CLIP), and a bilingual RU description index, fused via Reciprocal Rank Fusion.
-    \item Empirical evaluation showing substantial improvements over the initial baseline: EN Hit@5 from 32\% to 51\%; RU Hit@5 from 2\% to 46\%.
+    \item A hybrid retrieval pipeline combining early fusion (mega-text index) with late fusion (RRF across 3 indices), augmented by MMR diversity filtering and perceptual hash deduplication.
+    \item A working Telegram bot with text, image, and hybrid search, automatic database updates, cluster-based rotation, and paginated results.
+    \item Empirical evaluation showing substantial improvements over the initial baseline: EN Hit@5 from 32\% to 60.0\%; RU Hit@5 from 2\% to 57.0\%.
 \end{enumerate}
 
 The remaining work includes:
 \begin{itemize}
-    \item Cross-encoder re-ranking of top-50 candidates (expected +5--10\% Hit@5).
-    \item Expanding the evaluation set to 5 queries per meme using LLM-assisted annotation.
-    \item Implementing result diversity (Maximal Marginal Relevance) to avoid near-duplicate results.
-    \item FastAPI backend and Telegram bot interface.
+    \item Expanding the evaluation set using LLM-assisted annotation.
+    \item Automated meme sourcing from Telegram channels and web scraping.
     \item Latency benchmarking and LLM-as-a-judge quality evaluation.
 \end{itemize}
 

@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 
 def get_all_image_paths(source_dirs):
     """
-    Функция должна вернуть список  путей ко всем картинкам.
+    вернуть список путей к картинкам
     """
     extensions = {".jpg", ".jpeg", ".png", ".webp"}
     images = []
@@ -35,31 +35,16 @@ def get_all_image_paths(source_dirs):
     return images
 
 def run_ocr():
-    log.info("Loading EasyOCR model")
-
     reader = easyocr.Reader(['ru', 'en'], gpu=False)
-
-    #  поиск картинок
-    log.info("Scanning directories")
-    all_images = get_all_image_paths(SOURCE_DIRS)
-    log.info(f"Found {len(all_images)} images total.")
-
-   
+    all_images = get_all_image_paths(SOURCE_DIRS)   
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     
-    # csv на запись
     with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as f:
-        # заголовки таблицы
         fieldnames = ["filename", "source_path", "ocr_text", "confidence"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-
-        # проход по всем картинкам
-        for img_path in tqdm(all_images, desc="Running OCR"):
+        for img_path in tqdm(all_images, desc="running ocr"):
             try:
-                # detail=1 чтобы получить уверенность
-                # paragraph=true чтобы объединить слова в предложения
-                
                 result =  reader.readtext(str(img_path), detail = 1, paragraph=False) 
                 
                     
@@ -82,8 +67,8 @@ def run_ocr():
                 })
 
             except Exception as e:
-                log.error(f"Error processing {img_path}: {e}")
+                log.error(f"error processing {img_path} {e}")
                 continue
 
-if __name__ == "__main__":
-    run_ocr()
+
+run_ocr()

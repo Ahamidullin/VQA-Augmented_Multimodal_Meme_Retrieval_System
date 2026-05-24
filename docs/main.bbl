@@ -52,6 +52,7 @@
       \field{booktitle}{Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval}
       \field{title}{Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods}
       \field{year}{2009}
+      \true{nocite}
       \field{pages}{758\bibrangedash 759}
       \range{pages}{2}
       \verb{doi}
@@ -752,6 +753,7 @@
       \field{booktitle}{Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP)}
       \field{title}{Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks}
       \field{year}{2019}
+      \true{nocite}
       \verb{urlraw}
       \verb https://arxiv.org/abs/1908.10084
       \endverb
