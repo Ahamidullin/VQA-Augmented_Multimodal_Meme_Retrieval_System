@@ -1,0 +1,235 @@
+<mxfile>
+  <diagram name="System Architecture" id="arch">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ==================== ROW 0: DATA SOURCES ==================== -->
+        <mxCell id="100" value="&lt;b&gt;6 Data Sources&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;verticalAlign=top;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="30" width="900" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="101" value="Telegram&#xa;(4,382)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="102" value="Bing&#xa;(6,190)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="240" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="103" value="Kaggle Memotion&#xa;(6,969)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="60" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="104" value="Kaggle RU&#xa;(675)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="500" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="105" value="HuggingFace&#xa;(330)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="106" value="Imgflip&#xa;(390)" style="rounded=1;whiteSpace=wrap;fillColor=#e8f4fd;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="740" y="60" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow 0→1 -->
+        <mxCell id="a01" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="100" target="200">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a01_l" value="18,936 images" style="edgeLabel;fontSize=11;fillColor=#fff;fontStyle=1;" vertex="1" connectable="0" parent="a01">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- ==================== ROW 1: PREPROCESSING ==================== -->
+        <mxCell id="200" value="&lt;b&gt;Data Preprocessing&lt;/b&gt;&#xa;OCR (EasyOCR → PaddleOCR) + Content Moderation + Confidence Filter" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="160" width="600" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow 1→2 -->
+        <mxCell id="a12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" parent="1" source="200" target="300">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a12_l" value="16,080 images" style="edgeLabel;fontSize=11;fillColor=#fff;fontStyle=1;" vertex="1" connectable="0" parent="a12">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- ==================== ROW 2: VLM ANNOTATION ==================== -->
+        <mxCell id="300" value="&lt;b&gt;VLM Annotation&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;verticalAlign=top;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="150" y="280" width="800" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="301" value="GPT-5.4-mini-fast" style="rounded=1;whiteSpace=wrap;fillColor=#b6d7a8;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="300" width="160" height="30" as="geometry" />
+        </mxCell>
+        <!-- 10 fields: row 1 -->
+        <mxCell id="f01" value="caption" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="170" y="345" width="70" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f02" value="ocr_text" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="250" y="345" width="70" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f03" value="meme_template" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="330" y="345" width="95" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f04" value="objects" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="435" y="345" width="60" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f05" value="tone" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="505" y="345" width="50" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f06" value="main_idea" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="565" y="345" width="75" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f07" value="search_queries" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="650" y="345" width="95" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f08" value="tags" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="755" y="345" width="40" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f09" value="emotions" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="805" y="345" width="65" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="f10" value="vqa" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="880" y="345" width="40" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow 2→3 -->
+        <mxCell id="a23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" parent="1" source="300" target="400">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a23_l" value="16,030 × 18 keys (JSONL)" style="edgeLabel;fontSize=11;fillColor=#fff;fontStyle=1;" vertex="1" connectable="0" parent="a23">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- ==================== ROW 3: TRANSLATION ==================== -->
+        <mxCell id="400" value="&lt;b&gt;Translation&lt;/b&gt;&#xa;search_queries (EN) → search_queries_ru (RU) via GPT" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="300" y="440" width="500" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow 3→4 -->
+        <mxCell id="a34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" parent="1" source="400" target="500">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== ROW 4: POST-PROCESSING ==================== -->
+        <mxCell id="500" value="&lt;b&gt;Post-processing&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;verticalAlign=top;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="250" y="540" width="600" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="501" value="NSFW filter&#xa;(500 flagged)" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="310" y="565" width="120" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="502" value="Perceptual hash dedup&#xa;(5,827 duplicates)" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="565" width="170" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="503" value="Auto-update&#xa;(new → annotate → index)" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="680" y="565" width="150" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow 4→5 -->
+        <mxCell id="a45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" parent="1" source="500" target="600">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a45_l" value="9,703 effective memes" style="edgeLabel;fontSize=11;fillColor=#fff;fontStyle=1;" vertex="1" connectable="0" parent="a45">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- ==================== ROW 5: ENCODING ==================== -->
+        <mxCell id="600" value="&lt;b&gt;Encoding&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#ffe0cc;strokeColor=#d79b00;fontSize=14;verticalAlign=top;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="100" y="670" width="900" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- bge-m3 -->
+        <mxCell id="610" value="&lt;b&gt;bge-m3&lt;/b&gt;&#xa;(1024d)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2e0;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="200" y="700" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="611" value="C&#xa;mega-text" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="760" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="612" value="D_en&#xa;search queries" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="760" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="613" value="D_ru&#xa;RU queries" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="760" width="100" height="30" as="geometry" />
+        </mxCell>
+        <!-- arrows from bge to indices -->
+        <mxCell id="ae1" style="strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="610" target="611"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ae2" style="strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="610" target="612"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ae3" style="strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="610" target="613"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- DINOv2 -->
+        <mxCell id="620" value="&lt;b&gt;DINOv2&lt;/b&gt;&#xa;(768d)" style="rounded=1;whiteSpace=wrap;fillColor=#fff2e0;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="600" y="700" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="621" value="image&#xa;index" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="760" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ae4" style="strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="620" target="621"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- BM25 -->
+        <mxCell id="630" value="&lt;b&gt;BM25&lt;/b&gt;&#xa;sparse index" style="rounded=1;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="720" width="110" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FAISS label -->
+        <mxCell id="flab" value="FAISS indices" style="text;fontSize=10;fontStyle=2;fillColor=none;fontColor=#666;" vertex="1" parent="1">
+          <mxGeometry x="120" y="740" width="80" height="15" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== ROW 6: RETRIEVAL ==================== -->
+        <!-- Arrows from indices to RRF -->
+        <mxCell id="ar1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#888;strokeWidth=1;" edge="1" parent="1" source="611" target="700"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ar2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#888;strokeWidth=1;" edge="1" parent="1" source="612" target="700"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ar3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#888;strokeWidth=1;" edge="1" parent="1" source="613" target="700"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ar4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#888;strokeWidth=1;" edge="1" parent="1" source="621" target="700"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ar5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#888;strokeWidth=1;" edge="1" parent="1" source="630" target="700"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <mxCell id="700" value="&lt;b&gt;Retrieval&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;verticalAlign=top;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="200" y="860" width="700" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="701" value="RRF Fusion (k=60)" style="rounded=1;whiteSpace=wrap;fillColor=#fce4e4;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="885" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="702" value="→" style="text;fontSize=16;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="885" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="703" value="MMR Re-ranking" style="rounded=1;whiteSpace=wrap;fillColor=#fce4e4;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="460" y="885" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="704" value="→" style="text;fontSize=16;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="610" y="885" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="705" value="Pagination" style="rounded=1;whiteSpace=wrap;fillColor=#fce4e4;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="650" y="885" width="100" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- User query -->
+        <mxCell id="800" value="&lt;b&gt;User query&lt;/b&gt;&#xa;text / image / hybrid" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="950" y="870" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="a_uq" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="800" target="700">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow to Top-K -->
+        <mxCell id="a67" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#666;strokeWidth=2;" edge="1" parent="1" source="700" target="900">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== ROW 7: RESULTS ==================== -->
+        <mxCell id="900" value="&lt;b&gt;Top-K memes&lt;/b&gt;&#xa;(5 per page, up to 5 pages)" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="380" y="990" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== SIDE: 3 SEARCH MODES ==================== -->
+        <mxCell id="810" value="&lt;b&gt;3 Search Modes&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;verticalAlign=top;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="940" y="690" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="811" value="① Text query" style="text;fontSize=10;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="955" y="720" width="130" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="812" value="② Image → GPT caption → text" style="text;fontSize=10;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="955" y="745" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="813" value="③ Hybrid (text + image RRF)" style="text;fontSize=10;fillColor=none;align=left;" vertex="1" parent="1">
+          <mxGeometry x="955" y="770" width="140" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

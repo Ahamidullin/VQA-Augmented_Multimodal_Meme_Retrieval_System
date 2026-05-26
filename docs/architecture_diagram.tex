@@ -1,0 +1,189 @@
+% ============================================================
+% Architecture diagram for the multimodal meme retrieval system
+%
+% Usage in main.tex:
+%   In preamble add (if not already present):
+%     \usepackage{tikz}
+%     \usetikzlibrary{positioning, arrows.meta, calc}
+%
+%   Place this figure in the System Architecture subsection:
+%     \begin{figure}[H]
+%     \centering
+%     \resizebox{\textwidth}{!}{\input{architecture_diagram}}
+%     \caption{High-level architecture of the meme retrieval system.
+%       Solid arrows: offline indexing pipeline (left) and online search
+%       pipeline (right). Dashed arrows: how the three FAISS indices feed
+%       into RRF fusion. Dotted arrows: auto-update loop appends new
+%       vectors to the live indices without restart.}
+%     \label{fig:architecture}
+%     \end{figure}
+% ============================================================
+
+\begin{tikzpicture}[
+    font=\footnotesize\sffamily,
+    >={Stealth[length=2mm]},
+    node distance=3mm and 14mm,
+    data/.style={
+        draw, rounded corners=2pt, fill=blue!8, line width=0.4pt,
+        minimum width=38mm, minimum height=7.5mm, align=center, inner sep=2pt
+    },
+    proc/.style={
+        draw, rounded corners=2pt, fill=orange!12, line width=0.4pt,
+        minimum width=38mm, minimum height=7.5mm, align=center, inner sep=2pt
+    },
+    idx/.style={
+        draw, rounded corners=2pt, fill=green!18, line width=0.4pt,
+        minimum width=20mm, minimum height=7.5mm, align=center, inner sep=2pt
+    },
+    fuse/.style={
+        draw, rounded corners=2pt, fill=purple!12, line width=0.4pt,
+        minimum width=42mm, minimum height=7.5mm, align=center, inner sep=2pt
+    },
+    user/.style={
+        draw, rounded corners=2pt, fill=gray!15, line width=0.4pt,
+        minimum width=26mm, minimum height=7.5mm, align=center, inner sep=2pt
+    },
+    arr/.style={->, line width=0.4pt},
+    sectionlabel/.style={font=\scriptsize\bfseries\sffamily, gray!70!black},
+    field/.style={
+        draw, rounded corners=1pt, fill=blue!4, line width=0.3pt,
+        minimum width=10mm, minimum height=4mm, font=\tiny\sffamily, inner sep=1pt
+    }
+]
+
+% =========================================================================
+% OFFLINE PIPELINE (left)
+% =========================================================================
+
+\node[data]                              (raw)      {Raw images (~19k)};
+\node[proc, below=of raw]                (ocr)      {OCR: PaddleOCR};
+\node[proc, below=of ocr]                (clean)    {Content filters};
+\node[data, below=of clean]              (cleanDs)  {Cleaned (16k)};
+\node[proc, below=of cleanDs]            (vlm)      {VLM annotation: GPT-5.4-mini-fast};
+
+% Annotated dataset block with 10 fields visualized
+\node[data, below=6mm of vlm, minimum width=58mm, minimum height=22mm] (annot) {};
+\node[anchor=north] at ($(annot.north) + (0,-1mm)$) {\scriptsize\bfseries Annotated (16k)};
+
+% 10 field chips inside annot
+\node[field] at ($(annot.center) + (-22mm, 2.5mm)$) {caption};
+\node[field] at ($(annot.center) + (-11mm, 2.5mm)$) {ocr};
+\node[field] at ($(annot.center) + (  0mm, 2.5mm)$) {template};
+\node[field] at ($(annot.center) + ( 11mm, 2.5mm)$) {objects};
+\node[field] at ($(annot.center) + ( 22mm, 2.5mm)$) {tone};
+\node[field] at ($(annot.center) + (-22mm,-3.5mm)$) {idea};
+\node[field, fill=orange!20] at ($(annot.center) + (-11mm,-3.5mm)$) {sq};
+\node[field] at ($(annot.center) + (  0mm,-3.5mm)$) {tags};
+\node[field] at ($(annot.center) + ( 11mm,-3.5mm)$) {emotions};
+\node[field] at ($(annot.center) + ( 22mm,-3.5mm)$) {vqa};
+\node[proc, below=of annot]              (tr)       {Translate search\_queries $\to$ RU};
+\node[proc, below=of tr]                 (post)     {NSFW filter + phash dedup};
+\node[data, below=of post]               (eff)      {Effective (9.7k memes)};
+\node[proc, below=of eff]                (enc)      {bge-m3 encoding};
+
+% three FAISS indices — descriptive labels
+\node[idx, below=12mm of enc, xshift=-30mm, minimum width=28mm, minimum height=14mm] (idxC) {%
+    \textbf{mega-text}\\
+    \scriptsize all 10 fields\\[-1pt]
+    \scriptsize concatenated
+};
+\node[idx, below=12mm of enc, minimum width=28mm, minimum height=14mm] (idxEN) {%
+    \textbf{search\_queries}\\
+    \scriptsize EN
+};
+\node[idx, below=12mm of enc, xshift=30mm, minimum width=28mm, minimum height=14mm] (idxRU) {%
+    \textbf{search\_queries}\\
+    \scriptsize RU (translated)
+};
+
+% =========================================================================
+% ONLINE PIPELINE (right) -- three query modes in a row
+% =========================================================================
+
+% three user inputs in a single row, centred roughly on encQ
+\coordinate (qcenter) at ($(raw.east) + (90mm,0)$);
+
+\node[user, anchor=center] (uText) at ($(qcenter) + (-30mm,0)$) {Text query\\ \scriptsize EN \,/\, RU};
+\node[user, anchor=center] (uImg)  at ($(qcenter) + (  0mm,0)$) {Image query};
+\node[user, anchor=center] (uHyb)  at ($(qcenter) + ( 30mm,0)$) {Hybrid\\ \scriptsize image + text};
+
+\node[proc, below=12mm of uImg, minimum width=70mm] (encQ) {%
+    Encode query\\
+    \scriptsize bge-m3 \,/\, GPT Vision $\to$ caption
+};
+
+\node[fuse, below=of encQ] (rrf) {RRF};
+\node[fuse, below=of rrf]  (mmr) {MMR diversity};
+\node[data, below=of mmr, minimum width=42mm]  (topk) {Top-K results (5 per page)};
+
+% =========================================================================
+% AUTO-UPDATE LOOP
+% =========================================================================
+
+\node[proc, below=14mm of idxEN, minimum width=100mm] (auto) {%
+    \textbf{Auto-update loop} \scriptsize (every 5 min)\\
+    \scriptsize \texttt{data/raw/new/} $\to$ annotate $\to$ translate $\to$ encode $\to$ append to live indices
+};
+\node[proc, below=2mm of auto, minimum width=100mm]   (rot) {%
+    \textbf{Cluster-based rotation} \scriptsize (when $> 20k$ memes)\\
+    \scriptsize remove oldest proportionally across tag clusters
+};
+
+% =========================================================================
+% ARROWS -- offline column
+% =========================================================================
+\draw[arr] (raw)     -- (ocr);
+\draw[arr] (ocr)     -- (clean);
+\draw[arr] (clean)   -- (cleanDs);
+\draw[arr] (cleanDs) -- (vlm);
+\draw[arr] (vlm)     -- (annot);
+\draw[arr] (annot)   -- (tr);
+\draw[arr] (tr)      -- (post);
+\draw[arr] (post)    -- (eff);
+\draw[arr] (eff)     -- (enc);
+\draw[arr] (enc.south) -- ++(0,-3mm) -| (idxC.north);
+\draw[arr] (enc.south) -- ++(0,-3mm) -- (idxEN.north);
+\draw[arr] (enc.south) -- ++(0,-3mm) -| (idxRU.north);
+
+% =========================================================================
+% ARROWS -- online column (three modes converge on encQ)
+% =========================================================================
+\draw[arr] (uText.south) -- (uText.south |- encQ.north);
+\draw[arr] (uImg.south)  -- (encQ.north);
+\draw[arr] (uHyb.south)  -- (uHyb.south |- encQ.north);
+
+\draw[arr] (encQ) -- (rrf);
+\draw[arr] (rrf)  -- (mmr);
+\draw[arr] (mmr)  -- (topk);
+
+% three indices feed RRF (dashed)
+\draw[arr, dashed] (idxC.east)  .. controls +(20mm,2mm) and +(-25mm,4mm)  .. (rrf.west);
+\draw[arr, dashed] (idxEN.east) .. controls +(20mm,0mm) and +(-25mm,0mm)  .. (rrf.west);
+\draw[arr, dashed] (idxRU.east) .. controls +(20mm,-2mm) and +(-25mm,-4mm).. (rrf.west);
+
+% auto-update feeds back into indices (dotted)
+\draw[arr, dotted, line width=0.5pt] (auto.north -| idxC)  -- (idxC.south);
+\draw[arr, dotted, line width=0.5pt] (auto.north -| idxEN) -- (idxEN.south);
+\draw[arr, dotted, line width=0.5pt] (auto.north -| idxRU) -- (idxRU.south);
+
+% =========================================================================
+% SECTION LABELS
+% =========================================================================
+\node[sectionlabel, above=2mm of raw]    {OFFLINE \,/\, indexing};
+\node[sectionlabel, above=2mm of uImg]   {ONLINE \,/\, search};
+
+% =========================================================================
+% LEGEND
+% =========================================================================
+\begin{scope}[shift={($(rot.south west) + (0,-12mm)$)}, font=\scriptsize\sffamily]
+    \node[data, minimum width=8mm, minimum height=4mm] (lD) at (0,0) {};
+    \node[right=1mm of lD] (lDt) {data};
+    \node[proc, minimum width=8mm, minimum height=4mm, right=4mm of lDt] (lP) {};
+    \node[right=1mm of lP] (lPt) {processing};
+    \node[idx,  minimum width=8mm, minimum height=4mm, right=4mm of lPt] (lI) {};
+    \node[right=1mm of lI] (lIt) {FAISS index};
+    \node[fuse, minimum width=8mm, minimum height=4mm, right=4mm of lIt] (lF) {};
+    \node[right=1mm of lF] {fusion \,/\, re-rank};
+\end{scope}
+
+\end{tikzpicture}

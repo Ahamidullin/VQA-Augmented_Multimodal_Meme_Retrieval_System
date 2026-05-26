@@ -1,42 +1,16 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{Annotation}{4}{section*.2}%
+\contentsline {section}{Annotation}{3}{section*.2}%
 \contentsline {section}{\numberline {1}Introduction}{5}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Motivation and Relevance}{5}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}Project Goal and Objectives}{5}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Practical Significance}{6}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.4}Novelty}{6}{subsection.1.4}%
-\contentsline {section}{\numberline {2}Literature Review}{7}{section.2}%
-\contentsline {section}{\numberline {3}Work Plan}{9}{section.3}%
-\contentsline {section}{\numberline {4}Methodology}{10}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Data Collection}{10}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}OCR Pipeline}{10}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Data Cleaning and Filtering}{11}{subsubsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.3}Final Dataset}{12}{subsubsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.2}VQA Annotation Pipeline}{13}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Model Selection}{13}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Subset Selection for Annotation}{13}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Annotation Schema}{13}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Pipeline Implementation}{14}{subsubsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.3}System Architecture}{15}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Embedding Generation}{15}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Index Construction}{15}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Search Modes}{15}{subsubsection.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.3.4}Application Layer}{16}{subsubsection.4.3.4}%
-\contentsline {section}{\numberline {5}Current Results}{17}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Dataset Summary}{17}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}VQA Annotation Analysis}{17}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Search System: Embedding Indices and Retrieval Demo}{19}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Text Search Examples}{20}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Image Search Examples}{21}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Hybrid Search Example}{22}{subsubsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.4}NSFW Filtering}{22}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Perceptual Hash Deduplication}{23}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Russian Search Query Translation}{23}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Experiments}{23}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Embedding Model Comparison}{23}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Language Routing Experiment}{24}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Search Pipeline Ablation}{24}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Final Retrieval Metrics}{25}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Completed Milestones}{25}{subsection.6.5}%
-\contentsline {section}{Conclusion}{27}{section*.5}%
-\contentsline {section}{References}{28}{section*.6}%
+\contentsline {section}{\numberline {2}Theoretical foundations of multimodal search and meme semantics}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}A review of multimodal retrieval, vision-language models, and meme semantics}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Functional comparison with existing meme search solutions}{9}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Structured VQA annotation and hybrid meme retrieval with late fusion}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Construction of a multilingual meme corpus and semantic annotation via vision-language models}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Multilingual embeddings and a retrieval architecture with late fusion of results}{16}{subsection.3.2}%
+\contentsline {paragraph}{CLIP image embeddings.}{18}{section*.15}%
+\contentsline {paragraph}{BM25 sparse retrieval.}{18}{section*.16}%
+\contentsline {subsection}{\numberline {3.3}Evaluation protocol with LLM-as-a-judge and final retrieval performance}{20}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Component ablations and the role of Russian indexing in cross-lingual performance}{27}{subsection.3.4}%
+\contentsline {section}{Conclusion}{30}{section*.30}%
+\contentsline {section}{Appendix A. Use of AI Assistants}{31}{section*.31}%
+\contentsline {section}{References}{33}{section*.32}%

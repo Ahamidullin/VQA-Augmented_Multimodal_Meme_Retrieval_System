@@ -12,6 +12,7 @@ import asyncio
 import base64
 import shutil
 import numpy as np
+import imagehash
 import faiss
 from pathlib import Path
 from io import BytesIO
@@ -30,7 +31,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 #  конфиг 
-BOT_TOKEN = os.getenv("TG_BOT_TOKEN")
+BOT_TOKEN = os.getenv("TG_BOT_TOKEN", "")
 VQA_FILE = Path("data/processed/vqa_annotations_v3.jsonl")
 EXP_DIR = Path("data/experiments")
 NEW_DIR = Path("data/raw/new")
@@ -40,6 +41,65 @@ MAX_PAGES = 5
 UPDATE_INTERVAL = 300  # секунд (5 мин)
 MAX_DB_SIZE = 20000    # лимит мемов, после которого включается ротация
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+BAD_WORDS_FILE = Path("configs/bad_words.txt")
+PHASH_THRESHOLD = 3
+PHASH_SIZE = 16
+NSFW_WHITELIST_FILE = Path("configs/nsfw_whitelist.txt")
+SCRAPE_INTERVAL = 1800  # секунд (30 мин) — как часто парсить reddit
+REDDIT_SUBREDDITS = [
+    "memes", "dankmemes", "me_irl", "shitposting",
+    "wholesomememes", "ProgrammerHumor", "HistoryMemes",
+    "animemebank", "2meirl4meirl",
+]
+REDDIT_SEEN_FILE = Path("data/raw/.reddit_seen.txt")
+REDDIT_MIN_SCORE = 100
+REDDIT_LIMIT = 25
+
+
+def load_word_list(path):
+    """Загружает список слов из файла, игнорирует комменты и пустые строки."""
+    words = set()
+    if path.exists():
+        with open(path) as f:
+            for line in f:
+                line = line.strip().lower().replace("ё", "е")
+                if line and not line.startswith("#"):
+                    words.add(line)
+    return words
+
+
+def load_bad_words():
+    whitelist = load_word_list(NSFW_WHITELIST_FILE)
+    bad = load_word_list(BAD_WORDS_FILE)
+    return bad - whitelist, whitelist
+
+
+def check_nsfw(text, bad_words_set, whitelist):
+    """Returns matched bad word or None if clean."""
+    if not text:
+        return None
+    words = re.findall(r"[a-zа-яе0-9]+", text.lower().replace("ё", "е"))
+    for word in words:
+        if word in whitelist:
+            continue
+        if word in bad_words_set:
+            return word
+        for bw in bad_words_set:
+            if len(bw) >= 3 and word.startswith(bw) and word != bw:
+                return f"{word}~{bw}"
+    return None
+
+
+def compute_phash(img_path):
+    try:
+        img = Image.open(img_path).convert("RGB")
+        return imagehash.phash(img, hash_size=PHASH_SIZE)
+    except Exception:
+        return None
+
+
+bad_words_set, nsfw_whitelist = load_bad_words()
+log.info(f"Загружено {len(bad_words_set)} стоп-слов, {len(nsfw_whitelist)} в whitelist")
 
 gpt_client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
@@ -203,7 +263,7 @@ async def cmd_start(message: Message):
 
 @dp.message(F.text)
 async def handle_query(message: Message):
-    query = message.text.strip()
+    query = (message.text or "").strip()
     if not query or len(query) < 2:
         await message.answer("Запрос слишком короткий.")
         return
@@ -217,14 +277,14 @@ async def handle_query(message: Message):
         await message.answer("❌ Ошибка при поиске.")
         return
 
-    user_sessions[message.from_user.id] = {
+    user_sessions[message.from_user.id] = {  # type: ignore[union-attr]
         "query": query,
         "fused": fused,
         "page": 0,
         "lang": lang,
     }
 
-    await send_page(message, message.from_user.id)
+    await send_page(message, message.from_user.id)  # type: ignore[union-attr]
 
 
 @dp.callback_query(F.data == "more")
@@ -243,8 +303,8 @@ async def show_more(callback: CallbackQuery):
 @dp.callback_query(F.data == "found")
 async def found_it(callback: CallbackQuery):
     await callback.answer("Отлично! 🎉")
-    await callback.message.answer("Рад помочь! Отправь новый запрос когда понадобится 🔍")
-    user_sessions.pop(callback.from_user.id, None)
+    await callback.message.answer("Рад помочь! Отправь новый запрос когда понадобится 🔍")  # type: ignore[union-attr]
+    user_sessions.pop(callback.from_user.id, None)  # type: ignore[union-attr]
 
 
 @dp.message(F.photo)
@@ -255,23 +315,21 @@ async def handle_photo(message: Message):
     await message.answer("Анализирую картинку" if mode == "image" else "Гибридный поиск: картинка + текст")
 
     # скачать фото
-    photo = message.photo[-1]
+    photo = message.photo[-1]  # type: ignore[index]
     file = await bot.get_file(photo.file_id)
-    img_bytes = await bot.download_file(file.file_path)
+    img_bytes = await bot.download_file(file.file_path)  # type: ignore[arg-type]
 
     # phash входной картинки (для исключения дублей из выдачи)
-    import imagehash
-    img_bytes.seek(0)
+    img_bytes.seek(0)  # type: ignore[union-attr]
     try:
-        query_img = Image.open(img_bytes).convert("RGB")
+        query_img = Image.open(img_bytes).convert("RGB")  # type: ignore[arg-type]
         query_hash = imagehash.phash(query_img, hash_size=16)
     except Exception:
         query_hash = None
 
     # GPT Vision -> описание
-    import base64
-    img_bytes.seek(0)
-    b64 = base64.b64encode(img_bytes.read()).decode()
+    img_bytes.seek(0)  # type: ignore[union-attr]
+    b64 = base64.b64encode(img_bytes.read()).decode()  # type: ignore[union-attr]
     try:
         resp = gpt_client.chat.completions.create(
             model="gpt-5.4-mini-fast",
@@ -281,7 +339,7 @@ async def handle_photo(message: Message):
             ]}],
             temperature=0.3, max_tokens=200,
         )
-        img_caption = resp.choices[0].message.content.strip()
+        img_caption = (resp.choices[0].message.content or "").strip()
     except Exception as e:
         log.error(f"GPT Vision ошибка: {e}")
         await message.answer("❌ Не удалось проанализировать картинку.")
@@ -326,14 +384,14 @@ async def handle_photo(message: Message):
                 filtered.append(idx)
         fused = filtered
 
-    user_sessions[message.from_user.id] = {
+    user_sessions[message.from_user.id] = {  # type: ignore[union-attr]
         "query": user_text or img_caption,
         "fused": fused,
         "page": 0,
         "lang": lang if mode == "hybrid" else detect_lang(img_caption),
     }
 
-    await send_page(message, message.from_user.id)
+    await send_page(message, message.from_user.id)  # type: ignore[union-attr]
 ANNOTATE_PROMPT = """Analyze this meme. Return JSON with: "caption", "ocr_text", "meme_template", "objects", "tone", "main_idea", "search_queries", "tags", "emotions", "vqa" (3 q/a pairs). Return ONLY valid JSON."""
 
 
@@ -379,14 +437,14 @@ def rotate_db():
             " ".join(r.get("search_queries", []) or []),
             " ".join(r.get("tags", []) or []), " ".join(r.get("emotions", []) or []),
         ])
-        emb = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)
-        idx_all.add(emb)
+        emb = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)  # type: ignore
+        idx_all.add(emb)  # type: ignore
 
         sq_en = ", ".join(r.get("search_queries", []) or []) or "empty"
-        idx_sq_en.add(model.encode(sq_en, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+        idx_sq_en.add(model.encode(sq_en, normalize_embeddings=True).reshape(1, -1).astype(np.float32))  # type: ignore
 
         sq_ru = ", ".join(r.get("search_queries_ru", []) or []) or "empty"
-        idx_sq_ru.add(model.encode(sq_ru, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+        idx_sq_ru.add(model.encode(sq_ru, normalize_embeddings=True).reshape(1, -1).astype(np.float32))  # type: ignore
 
     emb_all = idx_all.reconstruct_n(0, idx_all.ntotal)
 
@@ -419,7 +477,7 @@ def annotate_new_meme(img_path):
         ]}],
         temperature=0.2, max_tokens=800,
     )
-    text = resp.choices[0].message.content.strip()
+    text = (resp.choices[0].message.content or "").strip()
     text = re.sub(r"^```json\s*", "", text)
     text = re.sub(r"\s*```$", "", text)
     return json.loads(text)
@@ -433,14 +491,30 @@ def translate_sq(queries_en):
         messages=[{"role": "user", "content": f"Translate to Russian, one per line:\n" + "\n".join(queries_en)}],
         temperature=0.3, max_tokens=200,
     )
-    return [q.strip().strip('"\'') for q in resp.choices[0].message.content.strip().split("\n") if q.strip()]
+    return [q.strip().strip('"\'') for q in (resp.choices[0].message.content or "").strip().split("\n") if q.strip()]
 
 
 async def auto_update_loop():
-    """Фоновая задача: проверяет data/raw/new/ каждые 5 мин"""
+    """Фоновая задача: проверяет data/raw/new/ каждые 5 мин
+    Для каждого нового мема:
+    1. phash дедуп против существующих
+    2. GPT аннотация
+    3. NSFW/profanity проверка по словарю
+    4. Перевод search_queries на RU
+    5. bge-m3 кодирование + добавление в 3 FAISS индекса
+    """
     NEW_DIR.mkdir(parents=True, exist_ok=True)
     DONE_DIR.mkdir(parents=True, exist_ok=True)
     existing = {r["filename"] for r in records}
+
+    # собрать phash всех существующих мемов для дедупа
+    existing_hashes = []
+    log.info("Вычисляю phash существующих мемов для дедупа...")
+    for r in records:
+        h = compute_phash(r.get("source_path", ""))
+        if h is not None:
+            existing_hashes.append(h)
+    log.info(f"phash готово: {len(existing_hashes)} хешей")
 
     while True:
         await asyncio.sleep(UPDATE_INTERVAL)
@@ -450,35 +524,75 @@ async def auto_update_loop():
                 continue
 
             log.info(f"Автообновление: {len(new_imgs)} новых мемов")
+            added = 0
+            skipped_dup = 0
+            skipped_nsfw = 0
+
             for img_path in new_imgs:
                 try:
+                    # 1. phash дедуп против существующей БД
+                    new_hash = compute_phash(img_path)
+                    if new_hash is not None:
+                        is_dup = any(abs(new_hash - h) <= PHASH_THRESHOLD for h in existing_hashes)
+                        if is_dup:
+                            skipped_dup += 1
+                            shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+                            log.info(f"  ~ {img_path.name} (дубль, пропуск)")
+                            continue
+
+                    # 2. GPT аннотация
                     ann = annotate_new_meme(img_path)
                     ann["filename"] = img_path.name
                     ann["source_path"] = str(DONE_DIR / img_path.name)
                     ann["source"] = "auto_update"
+
+                    # 3. NSFW/profanity проверка
+                    all_text_for_nsfw = " ".join(str(v) for v in ann.values() if isinstance(v, str))
+                    nsfw_match = check_nsfw(all_text_for_nsfw, bad_words_set, nsfw_whitelist)
+                    if nsfw_match:
+                        ann["is_nsfw"] = True
+                        ann["nsfw_reason"] = nsfw_match
+                        skipped_nsfw += 1
+                        shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+                        # сохраняем в jsonl но НЕ добавляем в индексы
+                        records.append(ann)
+                        existing.add(img_path.name)
+                        log.info(f"  ! {img_path.name} NSFW ({nsfw_match}), пропуск индексов")
+                        continue
+
                     ann["is_nsfw"] = False
+                    ann["nsfw_reason"] = ""
+
+                    # 4. Перевод
                     ann["search_queries_ru"] = translate_sq(ann.get("search_queries", []))
 
-                    # encode + добавить в индексы
+                    # 5. Encode + добавить в индексы
+                    def _s(v):
+                        """str или list → str"""
+                        return " ".join(v) if isinstance(v, list) else str(v or "")
+
                     all_text = ". ".join([
-                        ann.get("caption", ""), ann.get("main_idea", ""),
-                        ann.get("ocr_text", ""), " ".join(ann.get("objects", [])),
-                        ann.get("tone", ""), ann.get("meme_template", ""),
-                        " ".join(ann.get("search_queries", [])),
-                        " ".join(ann.get("tags", [])), " ".join(ann.get("emotions", [])),
+                        _s(ann.get("caption")), _s(ann.get("main_idea")),
+                        _s(ann.get("ocr_text")), _s(ann.get("objects")),
+                        _s(ann.get("tone")), _s(ann.get("meme_template")),
+                        _s(ann.get("search_queries")),
+                        _s(ann.get("tags")), _s(ann.get("emotions")),
                     ])
-                    emb = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)
-                    idx_all.add(emb)
+                    emb = model.encode(all_text, normalize_embeddings=True).reshape(1, -1).astype(np.float32)  # type: ignore
+                    idx_all.add(emb)  # type: ignore
 
-                    sq_en = ", ".join(ann.get("search_queries", [])) or "empty"
-                    idx_sq_en.add(model.encode(sq_en, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+                    sq_en = _s(ann.get("search_queries")) or "empty"
+                    idx_sq_en.add(model.encode(sq_en, normalize_embeddings=True).reshape(1, -1).astype(np.float32))  # type: ignore
 
-                    sq_ru = ", ".join(ann.get("search_queries_ru", [])) or "empty"
-                    idx_sq_ru.add(model.encode(sq_ru, normalize_embeddings=True).reshape(1, -1).astype(np.float32))
+                    sq_ru = _s(ann.get("search_queries_ru")) or "empty"
+                    idx_sq_ru.add(model.encode(sq_ru, normalize_embeddings=True).reshape(1, -1).astype(np.float32))  # type: ignore
 
                     records.append(ann)
                     existing.add(img_path.name)
+                    if new_hash is not None:
+                        existing_hashes.append(new_hash)
                     shutil.move(str(img_path), str(DONE_DIR / img_path.name))
+                    added += 1
                     log.info(f"  + {img_path.name}")
 
                 except Exception as e:
@@ -496,7 +610,7 @@ async def auto_update_loop():
             global emb_all
             emb_all = idx_all.reconstruct_n(0, idx_all.ntotal)
 
-            log.info(f"Автообновление завершено. Всего: {len(records)} мемов")
+            log.info(f"Автообновление: +{added} дубли={skipped_dup} nsfw={skipped_nsfw} всего={len(records)}")
 
             # ротация по кластерам (если БД превысила лимит)
             if len(records) > MAX_DB_SIZE:
@@ -507,9 +621,97 @@ async def auto_update_loop():
             log.error(f"Ошибка автообновления: {e}")
 
 
+async def reddit_scrape_loop():
+    """Фоновый парсер: каждые SCRAPE_INTERVAL сек скачивает новые мемы с Reddit."""
+    import requests as req
+    import uuid
+    HEADERS = {"User-Agent": "MemeSearchBot/1.0 (coursework project)"}
+    IMG_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+
+    await asyncio.sleep(10)  # дать боту стартануть
+    while True:
+        try:
+            # загрузить seen
+            seen = set()
+            if REDDIT_SEEN_FILE.exists():
+                seen = set(REDDIT_SEEN_FILE.read_text().strip().split("\n"))
+
+            total_saved = 0
+            for sub in REDDIT_SUBREDDITS:
+                try:
+                    url = f"https://www.reddit.com/r/{sub}/hot.json"
+                    resp = await asyncio.to_thread(
+                        req.get, url,
+                        headers=HEADERS,
+                        params={"limit": REDDIT_LIMIT},
+                        timeout=15
+                    )
+                    resp.raise_for_status()
+                    posts = resp.json()["data"]["children"]
+                except Exception as e:
+                    log.warning(f"reddit r/{sub}: {e}")
+                    await asyncio.sleep(2)
+                    continue
+
+                for post in posts:
+                    d = post["data"]
+                    post_id = d.get("id", "")
+                    img_url = d.get("url", "")
+                    score = d.get("score", 0)
+
+                    if post_id in seen or score < REDDIT_MIN_SCORE:
+                        continue
+
+                    if not any(img_url.lower().endswith(e) for e in IMG_EXTS):
+                        if "i.redd.it" in img_url or "i.imgur.com" in img_url:
+                            img_url += ".jpg"
+                        else:
+                            seen.add(post_id)
+                            continue
+
+                    try:
+                        r = await asyncio.to_thread(
+                            req.get, img_url, headers=HEADERS, timeout=10
+                        )
+                        if r.status_code != 200 or len(r.content) < 5000:
+                            seen.add(post_id)
+                            continue
+                        img = Image.open(BytesIO(r.content))
+                        img.verify()
+                        img = Image.open(BytesIO(r.content))
+                        w, h = img.size
+                        if not (200 <= min(w, h) and max(w, h) <= 3000):
+                            seen.add(post_id)
+                            continue
+                    except Exception:
+                        seen.add(post_id)
+                        continue
+
+                    ext = img_url.split(".")[-1].split("?")[0].lower()
+                    if ext not in {"jpg", "jpeg", "png", "gif", "webp"}:
+                        ext = "jpg"
+                    fname = f"{uuid.uuid4().hex[:12]}.{ext}"
+                    dest = NEW_DIR / fname
+                    dest.write_bytes(r.content)
+                    seen.add(post_id)
+                    total_saved += 1
+
+                await asyncio.sleep(2)  # rate limit
+
+            # сохранить seen
+            REDDIT_SEEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+            REDDIT_SEEN_FILE.write_text("\n".join(seen))
+            log.info(f"🔄 Reddit scrape: скачано {total_saved} новых мемов")
+        except Exception as e:
+            log.error(f"reddit_scrape_loop ошибка: {e}")
+
+        await asyncio.sleep(SCRAPE_INTERVAL)
+
+
 async def main():
     log.info("Бот запущен")
     asyncio.create_task(auto_update_loop())
+    asyncio.create_task(reddit_scrape_loop())
     await dp.start_polling(bot)
 
 
